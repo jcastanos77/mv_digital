@@ -7,7 +7,6 @@ import 'package:mv_digital/core/templates/sections/rsvp_section.dart';
 import 'package:mv_digital/core/templates/xv/quince_hero.dart';
 
 import '../widgets/countdown_widget.dart';
-import '../widgets/fade_in_up.dart';
 
 class QuinceGlamPage extends StatefulWidget {
   const QuinceGlamPage({super.key});
