@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
@@ -19,8 +20,8 @@ class HeroSection extends StatelessWidget {
 
           /// IMAGEN DE FONDO
           Positioned.fill(
-            child: Image.network(
-              "https://images.unsplash.com/photo-1519741497674-611481863552",
+            child: CachedNetworkImage(
+              imageUrl: "https://images.unsplash.com/photo-1519741497674-611481863552",
               fit: BoxFit.cover,
             ),
           ),

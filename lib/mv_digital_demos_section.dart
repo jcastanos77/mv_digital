@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -106,8 +107,8 @@ class _DemoCard extends StatelessWidget {
 
         ClipRRect(
           borderRadius: BorderRadius.circular(22),
-          child: Image.network(
-            imageUrl,
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
             height: 300,
             width: double.infinity,
             fit: BoxFit.cover,

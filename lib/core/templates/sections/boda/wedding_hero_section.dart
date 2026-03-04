@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mv_digital/core/widgets/scroll_indicator.dart';
@@ -58,8 +59,8 @@ class _WeddingHeroSectionState extends State<WeddingHeroSection>
         children: [
 
           /// Background Image
-          Image.network(
-            "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1600&q=80",
+          CachedNetworkImage(
+            imageUrl: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1600&q=80",
             fit: BoxFit.cover,
           ),
 

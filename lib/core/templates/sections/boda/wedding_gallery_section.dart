@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -43,8 +44,8 @@ class WeddingGallerySection extends StatelessWidget {
               childAspectRatio: 0.8,
             ),
             itemBuilder: (context, index) {
-              return Image.network(
-                images[index],
+              return CachedNetworkImage(
+                imageUrl:images[index],
                 fit: BoxFit.cover,
               );
             },

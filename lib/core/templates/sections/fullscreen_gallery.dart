@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class FullscreenGallery extends StatelessWidget {
@@ -34,8 +35,8 @@ class FullscreenGallery extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InteractiveViewer(
                   child: Center(
-                    child: Image.network(
-                      images[index],
+                    child: CachedNetworkImage(
+                      imageUrl: images[index],
                       fit: BoxFit.contain,
                     ),
                   ),

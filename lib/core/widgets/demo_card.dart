@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class DemoCard extends StatefulWidget {
@@ -64,8 +65,8 @@ class _DemoCardState extends State<DemoCard> {
                     duration: const Duration(milliseconds: 600),
                     curve: Curves.easeOut,
                     scale: imageScale,
-                    child: Image.network(
-                      widget.image,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.image,
                       height: double.infinity,
                       width: double.infinity,
                       fit: BoxFit.cover,

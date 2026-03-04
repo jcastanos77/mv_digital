@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mv_digital/core/templates/quince_glam.dart';
@@ -109,8 +110,8 @@ class _DemoCard extends StatelessWidget {
           alignment: Alignment.center,
           children: [
 
-            Image.network(
-              image,
+            CachedNetworkImage(
+              imageUrl: image,
               height: 260,
               width: double.infinity,
               fit: BoxFit.cover,

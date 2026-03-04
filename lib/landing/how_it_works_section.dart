@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -72,8 +73,8 @@ class AppleStep extends StatelessWidget {
           /// IMAGEN
           ClipRRect(
             borderRadius: BorderRadius.circular(24),
-            child: Image.network(
-              image,
+            child: CachedNetworkImage(
+              imageUrl: image,
               height: 300,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -94,8 +95,8 @@ class AppleStep extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
-              child: Image.network(
-                image,
+              child: CachedNetworkImage(
+                imageUrl: image,
                 height: 500,
                 fit: BoxFit.cover,
               ),
