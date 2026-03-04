@@ -20,9 +20,10 @@ class HeroSection extends StatelessWidget {
 
           /// IMAGEN DE FONDO
           Positioned.fill(
-            child: CachedNetworkImage(
-              imageUrl: "https://images.unsplash.com/photo-1519741497674-611481863552",
+            child: Image.asset(
+              "assets/principal.jpg",
               fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
             ),
           ),
 

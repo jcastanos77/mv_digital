@@ -48,11 +48,11 @@ class _LandingPageState extends State<LandingPage> {
             child: Column(
               children: const [
 
-                HeroSection(),
-                DemoSection(),
-                FeatureSection(),
-                HowItWorksSection(),
-                FooterSection(),
+                RepaintBoundary(child: const HeroSection()),
+                const DemoSection(),
+                const FeatureSection(),
+                const HowItWorksSection(),
+                const FooterSection(),
 
               ],
             ),

@@ -16,7 +16,7 @@ class HowItWorksSection extends StatelessWidget {
           description:
           "Selecciona una invitación elegante para tu boda o XV años.",
           image:
-          "https://images.unsplash.com/photo-1520854221256-17451cc331bf",
+          "assets/elige.jpeg",
         ),
 
         AppleStep(
@@ -25,7 +25,7 @@ class HowItWorksSection extends StatelessWidget {
           description:
           "Adaptamos la invitación con los detalles de tu evento.",
           image:
-          "https://images.unsplash.com/photo-1511795409834-ef04bbd61622",
+          "assets/personaliza.jpeg",
         ),
 
         AppleStep(
@@ -34,7 +34,7 @@ class HowItWorksSection extends StatelessWidget {
           description:
           "Envía tu invitación digital a todos tus invitados.",
           image:
-          "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70",
+          "assets/comparte.jpeg",
         ),
 
       ],
@@ -73,11 +73,12 @@ class AppleStep extends StatelessWidget {
           /// IMAGEN
           ClipRRect(
             borderRadius: BorderRadius.circular(24),
-            child: CachedNetworkImage(
-              imageUrl: image,
+            child: Image.asset(
+              image,
               height: 300,
               width: double.infinity,
               fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
             ),
           ),
 

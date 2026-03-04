@@ -83,7 +83,7 @@ class DemoSection extends StatelessWidget {
     return DemoCard(
       title: "Boda Demo",
       image:
-      "https://images.unsplash.com/photo-1606800052052-a08af7148866",
+      "assets/bodademo.jpeg",
       onTap: () {
         Navigator.push(
           context,
@@ -99,7 +99,7 @@ class DemoSection extends StatelessWidget {
     return DemoCard(
       title: "XV Demo",
       image:
-      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
+      "assets/xvdemo.jpeg",
       onTap: () {
         Navigator.push(
           context,

@@ -15,7 +15,7 @@ class FeatureSection extends StatelessWidget {
           description:
           "Tus invitados confirman su asistencia directamente desde la invitación.",
           image:
-          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+          "assets/cuentaRegresiva.jpeg",
         ),
 
         AppleFeature(
@@ -23,7 +23,7 @@ class FeatureSection extends StatelessWidget {
           description:
           "Un mapa integrado para que tus invitados lleguen sin complicaciones.",
           image:
-          "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+          "assets/ubicacionEvento.jpeg",
         ),
 
         AppleFeature(
@@ -31,7 +31,7 @@ class FeatureSection extends StatelessWidget {
           description:
           "Un contador elegante para que todos esperen el gran día.",
           image:
-          "https://images.unsplash.com/photo-1492684223066-81342ee5ff30",
+          "assets/confirmaAsistencia.jpeg",
         ),
 
       ],
@@ -68,11 +68,12 @@ class AppleFeature extends StatelessWidget {
           /// IMAGEN
           ClipRRect(
             borderRadius: BorderRadius.circular(24),
-            child: CachedNetworkImage(
-              imageUrl: image,
+            child: Image.asset(
+              image,
               height: 280,
               width: double.infinity,
               fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
             ),
           ),
 

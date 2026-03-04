@@ -1,8 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mv_digital/core/templates/quince_glam.dart';
-
-import 'core/templates/wedding_glam.dart';
 import 'landing/landing_mv_page.dart';
 
 void main() {

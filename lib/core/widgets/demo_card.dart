@@ -65,11 +65,12 @@ class _DemoCardState extends State<DemoCard> {
                     duration: const Duration(milliseconds: 600),
                     curve: Curves.easeOut,
                     scale: imageScale,
-                    child: CachedNetworkImage(
-                      imageUrl: widget.image,
+                    child: Image.asset(
+                      widget.image,
                       height: double.infinity,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      filterQuality: FilterQuality.high,
                     ),
                   ),
 

@@ -41,27 +41,17 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
             controller: _scrollController,
             child: Column(
               children: [
-                QuinceHero(onPressed: _scrollToCountdown),
+                RepaintBoundary(child: QuinceHero(onPressed: _scrollToCountdown)),
                 const SizedBox(height: 60),
-                FadeInUp(
-                  child: CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12),),
-                ),
+                CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12)),
                 const SizedBox(height: 60),
-                FadeInUp(
-                  child: EventDetailsSection(),
-                ),
+                const EventDetailsSection(),
                 const SizedBox(height: 60),
-                FadeInUp(
-                  child: DressCodeSection(),
-                ),
+                const DressCodeSection(),
                 const SizedBox(height: 60),
-                FadeInUp(
-                  child: const GallerySection(),
-                ),
+                RepaintBoundary(child: const GallerySection()),
                 const SizedBox(height: 60),
-                FadeInUp(
-                  child: const RsvpSection(),
-                ),
+                 const RsvpSection(),
                 const SizedBox(height: 40),
                 const FooterSection()
 
