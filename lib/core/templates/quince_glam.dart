@@ -35,36 +35,68 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4EFEA),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
-            QuinceHero(onPressed: _scrollToCountdown),
-            const SizedBox(height: 60),
-            FadeInUp(
-              child: CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12),),
-            ),
-            const SizedBox(height: 60),
-            FadeInUp(
-              child: EventDetailsSection(),
-            ),
-            const SizedBox(height: 60),
-            FadeInUp(
-              child: DressCodeSection(),
-            ),
-            const SizedBox(height: 60),
-            FadeInUp(
-              child: const GallerySection(),
-            ),
-            const SizedBox(height: 60),
-            FadeInUp(
-              child: const RsvpSection(),
-            ),
-            const SizedBox(height: 40),
-            const FooterSection()
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                QuinceHero(onPressed: _scrollToCountdown),
+                const SizedBox(height: 60),
+                FadeInUp(
+                  child: CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12),),
+                ),
+                const SizedBox(height: 60),
+                FadeInUp(
+                  child: EventDetailsSection(),
+                ),
+                const SizedBox(height: 60),
+                FadeInUp(
+                  child: DressCodeSection(),
+                ),
+                const SizedBox(height: 60),
+                FadeInUp(
+                  child: const GallerySection(),
+                ),
+                const SizedBox(height: 60),
+                FadeInUp(
+                  child: const RsvpSection(),
+                ),
+                const SizedBox(height: 40),
+                const FooterSection()
 
-          ],
-        ),
+
+
+              ],
+            ),
+          ),
+
+          Positioned(
+            top: 40,
+            left: 20,
+            child: SafeArea(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(.3),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                )
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

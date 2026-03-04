@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WeddingEventSection extends StatelessWidget {
   const WeddingEventSection({super.key});
@@ -23,6 +24,7 @@ class WeddingEventSection extends StatelessWidget {
                   title: "CEREMONIA",
                   place: "Parroquia San José",
                   time: "5:00 PM",
+                  mapsUrl: 'https://www.google.com/maps/place/Santuario+de+Guadalupe/@27.4897333,-109.9392478,19.16z/data=!4m6!3m5!1s0x86c815d9c4df68e7:0xbbb588efa8c7abdc!8m2!3d27.4898127!4d-109.9390803!16s%2Fg%2F11tdnrbzpr?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D',
                 ),
 
                 SizedBox(height: 100),
@@ -33,6 +35,7 @@ class WeddingEventSection extends StatelessWidget {
                   title: "RECEPCIÓN",
                   place: "Hacienda Los Olivos",
                   time: "8:00 PM",
+                  mapsUrl: 'https://www.google.com/maps/place/LA+ROCA+JARDIN+DE+EVENTOS/@27.5542956,-109.9275426,16.81z/data=!4m6!3m5!1s0x86c8155a4a39767f:0xe73d8196e9eaf806!8m2!3d27.554048!4d-109.926438!16s%2Fg%2F11f6120k7j?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D',
                 ),
               ],
             ),
@@ -48,12 +51,14 @@ class _EventBlockCentered extends StatelessWidget {
   final String title;
   final String place;
   final String time;
+  final String mapsUrl;
 
   const _EventBlockCentered({
     required this.imageUrl,
     required this.title,
     required this.place,
     required this.time,
+    required this.mapsUrl
   });
 
   @override
@@ -108,12 +113,18 @@ class _EventBlockCentered extends StatelessWidget {
 
         const SizedBox(height: 30),
 
-        Text(
-          "Ver ubicación",
-          style: GoogleFonts.montserrat(
-            fontSize: 13,
-            letterSpacing: 2,
-            color: Colors.black,
+        GestureDetector(
+          onTap: () async {
+            final Uri url = Uri.parse(mapsUrl);
+            await launchUrl(url, mode: LaunchMode.externalApplication);
+          },
+          child: Text(
+            "Ver ubicación",
+            style: GoogleFonts.montserrat(
+              fontSize: 13,
+              letterSpacing: 2,
+              color: Colors.black,
+            ),
           ),
         ),
       ],

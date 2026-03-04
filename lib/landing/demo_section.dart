@@ -9,10 +9,13 @@ class DemoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 180,
-        horizontal: 40,
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 100 : 180,
+        horizontal: isMobile ? 20 : 40,
       ),
       child: Column(
         children: [
@@ -22,35 +25,35 @@ class DemoSection extends StatelessWidget {
             "Explora una invitación real",
             textAlign: TextAlign.center,
             style: GoogleFonts.playfairDisplay(
-              fontSize: 60,
+              fontSize: isMobile ? 36 : 60,
               fontWeight: FontWeight.w600,
             ),
           ),
 
           const SizedBox(height: 20),
 
-          const Text(
+          Text(
             "Diseños elegantes para bodas y XV años",
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: isMobile ? 16 : 20,
               color: Colors.white70,
             ),
           ),
 
-          const SizedBox(height: 120),
+          SizedBox(height: isMobile ? 60 : 120),
 
-          /// DEMOS GRANDES
+          /// DEMOS
           LayoutBuilder(
             builder: (context, constraints) {
 
-              /// RESPONSIVE
               bool isMobile = constraints.maxWidth < 900;
 
               if (isMobile) {
                 return Column(
                   children: [
                     _demoBoda(context),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 60),
                     _demoXV(context),
                   ],
                 );

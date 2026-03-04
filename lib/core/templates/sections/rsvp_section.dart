@@ -76,11 +76,19 @@ class _RsvpSectionState extends State<RsvpSection> {
           const SizedBox(height: 20),
 
           DropdownButtonFormField<String>(
+            dropdownColor: Colors.white,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
             value: attendance,
             decoration: _inputDecoration("¿Asistirás?"),
             items: const [
-              DropdownMenuItem(value: "Sí", child: Text("Sí asistiré")),
-              DropdownMenuItem(value: "No", child: Text("No podré asistir")),
+              DropdownMenuItem(value: "Sí", child: Text("Sí asistiré",  style: const TextStyle(
+                color: Colors.black,
+              ),)),
+              DropdownMenuItem(value: "No", child: Text("No podré asistir",  style: const TextStyle(
+                color: Colors.black,
+              ),)),
             ],
             onChanged: (value) {
               setState(() {
@@ -162,7 +170,9 @@ class _RsvpSectionState extends State<RsvpSection> {
         ],
       ),
       child: TextFormField(
-
+        style: const TextStyle(
+          color: Colors.black,
+        ),
         controller: controller,
         keyboardType: keyboardType,
         validator: (value) =>

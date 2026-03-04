@@ -6,8 +6,8 @@ class FeatureSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
 
         AppleFeature(
           title: "Confirmación de asistencia",
@@ -52,41 +52,42 @@ class AppleFeature extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 160,
-        horizontal: 40,
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 80 : 160,
+        horizontal: isMobile ? 20 : 40,
       ),
-      child: Row(
+      child: isMobile
+          ? Column(
+        children: [
+
+          /// IMAGEN
+          ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: Image.network(
+              image,
+              height: 280,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          const SizedBox(height: 40),
+
+          _textContent(isMobile),
+
+        ],
+      )
+          : Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
 
           /// TEXTO
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                Text(
-                  title,
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 56,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                Text(
-                  description,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white70,
-                  ),
-                ),
-
-              ],
-            ),
+            child: _textContent(isMobile),
           ),
 
           const SizedBox(width: 80),
@@ -101,10 +102,40 @@ class AppleFeature extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-          )
+          ),
 
         ],
       ),
+    );
+  }
+
+  Widget _textContent(bool isMobile) {
+    return Column(
+      crossAxisAlignment:
+      isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+
+        Text(
+          title,
+          textAlign: isMobile ? TextAlign.center : TextAlign.left,
+          style: GoogleFonts.playfairDisplay(
+            fontSize: isMobile ? 32 : 56,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        Text(
+          description,
+          textAlign: isMobile ? TextAlign.center : TextAlign.left,
+          style: TextStyle(
+            fontSize: isMobile ? 16 : 20,
+            color: Colors.white70,
+          ),
+        ),
+
+      ],
     );
   }
 }

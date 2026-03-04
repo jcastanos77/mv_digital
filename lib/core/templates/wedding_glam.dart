@@ -7,6 +7,7 @@ import 'package:mv_digital/core/templates/sections/boda/wedding_hero_section.dar
 import 'package:mv_digital/core/templates/sections/boda/wedding_quote_section.dart';
 import 'package:mv_digital/core/templates/sections/boda/wedding_rsvp_section.dart';
 import 'package:mv_digital/core/templates/sections/footer_section.dart';
+import 'package:mv_digital/core/templates/sections/rsvp_section.dart';
 import '../widgets/countdown_widget.dart';
 import '../widgets/fade_in_up.dart';
 
@@ -24,43 +25,72 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
 
-            /// HERO
-            WeddingHeroSection(),
+                /// HERO
+                WeddingHeroSection(),
 
-            FadeInUp(
-              child: WeddingCountdownSection(),
+                FadeInUp(
+                  child: WeddingCountdownSection(),
+                ),
+
+                /// DETALLES DEL EVENTO
+                FadeInUp(
+                  child: const WeddingEventSection(),
+                ),
+
+                FadeInUp(
+                  child: WeddingQuoteSection(),
+                ),
+
+                /// GALERÍA
+                FadeInUp(
+                  child: const WeddingGallerySection(),
+                ),
+
+                /// RSVP
+                FadeInUp(
+                  child: const RsvpSection(),
+                ),
+
+                /// FOOTER
+                const FooterSection(),
+
+                const SizedBox(height: 60),
+              ],
             ),
-
-            /// DETALLES DEL EVENTO
-            FadeInUp(
-              child: const WeddingEventSection(),
+          ),
+          Positioned(
+            top: 40,
+            left: 20,
+            child: SafeArea(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(.3),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                )
+              ),
             ),
-
-            FadeInUp(
-              child: WeddingQuoteSection(),
-            ),
-
-            /// GALERÍA
-            FadeInUp(
-              child: const WeddingGallerySection(),
-            ),
-
-            /// RSVP
-            FadeInUp(
-              child: const WeddingRsvpSection(),
-            ),
-
-            /// FOOTER
-            const FooterSection(),
-
-            const SizedBox(height: 60),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

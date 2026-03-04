@@ -5,10 +5,13 @@ class FooterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         vertical: 80,
-        horizontal: 40,
+        horizontal: isMobile ? 20 : 40,
       ),
       color: Colors.black,
       child: Column(
@@ -20,8 +23,8 @@ class FooterSection extends StatelessWidget {
 
               Image.asset(
                 "assets/logo_mv_digital.png",
-                height: 100,
-                fit: BoxFit.fill,
+                height: isMobile ? 70 : 100,
+                fit: BoxFit.contain,
               ),
 
               const SizedBox(height: 20),
@@ -41,14 +44,33 @@ class FooterSection extends StatelessWidget {
           const SizedBox(height: 60),
 
           /// LINKS
-          Row(
+          isMobile
+              ? Column(
+            children: [
+
+              _footerColumn("Demos", ["Boda", "XV Años"]),
+
+              const SizedBox(height: 30),
+
+              _footerColumn(
+                "Funciones",
+                ["Confirmación", "Ubicación", "Cuenta regresiva"],
+              ),
+
+              const SizedBox(height: 30),
+
+              _footerColumn(
+                "Contacto",
+                ["WhatsApp", "Instagram"],
+              ),
+
+            ],
+          )
+              : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-              _footerColumn(
-                "Demos",
-                ["Boda", "XV Años"],
-              ),
+              _footerColumn("Demos", ["Boda", "XV Años"]),
 
               const SizedBox(width: 80),
 
@@ -73,7 +95,6 @@ class FooterSection extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          /// COPYRIGHT
           const Text(
             "© 2026 MV Digital. Todos los derechos reservados.",
             style: TextStyle(
@@ -89,7 +110,7 @@ class FooterSection extends StatelessWidget {
 
   Widget _footerColumn(String title, List<String> items) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
 
         Text(

@@ -8,10 +8,11 @@ class HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final height = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isMobile = MediaQuery.of(context).size.width < 800;
 
     return SizedBox(
-      height: height,
+      height: screenHeight,
       width: double.infinity,
       child: Stack(
         children: [
@@ -24,7 +25,7 @@ class HeroSection extends StatelessWidget {
             ),
           ),
 
-          /// OVERLAY CINEMATOGRAFICO
+          /// OVERLAY
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
@@ -43,36 +44,41 @@ class HeroSection extends StatelessWidget {
 
           /// CONTENIDO
           Center(
-            child: FadeInUp(
-              duration: const Duration(milliseconds: 1200),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 24 : 40,
+              ),
+              child: FadeInUp(
+                duration: const Duration(milliseconds: 1200),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-                  /// TITULO GIGANTE
-                  Text(
-                    "Invitaciones\nDigitales",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 92,
-                      height: 1.1,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: -1,
+                    /// TITULO
+                    Text(
+                      "Invitaciones\nDigitales",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: isMobile ? 48 : 92,
+                        height: 1.1,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -1,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 30),
+                    const SizedBox(height: 20),
 
-                  const Text(
-                    "Elegantes. Modernas. Memorables.",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white70,
+                    Text(
+                      "Elegantes. Modernas. Memorables.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: isMobile ? 18 : 24,
+                        color: Colors.white70,
+                      ),
                     ),
-                  ),
 
-
-                ],
+                  ],
+                ),
               ),
             ),
           )
