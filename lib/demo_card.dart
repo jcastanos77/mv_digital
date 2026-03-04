@@ -32,8 +32,8 @@ class DemoCard extends StatelessWidget {
           child: Stack(
             children: [
 
-              Image.asset(
-                image,
+            Image(
+            image: AssetImage(image),
                 height: 380,
                 width: 280,
                 fit: BoxFit.cover,

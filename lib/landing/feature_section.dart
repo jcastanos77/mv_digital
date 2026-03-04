@@ -68,8 +68,8 @@ class AppleFeature extends StatelessWidget {
           /// IMAGEN
           ClipRRect(
             borderRadius: BorderRadius.circular(24),
-            child: Image.asset(
-              image,
+            child: Image(
+              image: AssetImage(image),
               height: 280,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -98,8 +98,8 @@ class AppleFeature extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                image,
+              child: Image(
+    image: AssetImage(image),
                 height: 500,
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.low,

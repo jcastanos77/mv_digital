@@ -18,8 +18,8 @@ class HeroSection extends StatelessWidget {
 
           /// IMAGEN DE FONDO
           Positioned.fill(
-            child: Image.asset(
-              "assets/principal.jpg",
+            child: Image(
+      image: const AssetImage("assets/principal.jpg"),
               fit: BoxFit.cover,
               filterQuality: FilterQuality.low,
             ),

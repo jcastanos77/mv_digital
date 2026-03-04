@@ -65,8 +65,8 @@ class _DemoCardState extends State<DemoCard> {
                     duration: const Duration(milliseconds: 600),
                     curve: Curves.easeOut,
                     scale: imageScale,
-                    child: Image.asset(
-                      widget.image,
+                    child: Image(
+                      image: AssetImage(widget.image),
                       height: double.infinity,
                       width: double.infinity,
                       fit: BoxFit.cover,

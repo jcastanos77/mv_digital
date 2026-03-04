@@ -21,8 +21,8 @@ class FooterSection extends StatelessWidget {
           Column(
             children: [
 
-              Image.asset(
-                "assets/logo_mv_digital.png",
+      Image(
+      image: const AssetImage("assets/logo_mv_digital.png"),
                 height: isMobile ? 70 : 100,
                 fit: BoxFit.contain,
               ),

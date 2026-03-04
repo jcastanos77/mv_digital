@@ -103,8 +103,8 @@ class Navbar extends StatelessWidget {
                 Row(
                   children: [
 
-                    Image.asset(
-                      "assets/logo_mv_digital.png",
+            Image(
+            image: const AssetImage("assets/logo_mv_digital.png"),
                       height: 40,
                       width: 40,
                     ),
