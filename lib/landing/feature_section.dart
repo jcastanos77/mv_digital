@@ -73,7 +73,7 @@ class AppleFeature extends StatelessWidget {
               height: 280,
               width: double.infinity,
               fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
+              filterQuality: FilterQuality.low,
             ),
           ),
 

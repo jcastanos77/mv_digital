@@ -70,7 +70,7 @@ class _DemoCardState extends State<DemoCard> {
                       height: double.infinity,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      filterQuality: FilterQuality.high,
+                      filterQuality: FilterQuality.low,
                     ),
                   ),
 

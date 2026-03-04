@@ -78,7 +78,7 @@ class AppleStep extends StatelessWidget {
               height: 300,
               width: double.infinity,
               fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
+              filterQuality: FilterQuality.low,
             ),
           ),
 
