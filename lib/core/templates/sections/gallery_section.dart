@@ -98,6 +98,7 @@ class GallerySection extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: images[index],
                       fit: BoxFit.cover,
+                      filterQuality: FilterQuality.low,
                     ),
                   ),
                 ),

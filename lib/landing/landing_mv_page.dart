@@ -43,18 +43,15 @@ class _LandingPageState extends State<LandingPage> {
         children: [
 
           /// CONTENIDO
-          SingleChildScrollView(
+          ListView(
             controller: controller,
-            child: Column(
-              children: const [
-                RepaintBoundary(child: const HeroSection()),
+            children:[
+              RepaintBoundary(child: const HeroSection()),
               RepaintBoundary(child:const DemoSection()),
               RepaintBoundary(child:const FeatureSection()),
               RepaintBoundary(child:const HowItWorksSection()),
               RepaintBoundary(child:const FooterSection()),
-
               ],
-            ),
           ),
 
           /// NAVBAR

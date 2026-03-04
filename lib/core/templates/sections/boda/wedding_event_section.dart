@@ -74,6 +74,7 @@ class _EventBlockCentered extends StatelessWidget {
             height: 300,
             width: double.infinity,
             fit: BoxFit.cover,
+            filterQuality: FilterQuality.low,
           ),
         ),
 

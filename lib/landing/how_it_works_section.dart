@@ -100,6 +100,7 @@ class AppleStep extends StatelessWidget {
                 imageUrl: image,
                 height: 500,
                 fit: BoxFit.cover,
+                filterQuality: FilterQuality.low,
               ),
             ),
           ),

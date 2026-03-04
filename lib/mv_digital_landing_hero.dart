@@ -115,6 +115,7 @@ class _DemoCard extends StatelessWidget {
               height: 260,
               width: double.infinity,
               fit: BoxFit.cover,
+              filterQuality: FilterQuality.low,
             ),
 
             Container(

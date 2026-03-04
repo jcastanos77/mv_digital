@@ -98,10 +98,11 @@ class AppleFeature extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
-              child: CachedNetworkImage(
-                imageUrl: image,
+              child: Image.asset(
+                image,
                 height: 500,
                 fit: BoxFit.cover,
+                filterQuality: FilterQuality.low,
               ),
             ),
           ),

@@ -47,6 +47,7 @@ class WeddingGallerySection extends StatelessWidget {
               return CachedNetworkImage(
                 imageUrl:images[index],
                 fit: BoxFit.cover,
+                filterQuality: FilterQuality.low,
               );
             },
           ),

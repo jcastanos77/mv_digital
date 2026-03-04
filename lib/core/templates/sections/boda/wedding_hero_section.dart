@@ -62,6 +62,7 @@ class _WeddingHeroSectionState extends State<WeddingHeroSection>
           CachedNetworkImage(
             imageUrl: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1600&q=80",
             fit: BoxFit.cover,
+            filterQuality: FilterQuality.low,
           ),
 
           /// Dark overlay
