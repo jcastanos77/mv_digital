@@ -15,7 +15,7 @@ class FeatureSection extends StatelessWidget {
           description:
           "Tus invitados confirman su asistencia directamente desde la invitación.",
           image:
-          "assets/cuentaRegresiva.jpeg",
+          "assets/cuentaRegresiva.jpg",
         ),
 
         AppleFeature(
