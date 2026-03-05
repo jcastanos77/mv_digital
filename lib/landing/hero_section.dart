@@ -18,10 +18,10 @@ class HeroSection extends StatelessWidget {
 
           /// IMAGEN DE FONDO
           Positioned.fill(
-            child: Image(
-      image: const AssetImage("assets/principal.jpg"),
+            child:Image.asset(
+              "assets/principal.jpg",
+              gaplessPlayback: true,
               fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
             ),
           ),
 
@@ -57,7 +57,7 @@ class HeroSection extends StatelessWidget {
                     "Invitaciones\nDigitales",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.playfairDisplay(
-                      fontSize: isMobile ? 48 : 92,
+                      fontSize: isMobile ? 48 : 80,
                       height: 1.1,
                       fontWeight: FontWeight.w600,
                       letterSpacing: -1,
@@ -69,10 +69,11 @@ class HeroSection extends StatelessWidget {
                   Text(
                     "Elegantes. Modernas. Memorables.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: isMobile ? 18 : 24,
+                    style: GoogleFonts.montserrat(
+                      fontSize: isMobile ? 17 : 22,
+                      letterSpacing: 1,
                       color: Colors.white70,
-                    ),
+                    )
                   ),
 
                 ],

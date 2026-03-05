@@ -36,10 +36,9 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
       backgroundColor: const Color(0xFFF4EFEA),
       body: Stack(
         children: [
-          SingleChildScrollView(
+          ListView(
             controller: _scrollController,
-            child: Column(
-              children: [
+            children: [
                 RepaintBoundary(child: QuinceHero(onPressed: _scrollToCountdown)),
                 const SizedBox(height: 60),
                 CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12)),
@@ -53,11 +52,7 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
                  const RsvpSection(),
                 const SizedBox(height: 40),
                 const FooterSection()
-
-
-
               ],
-            ),
           ),
 
           Positioned(

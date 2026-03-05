@@ -73,12 +73,13 @@ class AppleStep extends StatelessWidget {
           /// IMAGEN
           ClipRRect(
             borderRadius: BorderRadius.circular(24),
-            child: Image(
-              image: AssetImage(image),
+            child: Image.asset(
+              image,
               height: 300,
               width: double.infinity,
               fit: BoxFit.cover,
               filterQuality: FilterQuality.low,
+              gaplessPlayback: true
             ),
           ),
 
@@ -96,11 +97,11 @@ class AppleStep extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
-              child: Image(
-                image: AssetImage(image),
+              child: Image.asset(
+                image,
                 height: 500,
                 fit: BoxFit.cover,
-                filterQuality: FilterQuality.low,
+                gaplessPlayback: true,
               ),
             ),
           ),
@@ -128,7 +129,7 @@ class AppleStep extends StatelessWidget {
           style: TextStyle(
             fontSize: isMobile ? 50 : 80,
             color: Colors.white24,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
           ),
         ),
 

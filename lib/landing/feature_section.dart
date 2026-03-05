@@ -68,13 +68,13 @@ class AppleFeature extends StatelessWidget {
           /// IMAGEN
           ClipRRect(
             borderRadius: BorderRadius.circular(24),
-            child: Image(
-              image: AssetImage(image),
+            child:Image.asset(
+              image,
               height: 280,
               width: double.infinity,
               fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
-            ),
+              gaplessPlayback: true,
+            )
           ),
 
           const SizedBox(height: 40),

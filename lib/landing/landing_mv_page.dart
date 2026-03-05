@@ -45,7 +45,7 @@ class _LandingPageState extends State<LandingPage> {
           /// CONTENIDO
           ListView(
             controller: controller,
-            children:[
+            children: const[
               RepaintBoundary(child: const HeroSection()),
               RepaintBoundary(child:const DemoSection()),
               RepaintBoundary(child:const FeatureSection()),

@@ -23,10 +23,9 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          SingleChildScrollView(
+          ListView(
             controller: _scrollController,
-            child: Column(
-              children: [
+            children: const [
 
                 /// HERO
                 WeddingHeroSection(),
@@ -50,7 +49,6 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
 
                 const SizedBox(height: 60),
               ],
-            ),
           ),
           Positioned(
             top: 40,
