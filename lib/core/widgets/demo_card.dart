@@ -49,7 +49,7 @@ class _DemoCardState extends State<DemoCard> {
               borderRadius: BorderRadius.circular(32),
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 60,
+                  blurRadius: 22,
                   spreadRadius: -10,
                   color: Colors.black.withOpacity(.5),
                 ),

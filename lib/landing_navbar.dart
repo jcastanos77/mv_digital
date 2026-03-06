@@ -10,10 +10,10 @@ class LandingNavbar extends StatelessWidget {
       backgroundColor: Colors.black.withOpacity(.8),
       elevation: 0,
       title: Row(
-        children: const [
-          FlutterLogo(),
-          SizedBox(width: 12),
-          Text("MV Digital"),
+        children: [
+          Image.asset('assets/logo_mv_digital.png', width: 40, height: 40,),
+          const SizedBox(width: 12),
+          const Text("MV Digital"),
         ],
       ),
     );

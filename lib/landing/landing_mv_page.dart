@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mv_digital/landing/feature_section.dart';
 
 import '../core/templates/sections/footer_section.dart';
+import '../landing_navbar.dart';
 import 'demo_section.dart';
 import 'hero_section.dart';
 import 'how_it_works_section.dart';
@@ -14,7 +15,7 @@ class LandingPage extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: const [
-
+          LandingNavbar(),
           /// HERO
           SliverToBoxAdapter(
             child: HeroSection(),

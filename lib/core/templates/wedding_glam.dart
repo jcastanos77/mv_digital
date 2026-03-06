@@ -38,7 +38,7 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
                 const WeddingQuoteSection(),
 
                 /// GALERÍA
-                RepaintBoundary(child:const WeddingGallerySection()),
+                const WeddingGallerySection(),
 
 
                 /// RSVP

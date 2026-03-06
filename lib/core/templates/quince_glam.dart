@@ -16,7 +16,6 @@ class QuinceGlamPage extends StatefulWidget {
 }
 
 class _QuinceGlamPageState extends State<QuinceGlamPage> {
-  final ScrollController _scrollController = ScrollController();
   final GlobalKey _countdownKey = GlobalKey();
 
   void _scrollToCountdown() {
@@ -37,46 +36,44 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
       body: Stack(
         children: [
           ListView(
-            controller: _scrollController,
             children: [
-                RepaintBoundary(child: QuinceHero(onPressed: _scrollToCountdown)),
-                const SizedBox(height: 60),
-                CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12)),
-                const SizedBox(height: 60),
-                const EventDetailsSection(),
-                const SizedBox(height: 60),
-                const DressCodeSection(),
-                const SizedBox(height: 60),
-                RepaintBoundary(child: const GallerySection()),
-                const SizedBox(height: 60),
-                 const RsvpSection(),
-                const SizedBox(height: 40),
-                const FooterSection()
+              QuinceHero(onPressed: _scrollToCountdown),
+              const SizedBox(height: 60),
+              CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12)),
+              const SizedBox(height: 60),
+              const EventDetailsSection(),
+              const SizedBox(height: 60),
+              const DressCodeSection(),
+              const SizedBox(height: 60),
+              const GallerySection(),
+              const SizedBox(height: 60),
+              const RsvpSection(),
+              const SizedBox(height: 40),
+              const FooterSection(),
               ],
           ),
-
           Positioned(
             top: 40,
             left: 20,
             child: SafeArea(
               child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(.3),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: Colors.white,
-                      size: 18,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(.3),
+                      shape: BoxShape.circle,
                     ),
-                  ),
-                )
+                    child: const Center(
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ),
+                  )
               ),
             ),
           ),

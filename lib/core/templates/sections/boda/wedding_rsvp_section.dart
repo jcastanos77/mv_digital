@@ -23,7 +23,7 @@ class _WeddingRsvpSectionState extends State<WeddingRsvpSection> {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
-            blurRadius: 40,
+            blurRadius: 12,
             offset: const Offset(0, 20),
           ),
         ],
