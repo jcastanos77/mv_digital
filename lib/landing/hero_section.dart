@@ -18,11 +18,12 @@ class HeroSection extends StatelessWidget {
 
           /// IMAGEN DE FONDO
           Positioned.fill(
-            child:Image.asset(
+            child: Image.asset(
               "assets/principal.jpg",
-              gaplessPlayback: true,
               fit: BoxFit.cover,
-            ),
+              cacheWidth: 1920,
+              filterQuality: FilterQuality.low,
+            )
           ),
 
           /// OVERLAY

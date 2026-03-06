@@ -43,14 +43,14 @@ class _LandingPageState extends State<LandingPage> {
         children: [
 
           /// CONTENIDO
-          ListView(
-            controller: controller,
-            children: const[
-              RepaintBoundary(child: const HeroSection()),
-              RepaintBoundary(child:const DemoSection()),
-              RepaintBoundary(child:const FeatureSection()),
-              RepaintBoundary(child:const HowItWorksSection()),
-              RepaintBoundary(child:const FooterSection()),
+          CustomScrollView(
+              controller: controller,
+              slivers: const [
+                SliverToBoxAdapter(child: HeroSection()),
+                SliverToBoxAdapter(child: DemoSection()),
+                SliverToBoxAdapter(child: FeatureSection()),
+                SliverToBoxAdapter(child: HowItWorksSection()),
+                SliverToBoxAdapter(child: FooterSection()),
               ],
           ),
 
@@ -75,56 +75,50 @@ class Navbar extends StatelessWidget {
       left: 0,
       right: 0,
       child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: scrolled ? 12 : 0,
-            sigmaY: scrolled ? 12 : 0,
-          ),
-          child: Container(
-            height: 70,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              color: scrolled
-                  ? Colors.black.withOpacity(.25)
-                  : Colors.transparent,
-              border: Border(
-                bottom: BorderSide(
-                  color: scrolled
-                      ? Colors.white.withOpacity(.08)
-                      : Colors.transparent,
-                ),
+        child: Container(
+          height: 70,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: scrolled
+                ? Colors.black.withOpacity(.85)
+                : Colors.transparent,
+            border: Border(
+              bottom: BorderSide(
+                color: scrolled
+                    ? Colors.white.withOpacity(.08)
+                    : Colors.transparent,
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
 
-                /// LOGO
-                Row(
-                  children: [
+              /// LOGO
+              Row(
+                children: [
 
-            Image(
-            image: const AssetImage("assets/logo_mv_digital.png"),
-                      height: 40,
-                      width: 40,
+                  const Image(
+                    image: AssetImage("assets/logo_mv_digital.png"),
+                    height: 40,
+                    width: 40,
+                    filterQuality: FilterQuality.low,
+                  ),
+                  const SizedBox(width: 12),
+
+                  const Text(
+                    "MV Digital",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: .3,
                     ),
+                  )
 
-                    const SizedBox(width: 12),
+                ],
+              ),
 
-                    const Text(
-                      "MV Digital",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: .3,
-                      ),
-                    )
-
-                  ],
-                ),
-
-              ],
-            ),
+            ],
           ),
         ),
       ),
