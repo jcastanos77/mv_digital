@@ -44,7 +44,7 @@ class _DemoCardState extends State<DemoCard> {
           scale: scale,
           child: Container(
             width: 380,
-            height: 520,
+            height: 320,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(32),
               boxShadow: [

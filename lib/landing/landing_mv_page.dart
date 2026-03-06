@@ -1,146 +1,45 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:mv_digital/landing/feature_section.dart';
 
-import 'cta_section.dart';
+import '../core/templates/sections/footer_section.dart';
 import 'demo_section.dart';
-import 'feature_section.dart';
 import 'hero_section.dart';
 import 'how_it_works_section.dart';
 
-class LandingPage extends StatefulWidget {
+class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
-
-  @override
-  State<LandingPage> createState() => _LandingPageState();
-}
-
-class _LandingPageState extends State<LandingPage> {
-
-  final ScrollController controller = ScrollController();
-
-  bool scrolled = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller.addListener(() {
-      if (controller.offset > 40 && !scrolled) {
-        setState(() => scrolled = true);
-      }
-
-      if (controller.offset <= 40 && scrolled) {
-        setState(() => scrolled = false);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
+      body: CustomScrollView(
+        slivers: const [
 
-          /// CONTENIDO
-          CustomScrollView(
-              controller: controller,
-              slivers: const [
-                SliverToBoxAdapter(child: HeroSection()),
-                SliverToBoxAdapter(child: DemoSection()),
-                SliverToBoxAdapter(child: FeatureSection()),
-                SliverToBoxAdapter(child: HowItWorksSection()),
-                SliverToBoxAdapter(child: FooterSection()),
-              ],
+          /// HERO
+          SliverToBoxAdapter(
+            child: HeroSection(),
           ),
 
-          /// NAVBAR
-          Navbar(scrolled: scrolled)
+          /// DEMO
+          SliverToBoxAdapter(
+            child: DemoSection(),
+          ),
 
+          /// FEATURES
+          SliverToBoxAdapter(
+            child: FeatureSection(),
+          ),
+
+          /// HOW IT WORKS
+          SliverToBoxAdapter(
+            child: HowItWorksSection(),
+          ),
+
+          /// FOOTER
+          SliverToBoxAdapter(
+            child: FooterSection(),
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class Navbar extends StatelessWidget {
-  final bool scrolled;
-
-  const Navbar({super.key, required this.scrolled});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: ClipRect(
-        child: Container(
-          height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-            color: scrolled
-                ? Colors.black.withOpacity(.85)
-                : Colors.transparent,
-            border: Border(
-              bottom: BorderSide(
-                color: scrolled
-                    ? Colors.white.withOpacity(.08)
-                    : Colors.transparent,
-              ),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-
-              /// LOGO
-              Row(
-                children: [
-
-                  const Image(
-                    image: AssetImage("assets/logo_mv_digital.png"),
-                    height: 40,
-                    width: 40,
-                    filterQuality: FilterQuality.low,
-                  ),
-                  const SizedBox(width: 12),
-
-                  const Text(
-                    "MV Digital",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: .3,
-                    ),
-                  )
-
-                ],
-              ),
-
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class NavItem extends StatelessWidget {
-  final String text;
-
-  const NavItem(this.text, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 15,
-          color: Colors.white70,
-        ),
       ),
     );
   }

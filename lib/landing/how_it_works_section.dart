@@ -75,7 +75,7 @@ class AppleStep extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             child: Image.asset(
               image,
-              height: 300,
+              height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
               filterQuality: FilterQuality.low,

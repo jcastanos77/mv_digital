@@ -70,7 +70,8 @@ class AppleFeature extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             child:Image.asset(
               image,
-              height: 280,
+              height: 250,
+              width: double.infinity,
               fit: BoxFit.cover,
               cacheWidth: 1200,
               filterQuality: FilterQuality.low,
