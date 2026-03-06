@@ -4,52 +4,96 @@ import 'package:mv_digital/core/templates/sections/boda/wedding_gallery_section.
 import 'package:mv_digital/core/templates/sections/boda/wedding_hero_countdown.dart';
 import 'package:mv_digital/core/templates/sections/boda/wedding_hero_section.dart';
 import 'package:mv_digital/core/templates/sections/boda/wedding_quote_section.dart';
-import 'package:mv_digital/core/templates/sections/footer_section.dart';
 import 'package:mv_digital/core/templates/sections/rsvp_section.dart';
 
+import '../../landing/cta_section.dart';
+import '../../models/event_info.dart';
+import '../../models/invitation_model.dart';
+
+
 class WeddingGlamTemplate extends StatefulWidget {
-  const WeddingGlamTemplate({super.key});
+
+  final InvitationModel data;
+
+  const WeddingGlamTemplate({
+    super.key,
+    required this.data,
+  });
 
   @override
   State<WeddingGlamTemplate> createState() => _WeddingGlamTemplateState();
 }
 
 class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
+
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+
+    final data = widget.data;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+
           ListView(
             controller: _scrollController,
-            children: const [
+            children: [
 
-                /// HERO
-                WeddingHeroSection(),
+              /// HERO
+              WeddingHeroSection(
+                title: data.title,
+                eventDate: data.eventDate,
+                backgroundImage: data.heroImage,
+              ),
 
-                const WeddingCountdownSection(),
+              /// COUNTDOWN
+              WeddingCountdownSection(
+                eventDate: data.eventDate,
+              ),
 
-                /// DETALLES DEL EVENTO
-                const WeddingEventSection(),
+              /// EVENT DETAILS
+              WeddingEventSection(
+                ceremony: EventInfo(
+                  imageUrl: data.ceremonyImage,
+                  title: "CEREMONIA",
+                  place: data.ceremonyPlace,
+                  time: data.ceremonyTime,
+                  mapsUrl: data.ceremonyMaps,
+                ),
+                reception: EventInfo(
+                  imageUrl: data.receptionImage,
+                  title: "RECEPCIÓN",
+                  place: data.receptionPlace,
+                  time: data.receptionTime,
+                  mapsUrl: data.receptionMaps,
+                ),
+              ),
 
-                const WeddingQuoteSection(),
+              /// QUOTE
+              WeddingQuoteSection(
+                quote: data.quote,
+              ),
 
-                /// GALERÍA
-                const WeddingGallerySection(),
+              /// GALERIA
+              WeddingGallerySection(
+                images: data.gallery,
+              ),
 
+              /// RSVP
+              RsvpSection(
+                invitationId: data.id,
+              ),
 
-                /// RSVP
-                const RsvpSection(),
+              const FooterSection(),
 
-                /// FOOTER
-                const FooterSection(),
+              const SizedBox(height: 60),
 
-                const SizedBox(height: 60),
-              ],
+            ],
           ),
+
           Positioned(
             top: 40,
             left: 20,
@@ -64,14 +108,12 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
                     color: Colors.black.withOpacity(.3),
                     shape: BoxShape.circle,
                   ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: Colors.white,
-                      size: 18,
-                    ),
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.white,
+                    size: 18,
                   ),
-                )
+                ),
               ),
             ),
           ),

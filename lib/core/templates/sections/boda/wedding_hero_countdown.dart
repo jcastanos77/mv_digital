@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WeddingCountdownSection extends StatefulWidget {
-  const WeddingCountdownSection({super.key});
+
+  final DateTime eventDate;
+
+  const WeddingCountdownSection({
+    super.key,
+    required this.eventDate,
+  });
 
   @override
   State<WeddingCountdownSection> createState() =>
@@ -16,12 +22,10 @@ class _WeddingCountdownSectionState
   late Timer _timer;
   Duration _remaining = Duration.zero;
 
-  final DateTime weddingDate =
-  DateTime(2026, 9, 15, 17, 0);
-
   @override
   void initState() {
     super.initState();
+
     _updateTime();
 
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
@@ -30,14 +34,17 @@ class _WeddingCountdownSectionState
   }
 
   void _updateTime() {
+
     final now = DateTime.now();
-    final difference = weddingDate.difference(now);
+
+    final difference = widget.eventDate.difference(now);
 
     setState(() {
       _remaining = difference.isNegative
           ? Duration.zero
           : difference;
     });
+
   }
 
   @override
@@ -48,9 +55,8 @@ class _WeddingCountdownSectionState
 
   @override
   Widget build(BuildContext context) {
+
     const champagne = Color(0xFFB08A5B);
-    const textDark = Color(0xFF1F1F1F);
-    const textSoft = Color(0xFF7A7A7A);
     const background = Color(0xFFF7F5F2);
 
     final days = _remaining.inDays;
@@ -87,13 +93,29 @@ class _WeddingCountdownSectionState
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 _TimeBlock(value: days.toString(), label: "DÍAS"),
+
                 const SizedBox(width: 40),
-                _TimeBlock(value: hours.toString().padLeft(2, '0'), label: "HORAS"),
+
+                _TimeBlock(
+                    value: hours.toString().padLeft(2, '0'),
+                    label: "HORAS"
+                ),
+
                 const SizedBox(width: 40),
-                _TimeBlock(value: minutes.toString().padLeft(2, '0'), label: "MIN"),
+
+                _TimeBlock(
+                    value: minutes.toString().padLeft(2, '0'),
+                    label: "MIN"
+                ),
+
                 const SizedBox(width: 40),
-                _TimeBlock(value: seconds.toString().padLeft(2, '0'), label: "SEG"),
+
+                _TimeBlock(
+                    value: seconds.toString().padLeft(2, '0'),
+                    label: "SEG"
+                ),
               ],
             ),
 
@@ -110,7 +132,6 @@ class _WeddingCountdownSectionState
     );
   }
 }
-
 class _TimeBlock extends StatelessWidget {
   final String value;
   final String label;

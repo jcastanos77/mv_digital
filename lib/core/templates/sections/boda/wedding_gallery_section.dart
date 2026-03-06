@@ -2,19 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WeddingGallerySection extends StatelessWidget {
-  const WeddingGallerySection({super.key});
+  final List<String> images;
+
+  const WeddingGallerySection({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {
-
-    final images = [
-      "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1550784718-990c6de52adf?q=80&w=1200&auto=format&fit=crop",
-      "https://plus.unsplash.com/premium_photo-1711132425055-1c289c69b950?q=80&w=1200&auto=format&fit=crop",
-    ];
 
     final isDesktop = MediaQuery.of(context).size.width > 900;
 

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DressCodeSection extends StatelessWidget {
-  const DressCodeSection({super.key});
+  final String dressCode;
+
+  const DressCodeSection({
+    super.key,
+    required this.dressCode,
+  });
 
   @override
   Widget build(BuildContext context) {

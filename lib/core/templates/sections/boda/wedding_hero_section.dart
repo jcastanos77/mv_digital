@@ -4,7 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mv_digital/core/widgets/scroll_indicator.dart';
 
 class WeddingHeroSection extends StatefulWidget {
-  const WeddingHeroSection({super.key});
+  final String title;
+  final DateTime eventDate;
+  final String backgroundImage;
+
+  const WeddingHeroSection({
+    super.key,
+    required this.title,
+    required this.eventDate,
+    required this.backgroundImage,
+  });
+
 
   @override
   State<WeddingHeroSection> createState() => _WeddingHeroSectionState();
@@ -60,7 +70,7 @@ class _WeddingHeroSectionState extends State<WeddingHeroSection>
 
           /// Background Image
           CachedNetworkImage(
-            imageUrl: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1600&q=80",
+            imageUrl: widget.backgroundImage,
             fit: BoxFit.cover,
             filterQuality: FilterQuality.low,
           ),
@@ -81,7 +91,7 @@ class _WeddingHeroSectionState extends State<WeddingHeroSection>
                   children: [
 
                     Text(
-                      "María & Alejandro",
+                      widget.title,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 56,
@@ -93,7 +103,7 @@ class _WeddingHeroSectionState extends State<WeddingHeroSection>
                     const SizedBox(height: 20),
 
                     Text(
-                      "15 · Septiembre · 2026",
+                      _formatDate(widget.eventDate),
                       style: GoogleFonts.montserrat(
                         fontSize: 14,
                         letterSpacing: 4,
@@ -126,5 +136,25 @@ class _WeddingHeroSectionState extends State<WeddingHeroSection>
         ],
       ),
     );
+  }
+  String _formatDate(DateTime date) {
+
+    const months = [
+      '',
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre'
+    ];
+
+    return "${date.day} · ${months[date.month]} · ${date.year}";
   }
 }

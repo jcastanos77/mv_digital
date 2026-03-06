@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WeddingQuoteSection extends StatefulWidget {
-  const WeddingQuoteSection({super.key});
+  final String quote;
+  const WeddingQuoteSection({super.key, required this.quote});
 
   @override
   State<WeddingQuoteSection> createState() => _WeddingQuoteSectionState();
@@ -66,7 +67,7 @@ class _WeddingQuoteSectionState extends State<WeddingQuoteSection>
             child: SlideTransition(
               position: _slide,
               child: Text(
-                "Decidimos caminar juntos para siempre.",
+                widget.quote,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 42,

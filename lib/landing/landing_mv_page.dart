@@ -14,10 +14,10 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        slivers: const [
-          LandingNavbar(),
+        slivers: [
+          const LandingNavbar(),
           /// HERO
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: HeroSection(),
           ),
 
@@ -27,17 +27,17 @@ class LandingPage extends StatelessWidget {
           ),
 
           /// FEATURES
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: FeatureSection(),
           ),
 
           /// HOW IT WORKS
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: HowItWorksSection(),
           ),
 
           /// FOOTER
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: FooterSection(),
           ),
         ],

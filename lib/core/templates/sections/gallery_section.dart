@@ -4,25 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'fullscreen_gallery.dart';
 
 class GallerySection extends StatelessWidget {
-  const GallerySection({super.key});
+
+  final List<String> images;
+
+  const GallerySection({
+    super.key,
+    required this.images,
+  });
 
   @override
   Widget build(BuildContext context) {
 
-    final images = [
-      "https://images.unsplash.com/photo-1763959949881-22f1f13cf082?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1763959951409-430bfebd5515?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1763959944953-d8f723c34bff?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1656918839048-cd1c3df3c0e9?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1763959946113-096f6a57422b?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1763959955470-c7bb7a825d0b?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1763625645366-b12410f63f6a?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1763959947199-d6a84743ba81?q=80&w=1200&auto=format&fit=crop",
-    ];
+    if (images.isEmpty) {
+      return const SizedBox();
+    }
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 30),
+
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(32),
@@ -34,6 +34,7 @@ class GallerySection extends StatelessWidget {
           ),
         ],
       ),
+
       child: Column(
         children: [
 
@@ -61,12 +62,14 @@ class GallerySection extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: images.length,
+
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               childAspectRatio: .8,
             ),
+
             itemBuilder: (context, index) {
 
               final image = images[index];
@@ -93,16 +96,17 @@ class GallerySection extends StatelessWidget {
                   );
 
                 },
+
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
+
                   child: Image.network(
                     image,
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.low,
-
-                    /// LIMITA RESOLUCION
                     cacheWidth: 900,
                   ),
+
                 ),
               );
 

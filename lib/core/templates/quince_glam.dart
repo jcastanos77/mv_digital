@@ -6,15 +6,21 @@ import 'package:mv_digital/core/templates/sections/gallery_section.dart';
 import 'package:mv_digital/core/templates/sections/rsvp_section.dart';
 import 'package:mv_digital/core/templates/xv/quince_hero.dart';
 
+import '../../models/invitation_model.dart';
 import '../widgets/countdown_widget.dart';
 
 class QuinceGlamPage extends StatefulWidget {
-  const QuinceGlamPage({super.key});
+
+  final InvitationModel data;
+
+  const QuinceGlamPage({
+    super.key,
+    required this.data,
+  });
 
   @override
   State<QuinceGlamPage> createState() => _QuinceGlamPageState();
 }
-
 class _QuinceGlamPageState extends State<QuinceGlamPage> {
   final GlobalKey _countdownKey = GlobalKey();
 
@@ -31,23 +37,36 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = widget.data;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF4EFEA),
       body: Stack(
         children: [
           ListView(
             children: [
-              QuinceHero(onPressed: _scrollToCountdown),
+              QuinceHero(onPressed: _scrollToCountdown, title: data.title, heroImage: data.heroImage, eventDate: data.eventDate, eventTime: '',),
               const SizedBox(height: 60),
-              CountdownWidget(key: _countdownKey, eventDate: DateTime(2026,12,12)),
+              CountdownWidget(key: _countdownKey, eventDate: data.eventDate),
               const SizedBox(height: 60),
-              const EventDetailsSection(),
+              EventDetailsSection(
+                ceremonyPlace: data.ceremonyPlace,
+                ceremonyTime: data.ceremonyTime,
+                ceremonyMaps: data.ceremonyMaps,
+                receptionPlace: data.receptionPlace,
+                receptionTime: data.receptionTime,
+                receptionMaps: data.receptionMaps,
+              ),
               const SizedBox(height: 60),
-              const DressCodeSection(),
+               DressCodeSection(dressCode: data.dressCode,),
               const SizedBox(height: 60),
-              const GallerySection(),
+              GallerySection(
+                images: data.gallery,
+              ),
               const SizedBox(height: 60),
-              const RsvpSection(),
+              RsvpSection(
+                invitationId: data.id,
+              ),
               const SizedBox(height: 40),
               const FooterSection(),
               ],

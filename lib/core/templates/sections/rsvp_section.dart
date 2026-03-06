@@ -4,7 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/primary_button.dart';
 
 class RsvpSection extends StatefulWidget {
-  const RsvpSection({super.key});
+  final String invitationId;
+
+  const RsvpSection({
+    super.key,
+    required this.invitationId,
+  });
 
   @override
   State<RsvpSection> createState() => _RsvpSectionState();
@@ -110,13 +115,22 @@ class _RsvpSectionState extends State<RsvpSection> {
           PrimaryButton(
             text: "Confirmar asistencia",
             onPressed: () {
+
               if (_formKey.currentState!.validate()) {
+
+                print("Invitación: ${widget.invitationId}");
+                print("Nombre: ${_nameController.text}");
+                print("Invitados: ${_guestsController.text}");
+                print("Asistencia: $attendance");
+
                 setState(() {
                   submitted = true;
                 });
+
               }
+
             },
-          ),
+          )
         ],
       ),
     );
