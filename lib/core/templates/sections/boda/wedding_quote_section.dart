@@ -42,7 +42,9 @@ class _WeddingQuoteSectionState extends State<WeddingQuoteSection>
 
     // Retraso ligero para que no compita con hero
     Future.delayed(const Duration(milliseconds: 300), () {
-      _controller.forward();
+      if (mounted) {
+        _controller.forward();
+      }
     });
   }
 

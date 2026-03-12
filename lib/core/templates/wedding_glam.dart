@@ -4,7 +4,7 @@ import 'package:mv_digital/core/templates/sections/boda/wedding_gallery_section.
 import 'package:mv_digital/core/templates/sections/boda/wedding_hero_countdown.dart';
 import 'package:mv_digital/core/templates/sections/boda/wedding_hero_section.dart';
 import 'package:mv_digital/core/templates/sections/boda/wedding_quote_section.dart';
-import 'package:mv_digital/core/templates/sections/rsvp_section.dart';
+import 'package:mv_digital/core/templates/sections/xv/rsvp_section.dart';
 
 import '../../landing/cta_section.dart';
 import '../../models/event_info.dart';

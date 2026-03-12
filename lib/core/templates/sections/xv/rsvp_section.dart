@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../widgets/primary_button.dart';
+import '../../../widgets/primary_button.dart';
+
 
 class RsvpSection extends StatefulWidget {
   final String invitationId;

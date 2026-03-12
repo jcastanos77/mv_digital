@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'fullscreen_gallery.dart';
 
+
 class GallerySection extends StatelessWidget {
 
   final List<String> images;

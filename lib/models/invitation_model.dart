@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class InvitationModel {
 
   final String id;
@@ -64,7 +66,7 @@ class InvitationModel {
       title: map['title'] ?? "",
       heroImage: map['heroImage'] ?? "",
 
-      eventDate: DateTime.parse(map['eventDate']),
+      eventDate:  (map['eventDate'] as Timestamp).toDate(),
       eventTime: map['eventTime'] ?? "",
 
       quote: map['quote'] ?? "",

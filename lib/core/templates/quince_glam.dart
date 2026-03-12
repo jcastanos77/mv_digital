@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mv_digital/core/templates/sections/dress_code_section.dart';
-import 'package:mv_digital/core/templates/sections/event_details_section.dart';
-import 'package:mv_digital/core/templates/sections/footer_section.dart';
-import 'package:mv_digital/core/templates/sections/gallery_section.dart';
-import 'package:mv_digital/core/templates/sections/rsvp_section.dart';
-import 'package:mv_digital/core/templates/xv/quince_hero.dart';
+import 'package:mv_digital/core/templates/sections/xv/dress_code_section.dart';
+import 'package:mv_digital/core/templates/sections/xv/event_details_section.dart';
+import 'package:mv_digital/core/templates/sections/xv/gallery_section.dart';
+import 'package:mv_digital/core/templates/sections/xv/quince_hero.dart';
+import 'package:mv_digital/core/templates/sections/xv/rsvp_section.dart';
 
+import '../../landing/cta_section.dart';
 import '../../models/invitation_model.dart';
 import '../widgets/countdown_widget.dart';
 
@@ -45,7 +45,12 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
         children: [
           ListView(
             children: [
-              QuinceHero(onPressed: _scrollToCountdown, title: data.title, heroImage: data.heroImage, eventDate: data.eventDate, eventTime: '',),
+              QuinceHero(
+                onPressed: _scrollToCountdown,
+                title: data.title,
+                heroImage: data.heroImage,
+                eventDate: data.eventDate,
+                eventTime: '',),
               const SizedBox(height: 60),
               CountdownWidget(key: _countdownKey, eventDate: data.eventDate),
               const SizedBox(height: 60),

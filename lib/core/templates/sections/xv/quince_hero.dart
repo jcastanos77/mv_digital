@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../widgets/scroll_indicator.dart';
+import '../../../widgets/scroll_indicator.dart';
+
 
 class QuinceHero extends StatelessWidget {
 

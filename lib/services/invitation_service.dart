@@ -23,29 +23,70 @@ class InvitationService {
   }
 
   Future createInvitation({
+
     required String slug,
     required String template,
+
     required String title,
     required String heroImage,
     required DateTime eventDate,
+
+    required String quote,
+    required String location,
+
     required String ceremonyPlace,
+    required String ceremonyTime,
+    required String ceremonyImage,
+    required String ceremonyMaps,
+
     required String receptionPlace,
+    required String receptionTime,
+    required String receptionImage,
+    required String receptionMaps,
+
     required String dressCode,
+
+    required List<String> gallery,
+
   }) async {
 
     await _firestore.collection("invitations").doc(slug).set({
 
+      /// TEMPLATE
       "template": template,
+
+      /// HERO
       "title": title,
       "heroImage": heroImage,
-      "eventDate": eventDate.toIso8601String(),
+      "eventDate": eventDate,
+      "eventTime": "",
 
+      /// QUOTE
+      "quote": quote,
+
+      /// LOCATION
+      "location": location,
+
+      /// CEREMONIA
       "ceremonyPlace": ceremonyPlace,
-      "receptionPlace": receptionPlace,
+      "ceremonyTime": ceremonyTime,
+      "ceremonyImage": ceremonyImage,
+      "ceremonyMaps": ceremonyMaps,
 
+      /// RECEPCION
+      "receptionPlace": receptionPlace,
+      "receptionTime": receptionTime,
+      "receptionImage": receptionImage,
+      "receptionMaps": receptionMaps,
+
+      /// DRESS CODE
       "dressCode": dressCode,
 
-      "gallery": []
+      /// GALERIA
+      "gallery": gallery,
+
+      /// METADATA
+      "createdAt": FieldValue.serverTimestamp(),
 
     });
 
