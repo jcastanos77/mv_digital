@@ -48,7 +48,7 @@ class FooterSection extends StatelessWidget {
               ? Column(
             children: [
 
-              _footerColumn("Demos", ["Boda", "XV Años"]),
+              _footerColumn("Demos", ["Boda", "XV Años", "Cumpleaños"]),
 
               const SizedBox(height: 30),
 

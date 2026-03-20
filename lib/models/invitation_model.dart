@@ -4,7 +4,7 @@ class InvitationModel {
 
   final String id;
   final String template;
-
+  final String theme;
   /// HERO
   final String title;
   final String heroImage;
@@ -38,6 +38,7 @@ class InvitationModel {
   InvitationModel({
     required this.id,
     required this.template,
+    required this.theme,
     required this.title,
     required this.heroImage,
     required this.eventDate,
@@ -62,7 +63,7 @@ class InvitationModel {
 
       id: id,
       template: map['template'] ?? "",
-
+      theme: map['theme'] ?? "",
       title: map['title'] ?? "",
       heroImage: map['heroImage'] ?? "",
 

@@ -10,7 +10,6 @@ class QuinceHero extends StatelessWidget {
   final String heroImage;
   final DateTime eventDate;
   final String eventTime;
-  final VoidCallback onPressed;
 
   const QuinceHero({
     super.key,
@@ -18,7 +17,6 @@ class QuinceHero extends StatelessWidget {
     required this.heroImage,
     required this.eventDate,
     required this.eventTime,
-    required this.onPressed,
   });
 
   String _formatDate(DateTime date) {
@@ -109,10 +107,7 @@ class QuinceHero extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                GestureDetector(
-                  onTap: onPressed,
-                  child: const ScrollIndicator(),
-                ),
+                ScrollIndicator()
 
               ],
             )

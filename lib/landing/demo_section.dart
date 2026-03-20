@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mv_digital/core/templates/quince_glam.dart';
 import 'package:mv_digital/core/templates/wedding_glam.dart';
+import '../core/templates/birthday_invitation_page.dart';
 import '../core/widgets/demo_card.dart';
 import '../models/invitation_model.dart';
+import '../themes/theme_resolver.dart';
 
 class DemoSection extends StatelessWidget {
    DemoSection({super.key});
@@ -11,7 +13,7 @@ class DemoSection extends StatelessWidget {
    final demoWedding = InvitationModel(
      id: "demo_boda",
      template: "wedding_glam",
-
+     theme: '',
      /// HERO
      title: "Luis & Ana",
      heroImage:
@@ -56,7 +58,7 @@ class DemoSection extends StatelessWidget {
    final demoXV = InvitationModel(
      id: "demo_xv",
      template: "quince_glam",
-
+     theme: '',
      /// HERO
      title: "Sofía",
      heroImage:
@@ -94,6 +96,33 @@ class DemoSection extends StatelessWidget {
        "https://images.unsplash.com/photo-1763959951409-430bfebd5515?auto=format&fit=crop&w=1200&q=80",
        "https://images.unsplash.com/photo-1763959944953-d8f723c34bff?auto=format&fit=crop&w=1200&q=80",
        "https://images.unsplash.com/photo-1656918839048-cd1c3df3c0e9?auto=format&fit=crop&w=1200&q=80",
+     ],
+   );
+
+   final _demoB= InvitationModel(
+     id: "demo_birthday",
+     template: "birthday",
+     theme: 'cowboy',
+     title: "Juan Pérez",
+     quote: "Acompáñame a celebrar mis 30 años",
+     location: "Rancho Los Compadres",
+     heroImage: "https://plus.unsplash.com/premium_photo-1737392497549-774709c38e79?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+     eventDate: DateTime(2026, 7, 10, 19, 0),
+     eventTime: "7:00 PM",
+     ceremonyPlace: "",
+     ceremonyTime: "",
+     ceremonyImage: "",
+     ceremonyMaps: "",
+     receptionPlace: "Rancho Los Compadres",
+     receptionTime: "7:00 PM",
+     receptionImage: "",
+     receptionMaps: "https://maps.google.com",
+     dressCode: "Vaquero",
+     gallery: [
+       "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d",
+       "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
+       "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
      ],
    );
 
@@ -145,6 +174,8 @@ class DemoSection extends StatelessWidget {
                     _demoBoda(context),
                     const SizedBox(height: 60),
                     _demoXV(context),
+                    const SizedBox(height: 60),
+                    _demoBirthday(context)
                   ],
                 );
               }
@@ -159,6 +190,10 @@ class DemoSection extends StatelessWidget {
 
                   _demoXV(context),
 
+                  const SizedBox(width: 80),
+
+                  _demoBirthday(context)
+
                 ],
               );
             },
@@ -172,7 +207,7 @@ class DemoSection extends StatelessWidget {
    Widget _demoBoda(BuildContext context) {
 
      return DemoCard(
-       title: "Boda Demo",
+       title: "Boda",
        image: "assets/bodademo.jpeg",
        onTap: () {
          Navigator.push(
@@ -188,13 +223,34 @@ class DemoSection extends StatelessWidget {
    Widget _demoXV(BuildContext context) {
 
      return DemoCard(
-       title: "XV Demo",
+       title: "XV",
        image: "assets/xvdemo.jpeg",
        onTap: () {
          Navigator.push(
            context,
            MaterialPageRoute(
              builder: (_) => QuinceGlamPage(data: demoXV),
+           ),
+         );
+       },
+     );
+   }
+
+   Widget _demoBirthday(BuildContext context) {
+
+     return DemoCard(
+       title: "Cumpleaños",
+       image: "assets/vaquero.jpg",
+       onTap: () {
+         Navigator.push(
+           context,
+           MaterialPageRoute(
+             builder: (_) => BirthdayInvitationPage(
+               data: _demoB,
+               theme: resolveBirthdayTheme(
+                 Uri.base.queryParameters["theme"],
+               ),
+             ),
            ),
          );
        },

@@ -68,11 +68,18 @@ class _WeddingHeroSectionState extends State<WeddingHeroSection>
         fit: StackFit.expand,
         children: [
 
-          /// Background Image
           CachedNetworkImage(
             imageUrl: widget.backgroundImage,
             fit: BoxFit.cover,
-            filterQuality: FilterQuality.low,
+            imageRenderMethodForWeb: .HttpGet,
+            memCacheWidth: 1200,
+
+            errorWidget: (_, __, ___) {
+              return Container(
+                color: Colors.grey.shade200,
+                child: const Icon(Icons.broken_image),
+              );
+            },
           ),
 
           /// Dark overlay

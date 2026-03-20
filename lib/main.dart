@@ -40,6 +40,12 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
+      path: '/demo/birthday',
+      builder: (context, state) =>
+          InvitationLoaderPage(slug: "demo-birthday"),
+    ),
+
+    GoRoute(
       path: '/invitation/:slug',
       builder: (context, state) {
 

@@ -24,16 +24,6 @@ class QuinceGlamPage extends StatefulWidget {
 class _QuinceGlamPageState extends State<QuinceGlamPage> {
   final GlobalKey _countdownKey = GlobalKey();
 
-  void _scrollToCountdown() {
-    final context = _countdownKey.currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInOutCubic,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +36,6 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
           ListView(
             children: [
               QuinceHero(
-                onPressed: _scrollToCountdown,
                 title: data.title,
                 heroImage: data.heroImage,
                 eventDate: data.eventDate,

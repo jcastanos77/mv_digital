@@ -30,6 +30,7 @@ class InvitationService {
     required String title,
     required String heroImage,
     required DateTime eventDate,
+    required String theme,
 
     required String quote,
     required String location,
@@ -54,7 +55,7 @@ class InvitationService {
 
       /// TEMPLATE
       "template": template,
-
+      "theme": theme,
       /// HERO
       "title": title,
       "heroImage": heroImage,
