@@ -31,10 +31,10 @@ class BirthdayInvitationPage extends StatelessWidget {
     resolveBirthdayTheme(themeName);
 
     return Scaffold(
-      body:SingleChildScrollView(
-        child: Column(
+      body:Stack(
+        children: [
+          ListView(
           children: [
-
             BirthdayHero(
               data: data,
               theme: theme,
@@ -63,6 +63,32 @@ class BirthdayInvitationPage extends StatelessWidget {
             const FooterSection(),
           ],
         ),
+          Positioned(
+            top: 40,
+            left: 20,
+            child: SafeArea(
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ),
+                  )
+              ),
+            ),
+          ),
+        ]
       ),
     );
   }

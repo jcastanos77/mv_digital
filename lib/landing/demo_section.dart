@@ -10,7 +10,7 @@ import '../themes/theme_resolver.dart';
 class DemoSection extends StatelessWidget {
    DemoSection({super.key});
 
-   final demoWedding = InvitationModel(
+   static final demoWedding = InvitationModel(
      id: "demo_boda",
      template: "wedding_glam",
      theme: '',
@@ -55,7 +55,7 @@ class DemoSection extends StatelessWidget {
      ],
    );
 
-   final demoXV = InvitationModel(
+   static final demoXV = InvitationModel(
      id: "demo_xv",
      template: "quince_glam",
      theme: '',
@@ -99,7 +99,7 @@ class DemoSection extends StatelessWidget {
      ],
    );
 
-   final _demoB= InvitationModel(
+   static final _demoB= InvitationModel(
      id: "demo_birthday",
      template: "birthday",
      theme: 'cowboy',
@@ -126,134 +126,81 @@ class DemoSection extends StatelessWidget {
      ],
    );
 
-  @override
-  Widget build(BuildContext context) {
+   @override
+   Widget build(BuildContext context) {
+     final size = MediaQuery.of(context).size;
+     final bool isMobile = size.width < 900;
 
-    bool isMobile = MediaQuery.of(context).size.width < 800;
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: isMobile ? 100 : 180,
-        horizontal: isMobile ? 20 : 40,
-      ),
-      child: Column(
-        children: [
-
-          /// TITULO
-          Text(
-            "Explora una invitación real",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.playfairDisplay(
-              fontSize: isMobile ? 36 : 60,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          Text(
-            "Diseños elegantes para bodas y XV años",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: isMobile ? 16 : 20,
-              color: Colors.white70,
-            ),
-          ),
-
-          SizedBox(height: isMobile ? 60 : 120),
-
-          /// DEMOS
-          LayoutBuilder(
-            builder: (context, constraints) {
-
-              bool isMobile = constraints.maxWidth < 900;
-
-              if (isMobile) {
-                return Column(
-                  children: [
-                    _demoBoda(context),
-                    const SizedBox(height: 60),
-                    _demoXV(context),
-                    const SizedBox(height: 60),
-                    _demoBirthday(context)
-                  ],
-                );
-              }
-
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-
-                  _demoBoda(context),
-
-                  const SizedBox(width: 80),
-
-                  _demoXV(context),
-
-                  const SizedBox(width: 80),
-
-                  _demoBirthday(context)
-
-                ],
-              );
-            },
-          )
-
-        ],
-      ),
-    );
-  }
-
-   Widget _demoBoda(BuildContext context) {
-
-     return DemoCard(
-       title: "Boda",
-       image: "assets/bodademo.jpeg",
-       onTap: () {
-         Navigator.push(
-           context,
-           MaterialPageRoute(
-             builder: (_) => WeddingGlamTemplate(data: demoWedding),
-           ),
-         );
-       },
-     );
-   }
-
-   Widget _demoXV(BuildContext context) {
-
-     return DemoCard(
-       title: "XV",
-       image: "assets/xvdemo.jpeg",
-       onTap: () {
-         Navigator.push(
-           context,
-           MaterialPageRoute(
-             builder: (_) => QuinceGlamPage(data: demoXV),
-           ),
-         );
-       },
-     );
-   }
-
-   Widget _demoBirthday(BuildContext context) {
-
-     return DemoCard(
-       title: "Cumpleaños",
-       image: "assets/vaquero.jpg",
-       onTap: () {
-         Navigator.push(
-           context,
-           MaterialPageRoute(
-             builder: (_) => BirthdayInvitationPage(
-               data: _demoB,
-               theme: resolveBirthdayTheme(
-                 Uri.base.queryParameters["theme"],
-               ),
+     return Container(
+       padding: EdgeInsets.symmetric(
+         vertical: isMobile ? 80 : 150,
+         horizontal: isMobile ? 20 : 40,
+       ),
+       child: Column(
+         children: [
+           Text(
+             "Explora una invitación real",
+             textAlign: TextAlign.center,
+             style: GoogleFonts.playfairDisplay(
+               fontSize: isMobile ? 32 : 55,
+               fontWeight: FontWeight.w600,
              ),
            ),
-         );
-       },
+           const SizedBox(height: 20),
+           const Text( // Añadido const
+             "Diseños elegantes para bodas y XV años",
+             textAlign: TextAlign.center,
+             style: TextStyle(fontSize: 18, color: Colors.white70),
+           ),
+           SizedBox(height: isMobile ? 50 : 100),
+
+           // En lugar de LayoutBuilder, usamos una lógica simple de Row/Column
+           if (isMobile)
+             Column(
+               children: [
+                 _buildBoda(context),
+                 const SizedBox(height: 40),
+                 _buildXV(context),
+                 const SizedBox(height: 40),
+                 _buildBirthday(context),
+               ],
+             )
+           else
+             Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: [
+                 _buildBoda(context),
+                 const SizedBox(width: 50),
+                 _buildXV(context),
+                 const SizedBox(width: 50),
+                 _buildBirthday(context),
+               ],
+             ),
+         ],
+       ),
      );
+   }
+
+   // Métodos de ayuda (Widgets)
+   Widget _buildBoda(BuildContext context) => DemoCard(
+     title: "Boda",
+     image: "assets/bodademo.jpeg",
+     onTap: () => _openPage(context, WeddingGlamTemplate(data: demoWedding)),
+   );
+
+   Widget _buildXV(BuildContext context) => DemoCard(
+     title: "XV",
+     image: "assets/xvdemo.jpeg",
+     onTap: () => _openPage(context, QuinceGlamPage(data: demoXV)),
+   );
+
+   Widget _buildBirthday(BuildContext context) => DemoCard(
+     title: "Cumpleaños",
+     image: "assets/vaquero.jpg",
+     onTap: () => _openPage(context, BirthdayInvitationPage(data: _demoB, theme: resolveBirthdayTheme(Uri.base.queryParameters["theme"]))),
+   );
+
+   void _openPage(BuildContext context, Widget page) {
+     Navigator.push(context, MaterialPageRoute(builder: (_) => page));
    }
 }

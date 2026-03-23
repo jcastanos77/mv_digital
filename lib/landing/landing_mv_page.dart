@@ -23,7 +23,9 @@ class LandingPage extends StatelessWidget {
 
           /// DEMO
           SliverToBoxAdapter(
-            child: DemoSection(),
+            child: RepaintBoundary(
+              child: DemoSection(),
+            ),
           ),
 
           /// FEATURES
