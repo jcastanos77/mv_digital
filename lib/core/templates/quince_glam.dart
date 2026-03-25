@@ -24,7 +24,6 @@ class QuinceGlamPage extends StatefulWidget {
 class _QuinceGlamPageState extends State<QuinceGlamPage> {
   final GlobalKey _countdownKey = GlobalKey();
 
-
   @override
   Widget build(BuildContext context) {
     final data = widget.data;

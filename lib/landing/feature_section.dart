@@ -23,7 +23,7 @@ class FeatureSection extends StatelessWidget {
           description:
           "Un mapa integrado para que tus invitados lleguen sin complicaciones.",
           image:
-          "assets/ubicacionEvento.jpeg",
+          "assets/ubicacionEvento.jpg",
         ),
 
         AppleFeature(
@@ -68,14 +68,7 @@ class AppleFeature extends StatelessWidget {
           /// IMAGEN
           ClipRRect(
             borderRadius: BorderRadius.circular(24),
-            child:Image.asset(
-              image,
-              height: 250,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              cacheWidth: 1200,
-              filterQuality: FilterQuality.low,
-            )
+            child:optimicedImage(image, height: 250, width: double.infinity)
           ),
 
           const SizedBox(height: 40),
@@ -96,20 +89,38 @@ class AppleFeature extends StatelessWidget {
           const SizedBox(width: 80),
 
           /// IMAGEN
-          Expanded(
+    Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                image,
-                height: 500,
-                fit: BoxFit.cover,
-                cacheWidth: 1400,
-                filterQuality: FilterQuality.low,
-              ),
+              child: optimicedImage(image, height: 500),
             ),
           ),
 
         ],
+      ),
+    );
+  }
+
+  Widget optimicedImage(String path, {double? width, double? height}) {
+    return Image.asset(
+      path,
+      width: width,
+      height: height,
+      fit: BoxFit.cover,
+      // 1. ESTO ES CLAVE: Muestra un color mientras carga la foto real
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded) return child;
+        return AnimatedOpacity(
+          opacity: frame == null ? 0 : 1,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+          child: child,
+        );
+      },
+      // 2. Fallback por si la RAM del cel falla al decodificar
+      errorBuilder: (context, error, stackTrace) => Container(
+        color: Colors.grey[900],
+        child: const Icon(Icons.broken_image, color: Colors.white24),
       ),
     );
   }

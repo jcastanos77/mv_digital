@@ -14,6 +14,7 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        cacheExtent: 200,
         slivers: [
           const LandingNavbar(),
           /// HERO

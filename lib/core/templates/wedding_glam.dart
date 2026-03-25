@@ -25,8 +25,19 @@ class WeddingGlamTemplate extends StatefulWidget {
 }
 
 class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
+  late ScrollController _scrollController;
 
-  final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,24 +49,28 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
       body: Stack(
         children: [
 
-          ListView(
+          CustomScrollView(
             controller: _scrollController,
-            children: [
+            cacheExtent: 100,
+            slivers: [
 
               /// HERO
-              WeddingHeroSection(
-                title: data.title,
-                eventDate: data.eventDate,
-                backgroundImage: data.heroImage,
+              SliverToBoxAdapter(
+                child: WeddingHeroSection(
+                  title: data.title,
+                  eventDate: data.eventDate,
+                  backgroundImage: data.heroImage,
+                ),
               ),
 
               /// COUNTDOWN
-              WeddingCountdownSection(
-                eventDate: data.eventDate,
-              ),
+              SliverToBoxAdapter(
+                  child: WeddingCountdownSection(eventDate: data.eventDate)),
 
               /// EVENT DETAILS
-              WeddingEventSection(
+    SliverToBoxAdapter(
+      child: RepaintBoundary(
+      child: WeddingEventSection(
                 ceremony: EventInfo(
                   imageUrl: data.ceremonyImage,
                   title: "CEREMONIA",
@@ -70,54 +85,52 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
                   time: data.receptionTime,
                   mapsUrl: data.receptionMaps,
                 ),
-              ),
+              ))),
 
               /// QUOTE
-              WeddingQuoteSection(
-                quote: data.quote,
-              ),
+              SliverToBoxAdapter(child: WeddingQuoteSection(quote: data.quote)),
 
               /// GALERIA
-              WeddingGallerySection(
-                images: data.gallery,
+              SliverToBoxAdapter(
+                child: RepaintBoundary(
+                  child: WeddingGallerySection(images: data.gallery),
+                ),
               ),
 
               /// RSVP
-              RsvpSection(
-                invitationId: data.id,
-              ),
-
-              const FooterSection(),
-
-              const SizedBox(height: 60),
+              SliverToBoxAdapter(child: RsvpSection(invitationId: data.id)),
+              const SliverToBoxAdapter(child: FooterSection()),
+              const SliverToBoxAdapter(child: SizedBox(height: 60)),
 
             ],
           ),
-
-          Positioned(
-            top: 40,
-            left: 20,
-            child: SafeArea(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(.3),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
-              ),
+          _buildBackButton(context),
+        ],
+      ),
+    );
+  }
+  Widget _buildBackButton(BuildContext context) {
+    return Positioned(
+      top: 40,
+      left: 20,
+      child: SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(.3),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 18,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

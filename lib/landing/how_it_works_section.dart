@@ -25,7 +25,7 @@ class HowItWorksSection extends StatelessWidget {
           description:
           "Adaptamos la invitación con los detalles de tu evento.",
           image:
-          "assets/personaliza.jpeg",
+          "assets/personaliza.jpg",
         ),
 
         AppleStep(
@@ -71,7 +71,7 @@ class AppleStep extends StatelessWidget {
         children: [
 
           /// IMAGEN
-          ClipRRect(
+          /*ClipRRect(
             borderRadius: BorderRadius.circular(24),
             child: Image.asset(
               image,
@@ -81,7 +81,7 @@ class AppleStep extends StatelessWidget {
               filterQuality: FilterQuality.low,
               gaplessPlayback: true
             ),
-          ),
+          ),*/
 
           const SizedBox(height: 40),
 
@@ -94,7 +94,7 @@ class AppleStep extends StatelessWidget {
         children: [
 
           /// IMAGEN
-          Expanded(
+          /*Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Image.asset(
@@ -104,7 +104,7 @@ class AppleStep extends StatelessWidget {
                 gaplessPlayback: true,
               ),
             ),
-          ),
+          ),*/
 
           const SizedBox(width: 80),
 

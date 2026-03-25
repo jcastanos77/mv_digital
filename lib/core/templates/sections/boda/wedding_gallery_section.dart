@@ -98,4 +98,28 @@ class WeddingGallerySection extends StatelessWidget {
       ),
     );
   }
+
+  Widget optimicedImage(String path, {double? width, double? height}) {
+    return Image.asset(
+      path,
+      width: width,
+      height: height,
+      fit: BoxFit.cover,
+      // 1. ESTO ES CLAVE: Muestra un color mientras carga la foto real
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded) return child;
+        return AnimatedOpacity(
+          opacity: frame == null ? 0 : 1,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+          child: child,
+        );
+      },
+      // 2. Fallback por si la RAM del cel falla al decodificar
+      errorBuilder: (context, error, stackTrace) => Container(
+        color: Colors.grey[900],
+        child: const Icon(Icons.broken_image, color: Colors.white24),
+      ),
+    );
+  }
 }

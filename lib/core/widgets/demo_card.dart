@@ -43,18 +43,10 @@ class _DemoCardState extends State<DemoCard> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(32),
-              // saveLayer: false es más rápido pero a veces da errores visuales, déjalo por defecto
               child: Stack(
                 children: [
                   /// IMAGEN CON CACHE DE TAMAÑO
-                  Image.asset(
-                    widget.image,
-                    height: double.infinity,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    // Evita procesar la imagen a máxima calidad en el scroll
-                    filterQuality: FilterQuality.none,
-                  ),
+                  optimicedImage(widget.image, height: double.infinity, width: double.infinity),
 
                   /// OVERLAY (Gradiente optimizado)
                   const Positioned.fill(
@@ -77,7 +69,7 @@ class _DemoCardState extends State<DemoCard> {
                     child: Text(
                       widget.title,
                       style: const TextStyle(
-                        fontSize: 26, // Un poco más pequeño para móviles
+                        fontSize: 26,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                         letterSpacing: .5,
@@ -89,6 +81,30 @@ class _DemoCardState extends State<DemoCard> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget optimicedImage(String path, {double? width, double? height}) {
+    return Image.asset(
+      path,
+      width: width,
+      height: height,
+      fit: BoxFit.cover,
+      // 1. ESTO ES CLAVE: Muestra un color mientras carga la foto real
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded) return child;
+        return AnimatedOpacity(
+          opacity: frame == null ? 0 : 1,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+          child: child,
+        );
+      },
+      // 2. Fallback por si la RAM del cel falla al decodificar
+      errorBuilder: (context, error, stackTrace) => Container(
+        color: Colors.grey[900],
+        child: const Icon(Icons.broken_image, color: Colors.white24),
       ),
     );
   }
