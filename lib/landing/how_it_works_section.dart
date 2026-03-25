@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,153 +6,136 @@ class HowItWorksSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
+    final isMobile = MediaQuery.of(context).size.width < 800;
 
-        AppleStep(
-          number: "01",
-          title: "Elige un diseño",
-          description:
-          "Selecciona una invitación elegante para tu boda o XV años.",
-          image:
-          "assets/elige.jpeg",
-        ),
+    const bg = Color(0xFF0F0F0F);
+    const champagne = Color(0xFFB08A5B);
+    const textSecondary = Color(0xFFB3B3B3);
 
-        AppleStep(
-          number: "02",
-          title: "Personalizamos tu invitación",
-          description:
-          "Adaptamos la invitación con los detalles de tu evento.",
-          image:
-          "assets/personaliza.jpg",
-        ),
+    return Container(
+      color: bg,
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 80 : 140,
+        horizontal: 24,
+      ),
+      child: Column(
+        children: [
 
-        AppleStep(
-          number: "03",
-          title: "Comparte el enlace",
-          description:
-          "Envía tu invitación digital a todos tus invitados.",
-          image:
-          "assets/comparte.jpeg",
-        ),
+          Text(
+            "Cómo funciona",
+            style: GoogleFonts.playfairDisplay(
+              fontSize: isMobile ? 36 : 52,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
 
-      ],
+          const SizedBox(height: 40),
+
+          const _Step(
+            number: "01",
+            title: "Elige un diseño",
+            description:
+            "Selecciona una invitación elegante para tu boda o XV años.",
+          ),
+
+          const _Divider(),
+
+          const _Step(
+            number: "02",
+            title: "Personalizamos tu invitación",
+            description:
+            "Adaptamos la invitación con los detalles de tu evento.",
+          ),
+
+          const _Divider(),
+
+          const _Step(
+            number: "03",
+            title: "Comparte el enlace",
+            description:
+            "Envía tu invitación digital a todos tus invitados.",
+          ),
+        ],
+      ),
     );
   }
 }
 
-class AppleStep extends StatelessWidget {
+class _Step extends StatelessWidget {
   final String number;
   final String title;
   final String description;
-  final String image;
 
-  const AppleStep({
-    super.key,
+  const _Step({
     required this.number,
     required this.title,
     required this.description,
-    required this.image,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 800;
 
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    const champagne = Color(0xFFB08A5B);
+    const textSecondary = Color(0xFFB3B3B3);
 
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: isMobile ? 80 : 160,
-        horizontal: isMobile ? 20 : 40,
-      ),
-      child: isMobile
-          ? Column(
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 40 : 80),
+      child: Column(
         children: [
 
-          /// IMAGEN
-          /*ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: Image.asset(
-              image,
-              height: 250,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
-              gaplessPlayback: true
+          Text(
+            number,
+            style: GoogleFonts.playfairDisplay(
+              fontSize: isMobile ? 60 : 100,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
             ),
-          ),*/
-
-          const SizedBox(height: 40),
-
-          _textContent(isMobile),
-
-        ],
-      )
-          : Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-
-          /// IMAGEN
-          /*Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                image,
-                height: 500,
-                fit: BoxFit.cover,
-                gaplessPlayback: true,
-              ),
-            ),
-          ),*/
-
-          const SizedBox(width: 80),
-
-          /// TEXTO
-          Expanded(
-            child: _textContent(isMobile),
           ),
 
+          const SizedBox(height: 20),
+
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.playfairDisplay(
+              fontSize: isMobile ? 28 : 42,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: Text(
+              description,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                fontSize: isMobile ? 15 : 18,
+                height: 1.6,
+                color: textSecondary,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _textContent(bool isMobile) {
-    return Column(
-      crossAxisAlignment:
-      isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-      children: [
+class _Divider extends StatelessWidget {
+  const _Divider();
 
-        Text(
-          number,
-          style: TextStyle(
-            fontSize: isMobile ? 50 : 80,
-            color: Colors.white24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-
-        Text(
-          title,
-          textAlign: isMobile ? TextAlign.center : TextAlign.left,
-          style: GoogleFonts.playfairDisplay(
-            fontSize: isMobile ? 32 : 54,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-
-        const SizedBox(height: 20),
-
-        Text(
-          description,
-          textAlign: isMobile ? TextAlign.center : TextAlign.left,
-          style: TextStyle(
-            fontSize: isMobile ? 16 : 20,
-            color: Colors.white70,
-          ),
-        ),
-
-      ],
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      width: 60,
+      height: 1,
+      color: const Color(0xFFB08A5B),
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,151 +6,119 @@ class FeatureSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
+    final isMobile = MediaQuery.of(context).size.width < 800;
 
-        AppleFeature(
-          title: "Confirmación de asistencia",
-          description:
-          "Tus invitados confirman su asistencia directamente desde la invitación.",
-          image:
-          "assets/cuentaRegresiva.jpg",
-        ),
+    const bg = Color(0xFF0F0F0F);
+    const textSecondary = Color(0xFFB3B3B3);
 
-        AppleFeature(
-          title: "Ubicación del evento",
-          description:
-          "Un mapa integrado para que tus invitados lleguen sin complicaciones.",
-          image:
-          "assets/ubicacionEvento.jpg",
-        ),
+    return Container(
+      color: bg,
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 80 : 140,
+        horizontal: 24,
+      ),
+      child: Column(
+        children: [
 
-        AppleFeature(
-          title: "Cuenta regresiva",
-          description:
-          "Un contador elegante para que todos esperen el gran día.",
-          image:
-          "assets/confirmaAsistencia.jpeg",
-        ),
+          Text(
+            "Todo lo que necesitas",
+            style: GoogleFonts.playfairDisplay(
+              fontSize: isMobile ? 34 : 48,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
 
-      ],
+          const SizedBox(height: 60),
+
+          Wrap(
+            spacing: 40,
+            runSpacing: 50,
+            alignment: WrapAlignment.center,
+            children: const [
+
+              _FeatureItem(
+                title: "Confirmación de asistencia",
+                description: "Tus invitados confirman fácilmente.",
+              ),
+
+              _FeatureItem(
+                title: "Ubicación del evento",
+                description: "Mapa integrado para llegar sin complicaciones.",
+              ),
+
+              _FeatureItem(
+                title: "Cuenta regresiva",
+                description: "Cuenta regresiva elegante en tiempo real.",
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
 
-class AppleFeature extends StatelessWidget {
+class _FeatureItem extends StatelessWidget {
   final String title;
   final String description;
-  final String image;
 
-  const AppleFeature({
-    super.key,
+  const _FeatureItem({
     required this.title,
     required this.description,
-    required this.image,
   });
 
   @override
   Widget build(BuildContext context) {
+    const champagne = Color(0xFFB08A5B);
+    const textSecondary = Color(0xFFB3B3B3);
 
-    bool isMobile = MediaQuery.of(context).size.width < 800;
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: isMobile ? 80 : 160,
-        horizontal: isMobile ? 20 : 40,
-      ),
-      child: isMobile
-          ? Column(
+    return SizedBox(
+      width: 260,
+      child: Column(
         children: [
 
-          /// IMAGEN
-          ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child:optimicedImage(image, height: 250, width: double.infinity)
-          ),
-
-          const SizedBox(height: 40),
-
-          _textContent(isMobile),
-
-        ],
-      )
-          : Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-
-          /// TEXTO
-          Expanded(
-            child: _textContent(isMobile),
-          ),
-
-          const SizedBox(width: 80),
-
-          /// IMAGEN
-    Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: optimicedImage(image, height: 500),
+          /// PUNTO MÁS PREMIUM
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: champagne,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: champagne.withOpacity(0.4),
+                  blurRadius: 8,
+                ),
+              ],
             ),
           ),
 
+          const SizedBox(height: 22),
+
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.playfairDisplay(
+              fontSize: 22,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          Text(
+            description,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
+              height: 1.6,
+              color: textSecondary,
+            ),
+          ),
         ],
       ),
-    );
-  }
-
-  Widget optimicedImage(String path, {double? width, double? height}) {
-    return Image.asset(
-      path,
-      width: width,
-      height: height,
-      fit: BoxFit.cover,
-      // 1. ESTO ES CLAVE: Muestra un color mientras carga la foto real
-      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-        if (wasSynchronouslyLoaded) return child;
-        return AnimatedOpacity(
-          opacity: frame == null ? 0 : 1,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOut,
-          child: child,
-        );
-      },
-      // 2. Fallback por si la RAM del cel falla al decodificar
-      errorBuilder: (context, error, stackTrace) => Container(
-        color: Colors.grey[900],
-        child: const Icon(Icons.broken_image, color: Colors.white24),
-      ),
-    );
-  }
-
-  Widget _textContent(bool isMobile) {
-    return Column(
-      crossAxisAlignment:
-      isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-      children: [
-
-        Text(
-          title,
-          textAlign: isMobile ? TextAlign.center : TextAlign.left,
-          style: GoogleFonts.playfairDisplay(
-            fontSize: isMobile ? 32 : 56,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-
-        const SizedBox(height: 20),
-
-        Text(
-          description,
-          textAlign: isMobile ? TextAlign.center : TextAlign.left,
-          style: TextStyle(
-            fontSize: isMobile ? 16 : 20,
-            color: Colors.white70,
-          ),
-        ),
-
-      ],
     );
   }
 }

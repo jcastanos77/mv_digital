@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DemoCard extends StatefulWidget {
   final String title;
@@ -31,22 +32,30 @@ class _DemoCardState extends State<DemoCard> {
           child: Container(
             width: 380,
             height: 320,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(32),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 15, // Bajamos un poco el peso de la sombra
-                  spreadRadius: -8,
-                  color: Colors.black.withAlpha(100), // Usamos withAlpha para mejor performance
-                ),
-              ],
-            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(32),
               child: Stack(
                 children: [
                   /// IMAGEN CON CACHE DE TAMAÑO
-                  optimicedImage(widget.image, height: double.infinity, width: double.infinity),
+                  optimicedImage(widget.image,
+                      width: double.infinity,
+                      height: 240),
+
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(.6),
+                            Colors.black.withOpacity(.9),
+                          ],
+                          begin: Alignment.center,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ),
 
                   /// OVERLAY (Gradiente optimizado)
                   const Positioned.fill(
@@ -63,19 +72,19 @@ class _DemoCardState extends State<DemoCard> {
 
                   /// TEXTO
                   Positioned(
-                    bottom: 30,
+                    bottom: 40,
                     left: 30,
                     right: 30,
                     child: Text(
                       widget.title,
-                      style: const TextStyle(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 26,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
-                        letterSpacing: .5,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
