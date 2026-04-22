@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mv_digital/models/invitation_model.dart';
 import 'package:mv_digital/themes/invitation_theme.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../widgets/scroll_indicator.dart';
 
 class BirthdayHero extends StatelessWidget {
@@ -87,7 +87,7 @@ class BirthdayHero extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  data.eventTime,
+                  formatearFecha(data.eventDate.toString()),
                   style: TextStyle(
                     fontFamily: theme.fontFamily,
                     fontSize: 18,
@@ -103,5 +103,10 @@ class BirthdayHero extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatearFecha(String fecha) {
+    DateTime date = DateTime.parse(fecha);
+    return DateFormat('dd-MM-yyyy').format(date);
   }
 }

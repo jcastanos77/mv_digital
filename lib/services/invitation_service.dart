@@ -93,4 +93,68 @@ class InvitationService {
 
   }
 
+  Future createInvitationBirthday({
+    required String slug,
+    required String template,
+    required String theme,
+    required String title,
+    required String heroImage,
+    required DateTime eventDate,
+    required String location,
+    required String mapsUrl,
+
+    String? quote,
+    String? ceremonyPlace,
+    String? ceremonyTime,
+    String? ceremonyImage,
+    String? ceremonyMaps,
+    String? receptionPlace,
+    String? receptionTime,
+    String? receptionImage,
+    String? receptionMaps,
+    String? dressCode,
+    List<String>? gallery,
+  }) async {
+
+    final docRef = _firestore.collection("invitations").doc(slug);
+
+    final data = {
+
+      /// BASICO
+      "slug": slug,
+      "template": template,
+      "theme": theme,
+      "title": title,
+      "quote": quote ?? "",
+      "heroImage": heroImage,
+      "mapsUrl": mapsUrl,
+      /// EVENTO
+      "eventDate": Timestamp.fromDate(eventDate),
+      "location": location,
+
+      /// OPCIONALES (solo si existen)
+      if(ceremonyPlace != null) "ceremonyPlace": ceremonyPlace,
+      if(ceremonyTime != null) "ceremonyTime": ceremonyTime,
+      if(ceremonyImage != null) "ceremonyImage": ceremonyImage,
+      if(ceremonyMaps != null) "ceremonyMaps": ceremonyMaps,
+
+      if(receptionPlace != null) "receptionPlace": receptionPlace,
+      if(receptionTime != null) "receptionTime": receptionTime,
+      if(receptionImage != null) "receptionImage": receptionImage,
+      if(receptionMaps != null) "receptionMaps": receptionMaps,
+      if(location != null) "location": location,
+      if(mapsUrl != null) "mapsUrl": mapsUrl,
+      if(dressCode != null) "dressCode": dressCode,
+
+      /// GALERIA
+      "gallery": gallery ?? [],
+
+      /// META
+      "createdAt": FieldValue.serverTimestamp(),
+    };
+
+    await docRef.set(data);
+  }
+
+
 }

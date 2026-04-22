@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mv_digital/models/invitation_model.dart';
 import 'package:mv_digital/themes/invitation_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,13 +55,13 @@ class BirthdayEventInfo extends StatelessWidget {
               _infoCard(
                 icon: Icons.access_time,
                 title: "Hora",
-                value: data.eventTime,
+                value: obtenerHora(data.eventDate.toString()),
               ),
 
               _infoCard(
                 icon: Icons.location_on,
                 title: "Lugar",
-                value: data.receptionPlace,
+                value: data.location,
               ),
 
             ],
@@ -98,6 +99,11 @@ class BirthdayEventInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String obtenerHora(String valor) {
+    final fecha = DateTime.parse(valor);
+    return DateFormat('HH:mm').format(fecha);
   }
 
   Widget _infoCard({

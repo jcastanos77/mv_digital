@@ -3,7 +3,9 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
 import 'admin/admin_dashboard.dart';
+import 'admin/create_invitation_birthday.dart';
 import 'admin/create_invitation_page.dart';
+import 'admin/select_invitation_type_page.dart';
 import 'firebase_options.dart';
 import 'invitation_loader_page.dart';
 import 'landing/landing_mv_page.dart';
@@ -63,6 +65,16 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/admin/create',
       builder: (context, state) => const CreateInvitationPage(),
+    ),
+
+    GoRoute(
+      path: "/admin/select-type",
+      builder: (_, __) => const SelectInvitationTypePage(),
+    ),
+
+    GoRoute(
+      path: "/admin/create-birthday",
+      builder: (_, __) => const BirthdayBuilderPage(),
     ),
 
   ],

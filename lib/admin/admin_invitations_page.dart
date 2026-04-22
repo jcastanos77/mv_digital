@@ -56,7 +56,7 @@ class AdminInvitationsPage extends StatelessWidget {
                 ElevatedButton.icon(
 
                   onPressed: (){
-                    context.go("/admin/create");
+                    context.go("/admin/select-type");
                   },
 
                   icon: const Icon(Icons.add, color: Colors.white,),
