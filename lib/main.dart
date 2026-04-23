@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mv_digital/rsvpsPage.dart';
 import 'admin/admin_dashboard.dart';
 import 'admin/create_invitation_birthday.dart';
 import 'admin/create_invitation_page.dart';
@@ -54,6 +55,17 @@ final GoRouter router = GoRouter(
         final slug = state.pathParameters['slug'];
         print(slug);
         return InvitationLoaderPage(slug: slug);
+      },
+    ),
+
+    GoRoute(
+      path: '/invitation/:slug/rsvps',
+      builder: (context, state) {
+        final slug = state.pathParameters['slug']!;
+
+        return RsvpsPage(
+          slug: slug,
+        );
       },
     ),
 

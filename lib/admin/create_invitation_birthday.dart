@@ -202,7 +202,8 @@ class _BirthdayBuilderPageState extends State<BirthdayBuilderPage> {
         eventDate: getFinalDateTime(),
         location: placeCtrl.text,
         gallery: galleryUrls,
-        mapsUrl: mapsCtrl.text,
+        receptionMaps: mapsCtrl.text,
+        mapsUrl: ""
       );
 
       if(context.mounted){

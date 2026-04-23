@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,6 +24,7 @@ class _RsvpSectionState extends State<RsvpSection> {
 
   String attendance = "Sí";
   bool submitted = false;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -113,22 +115,32 @@ class _RsvpSectionState extends State<RsvpSection> {
 
           const SizedBox(height: 30),
 
-          PrimaryButton(
+          loading ? CircularProgressIndicator() : PrimaryButton(
             text: "Confirmar asistencia",
-            onPressed: () {
+            onPressed: () async{
+              setState(() {
+                loading = true;
+              });
 
-              if (_formKey.currentState!.validate()) {
+              await FirebaseFirestore.instance
+                  .collection('invitations')
+                  .doc(widget.invitationId)
+                  .collection('rsvps')
+                  .add({
+                'nombre': _nameController.text.trim(),
+                'asistencia': attendance,
+                'invitados':
+                int.tryParse(_guestsController.text) ?? 0,
+                'createdAt':
+                FieldValue.serverTimestamp(),
+              });
 
-                print("Invitación: ${widget.invitationId}");
-                print("Nombre: ${_nameController.text}");
-                print("Invitados: ${_guestsController.text}");
-                print("Asistencia: $attendance");
-
-                setState(() {
-                  submitted = true;
-                });
-
-              }
+              setState(() {
+                submitted = true;
+                _nameController.clear();
+                _guestsController.clear();
+                loading = false;
+              });
 
             },
           )
