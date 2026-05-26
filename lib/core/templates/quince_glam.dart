@@ -12,10 +12,12 @@ import '../widgets/countdown_widget.dart';
 class QuinceGlamPage extends StatefulWidget {
 
   final InvitationModel data;
+  final bool fromPrincipalPage;
 
   const QuinceGlamPage({
     super.key,
     required this.data,
+    required this.fromPrincipalPage
   });
 
   @override
@@ -64,7 +66,7 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
               const FooterSection(),
               ],
           ),
-          Positioned(
+          widget.fromPrincipalPage ? Positioned(
             top: 40,
             left: 20,
             child: SafeArea(
@@ -88,7 +90,7 @@ class _QuinceGlamPageState extends State<QuinceGlamPage> {
                   )
               ),
             ),
-          ),
+          ) : Container(),
         ],
       ),
     );

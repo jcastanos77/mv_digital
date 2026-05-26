@@ -14,10 +14,12 @@ import '../../models/invitation_model.dart';
 class WeddingGlamTemplate extends StatefulWidget {
 
   final InvitationModel data;
+  final bool fromPrincipalPage;
 
   const WeddingGlamTemplate({
     super.key,
     required this.data,
+    required this.fromPrincipalPage
   });
 
   @override
@@ -104,7 +106,7 @@ class _WeddingGlamTemplateState extends State<WeddingGlamTemplate> {
 
             ],
           ),
-          _buildBackButton(context),
+          widget.fromPrincipalPage ? _buildBackButton(context): Container(),
         ],
       ),
     );

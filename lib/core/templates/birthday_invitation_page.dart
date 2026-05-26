@@ -14,18 +14,19 @@ class BirthdayInvitationPage extends StatelessWidget {
 
   final InvitationModel data;
   final InvitationTheme theme;
+  final bool fromPrincipalPage;
 
   const BirthdayInvitationPage({
     super.key,
     required this.data,
     required this.theme,
+    required this.fromPrincipalPage
   });
 
   @override
   Widget build(BuildContext context) {
 
-    final uri = Uri.base;
-    final themeName = uri.queryParameters["theme"];
+    final themeName = data.theme;
 
     final InvitationTheme theme =
     resolveBirthdayTheme(themeName);
@@ -63,7 +64,7 @@ class BirthdayInvitationPage extends StatelessWidget {
             const FooterSection(),
           ],
         ),
-          Positioned(
+          fromPrincipalPage ? Positioned(
             top: 40,
             left: 20,
             child: SafeArea(
@@ -87,7 +88,7 @@ class BirthdayInvitationPage extends StatelessWidget {
                   )
               ),
             ),
-          ),
+          ) : Container(),
         ]
       ),
     );

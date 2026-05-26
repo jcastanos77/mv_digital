@@ -24,11 +24,11 @@ class InvitationLoaderPage extends StatelessWidget {
 
     /// DEMOS
     if (slug == "demo-boda") {
-      return WeddingGlamTemplate(data: _demoWedding);
+      return WeddingGlamTemplate(data: _demoWedding, fromPrincipalPage: false,);
     }
 
     if (slug == "demo-xv") {
-      return QuinceGlamPage(data: _demoXV);
+      return QuinceGlamPage(data: _demoXV, fromPrincipalPage: false,);
     }
 
     if (slug == "demo-birthday") {
@@ -37,6 +37,7 @@ class InvitationLoaderPage extends StatelessWidget {
         theme: resolveBirthdayTheme(
           Uri.base.queryParameters["theme"],
         ),
+        fromPrincipalPage: false,
       );
     }
 
@@ -73,15 +74,16 @@ class InvitationLoaderPage extends StatelessWidget {
         switch (invitation.template) {
 
           case "quince_glam":
-            return QuinceGlamPage(data: invitation);
+            return QuinceGlamPage(data: invitation, fromPrincipalPage: false,);
 
           case "wedding_glam":
-            return WeddingGlamTemplate(data: invitation);
+            return WeddingGlamTemplate(data: invitation, fromPrincipalPage: false,);
 
           case "birthday":
             return BirthdayInvitationPage(
               theme: birthdayTheme,
               data: invitation,
+              fromPrincipalPage: false,
             );
 
           default:

@@ -185,19 +185,19 @@ class DemoSection extends StatelessWidget {
    Widget _buildBoda(BuildContext context) => DemoCard(
      title: "Boda",
      image: "assets/bodademo.jpeg",
-     onTap: () => _openPage(context, WeddingGlamTemplate(data: demoWedding)),
+     onTap: () => _openPage(context, WeddingGlamTemplate(data: demoWedding, fromPrincipalPage: true,)),
    );
 
    Widget _buildXV(BuildContext context) => DemoCard(
      title: "XV",
      image: "assets/xvdemo.jpeg",
-     onTap: () => _openPage(context, QuinceGlamPage(data: demoXV)),
+     onTap: () => _openPage(context, QuinceGlamPage(data: demoXV, fromPrincipalPage: true,)),
    );
 
    Widget _buildBirthday(BuildContext context) => DemoCard(
      title: "Cumpleaños",
      image: "assets/vaquero.jpg",
-     onTap: () => _openPage(context, BirthdayInvitationPage(data: _demoB, theme: resolveBirthdayTheme(Uri.base.queryParameters["theme"]))),
+     onTap: () => _openPage(context, BirthdayInvitationPage(data: _demoB, theme: resolveBirthdayTheme(Uri.base.queryParameters["theme"]), fromPrincipalPage: true)),
    );
 
    void _openPage(BuildContext context, Widget page) {

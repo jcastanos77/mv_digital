@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mv_digital/models/invitation_model.dart';
 import 'package:mv_digital/themes/invitation_theme.dart';
 
+import '../xv/fullscreen_gallery.dart';
+
 class BirthdayGallery extends StatelessWidget {
 
   final InvitationModel data;
@@ -42,39 +44,56 @@ class BirthdayGallery extends StatelessWidget {
 
           const SizedBox(height: 60),
 
-          LayoutBuilder(
-            builder: (context, constraints) {
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: data.gallery.length,
 
-              int columns = 2;
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: .8,
+            ),
 
-              if (constraints.maxWidth > 900) {
-                columns = 4;
-              } else if (constraints.maxWidth > 600) {
-                columns = 3;
-              }
+            itemBuilder: (context, index) {
 
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: data.gallery.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: columns,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                ),
-                itemBuilder: (context, index) {
+              final image = data.gallery[index];
 
-                  final image = data.gallery[index];
+              return GestureDetector(
+                onTap: () {
 
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      image,
-                      fit: BoxFit.cover,
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 350),
+                      pageBuilder: (_, animation, __) {
+
+                        return FadeTransition(
+                          opacity: animation,
+                          child: FullscreenGallery(
+                            images: data.gallery,
+                            initialIndex: index,
+                          ),
+                        );
+
+                      },
                     ),
                   );
 
                 },
+
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.low,
+                    cacheWidth: 900,
+                  ),
+
+                ),
               );
 
             },

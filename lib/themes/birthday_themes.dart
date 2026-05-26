@@ -31,4 +31,11 @@ class BirthdayThemes {
     fontFamily: "Poppins",
   );
 
+  static const kari = InvitationTheme(
+    primaryColor: Color(0xFFCDA2A2),
+    secondaryColor: Color(0xFF9B7F8C),
+    heroBackground: "assets/templates/birthday/pool/bg.jpg",
+    fontFamily: "Poppins",
+  );
+
 }

@@ -15,6 +15,8 @@ InvitationTheme resolveBirthdayTheme(String? theme) {
       return BirthdayThemes.neon;
     case "elegant":
       return BirthdayThemes.elegant;
+    case "kari":
+      return BirthdayThemes.kari;
 
 
     default:

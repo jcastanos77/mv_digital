@@ -24,6 +24,7 @@ class RsvpsPage extends StatelessWidget {
         child: StreamBuilder<QuerySnapshot>(
           stream: stream,
           builder: (context, snapshot) {
+
             if (!snapshot.hasData) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -56,65 +57,56 @@ class RsvpsPage extends StatelessWidget {
                 constraints:
                 const BoxConstraints(maxWidth: 1180),
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(32),
+                  padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
                   child: Column(
                     crossAxisAlignment:
                     CrossAxisAlignment.start,
                     children: [
 
                       /// HEADER
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: 58,
-                            height: 58,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(
-                                  18),
+
+                          Text(
+                            "Confirmaciones",
+                            style: TextStyle(
+                              fontSize: 26,
                               color: Colors.black,
-                            ),
-                            child: const Icon(
-                              Icons.groups_rounded,
-                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                              height: 1,
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Confirmaciones",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight:
-                                  FontWeight.w700,
-                                  color:
-                                  Color(0xff111111),
-                                ),
-                              ),
-                              Text(
-                                slug,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey[700],
-                                ),
-                              ),
-                            ],
-                          )
+
+                          const SizedBox(height: 6),
+
+                          Text(
+                            slug,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey[700],
+                            ),
+                          ),
                         ],
                       ),
 
                       const SizedBox(height: 28),
 
-                      GridView.count(
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+
+                      final mobile =
+                          constraints.maxWidth < 600;
+
+                      return GridView.count(
                         crossAxisCount: 2,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        crossAxisSpacing: 14,
-                        mainAxisSpacing: 14,
-                        childAspectRatio: 1.9,
+                        physics:
+                        NeverScrollableScrollPhysics(),
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        childAspectRatio:
+                        mobile ? 1.55 : 1.9,
                         children: [
 
                           _miniCard(
@@ -145,13 +137,14 @@ class RsvpsPage extends StatelessWidget {
                             Colors.blue,
                           ),
                         ],
-                      ),
+                      );}),
 
                       const SizedBox(height: 32),
 
                       const Text(
                         "Listado",
                         style: TextStyle(
+                          color: Colors.black,
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                         ),
@@ -254,6 +247,7 @@ class RsvpsPage extends StatelessWidget {
                                             nombre,
                                             style:
                                             const TextStyle(
+                                              color: Colors.black,
                                               fontSize:
                                               17,
                                               fontWeight:
@@ -329,63 +323,6 @@ class RsvpsPage extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-
-  Widget _kpiCard(
-      String title,
-      String value,
-      IconData icon,
-      Color color,
-      ) {
-    return Container(
-      width: 260,
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.05),
-            blurRadius: 14,
-            offset: const Offset(0, 8),
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: color.withOpacity(.12),
-              borderRadius:
-              BorderRadius.circular(16),
-            ),
-            child: Icon(icon, color: color),
-          ),
-          const SizedBox(width: 14),
-          Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
-            children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.grey[700],
-                ),
-              ),
-            ],
-          )
-        ],
       ),
     );
   }

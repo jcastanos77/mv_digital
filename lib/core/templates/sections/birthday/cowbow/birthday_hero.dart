@@ -30,7 +30,7 @@ class BirthdayHero extends StatelessWidget {
 
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.35),
+          color: Colors.black.withOpacity(0.55),
         ),
 
         child: Center(
@@ -39,7 +39,7 @@ class BirthdayHero extends StatelessWidget {
             children: [
 
               Text(
-                "Estás invitado a celebrar",
+                "Estás invitado a celebrar a:",
                 style: TextStyle(
                   fontFamily: theme.fontFamily,
                   fontSize: 22,
