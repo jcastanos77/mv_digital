@@ -114,6 +114,7 @@ class InvitationService {
     String? receptionMaps,
     String? dressCode,
     List<String>? gallery,
+    Map<String, dynamic>? snackBar,
   }) async {
 
     final docRef = _firestore.collection("invitations").doc(slug);
@@ -151,6 +152,7 @@ class InvitationService {
 
       /// META
       "createdAt": FieldValue.serverTimestamp(),
+      "snackBar": snackBar,
     };
 
     await docRef.set(data);

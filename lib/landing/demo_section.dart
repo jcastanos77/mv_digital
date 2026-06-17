@@ -5,6 +5,7 @@ import 'package:mv_digital/core/templates/wedding_glam.dart';
 import '../core/templates/birthday_invitation_page.dart';
 import '../core/widgets/demo_card.dart';
 import '../models/invitation_model.dart';
+import '../models/snackBar_model.dart';
 import '../themes/theme_resolver.dart';
 
 class DemoSection extends StatelessWidget {
@@ -53,6 +54,21 @@ class DemoSection extends StatelessWidget {
        "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1200&q=80",
        "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80",
      ],
+     infoAditional: "",
+     snackBar: SnackBarData(
+       image: 'assets/snacks/bg.jpg',
+       title: 'Zona de Snacks',
+       subtitle:
+       'Nuestra tripulación tendrá snacks listos para la misión submarina',
+       startTime: '4:00 PM',
+       endTime: '8:00 PM',
+       items: [
+         'Palomitas',
+         'Dulces',
+         'Bebidas',
+         'Snacks',
+       ],
+     ),
    );
 
    static final demoXV = InvitationModel(
@@ -90,7 +106,21 @@ class DemoSection extends StatelessWidget {
 
      /// DRESS CODE
      dressCode: "Formal Elegante",
-
+     infoAditional: "",
+     snackBar: SnackBarData(
+       image: 'assets/snacks/bg.jpg',
+       title: 'Zona de Snacks',
+       subtitle:
+       'Nuestra tripulación tendrá snacks listos para la misión submarina',
+       startTime: '4:00 PM',
+       endTime: '8:00 PM',
+       items: [
+         'Palomitas',
+         'Dulces',
+         'Bebidas',
+         'Snacks',
+       ],
+     ),
      /// GALERIA
      gallery: [
        "https://images.unsplash.com/photo-1763959951409-430bfebd5515?auto=format&fit=crop&w=1200&q=80",
@@ -124,6 +154,21 @@ class DemoSection extends StatelessWidget {
        "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
      ],
+     infoAditional: "",
+     snackBar: SnackBarData(
+       image: 'assets/snacks/bg.jpg',
+       title: 'Zona de Snacks',
+       subtitle:
+       'Nuestra tripulación tendrá snacks listos para la misión submarina',
+       startTime: '4:00 PM',
+       endTime: '8:00 PM',
+       items: [
+         'Palomitas',
+         'Dulces',
+         'Bebidas',
+         'Snacks',
+       ],
+     ),
    );
 
    @override

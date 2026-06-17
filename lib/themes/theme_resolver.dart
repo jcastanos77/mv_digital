@@ -17,7 +17,10 @@ InvitationTheme resolveBirthdayTheme(String? theme) {
       return BirthdayThemes.elegant;
     case "kari":
       return BirthdayThemes.kari;
-
+    case "pool":
+      return BirthdayThemes.pool;
+    case "toystory":
+      return BirthdayThemes.toyStory;
 
     default:
       return CowboyTheme.theme;

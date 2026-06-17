@@ -53,7 +53,6 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
 
         final slug = state.pathParameters['slug'];
-        print(slug);
         return InvitationLoaderPage(slug: slug);
       },
     ),

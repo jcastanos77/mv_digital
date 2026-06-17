@@ -94,7 +94,19 @@ class BirthdayEventInfo extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-          )
+          ),
+          const SizedBox(height: 20),
+
+          if (data.infoAditional.isNotEmpty) Text(
+            data.infoAditional,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: theme.fontFamily,
+              fontStyle: FontStyle.italic,
+              fontSize: 28,
+              color: theme.primaryColor,
+            ),
+          ),
 
         ],
       ),

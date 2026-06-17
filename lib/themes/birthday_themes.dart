@@ -38,4 +38,11 @@ class BirthdayThemes {
     fontFamily: "Poppins",
   );
 
+  static const toyStory = InvitationTheme(
+    primaryColor: Color(0xFF2196F3),
+    secondaryColor: Color(0xFFFFD54F),
+    heroBackground: "assets/templates/birthday/toy_story/bg.jpg",
+    fontFamily: "Fredoka",
+  );
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mv_digital/core/templates/birthday_invitation_page.dart';
+import 'package:mv_digital/core/templates/toy_story_page.dart';
 import 'package:mv_digital/core/templates/wedding_glam.dart';
 import 'package:mv_digital/core/templates/quince_glam.dart';
 import 'package:mv_digital/models/invitation_model.dart';
@@ -7,6 +8,7 @@ import 'package:mv_digital/services/invitation_service.dart';
 import 'package:mv_digital/themes/invitation_theme.dart';
 import 'package:mv_digital/themes/theme_resolver.dart';
 import 'landing/landing_mv_page.dart';
+import 'models/snackBar_model.dart';
 
 class InvitationLoaderPage extends StatelessWidget {
 
@@ -86,6 +88,12 @@ class InvitationLoaderPage extends StatelessWidget {
               fromPrincipalPage: false,
             );
 
+          case "toy_story":
+            return ToyStoryPage(
+              theme: birthdayTheme,
+              data: invitation,
+              fromPrincipalPage: false,
+            );
           default:
             return const LandingPage();
         }
@@ -117,6 +125,21 @@ final _demoXV = InvitationModel(
   receptionMaps: "https://maps.google.com",
   dressCode: "Formal elegante\nTonos pastel sugeridos",
   gallery: [],
+  infoAditional: "",
+  snackBar: SnackBarData(
+    image: 'assets/snacks/bg.jpg',
+    title: 'Zona de Snacks',
+    subtitle:
+    'Nuestra tripulación tendrá snacks listos para la misión submarina',
+    startTime: '4:00 PM',
+    endTime: '8:00 PM',
+    items: [
+      'Palomitas',
+      'Dulces',
+      'Bebidas',
+      'Snacks',
+    ],
+  ),
 );
 
 /// DEMO BODA
@@ -141,6 +164,21 @@ final _demoWedding = InvitationModel(
   receptionMaps: "https://maps.google.com",
   dressCode: "Formal elegante",
   gallery: [],
+    infoAditional: "",
+  snackBar: SnackBarData(
+    image: 'assets/snacks/bg.jpg',
+    title: 'Zona de Snacks',
+    subtitle:
+    'Nuestra tripulación tendrá snacks listos para la misión submarina',
+    startTime: '4:00 PM',
+    endTime: '8:00 PM',
+    items: [
+      'Palomitas',
+      'Dulces',
+      'Bebidas',
+      'Snacks',
+    ],
+  ),
 );
 
 final _demoBirthday = InvitationModel(
@@ -168,4 +206,19 @@ final _demoBirthday = InvitationModel(
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
     "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
   ],
+    infoAditional: "",
+  snackBar: SnackBarData(
+    image: 'assets/snacks/bg.jpg',
+    title: 'Zona de Snacks',
+    subtitle:
+    'Nuestra tripulación tendrá snacks listos para la misión submarina',
+    startTime: '4:00 PM',
+    endTime: '8:00 PM',
+    items: [
+      'Palomitas',
+      'Dulces',
+      'Bebidas',
+      'Snacks',
+    ],
+  ),
 );

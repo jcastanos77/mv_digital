@@ -6,6 +6,7 @@ import 'package:mv_digital/core/templates/sections/birthday/birthday_gallery.dar
 import 'package:mv_digital/core/templates/sections/birthday/cowbow/birthday_hero.dart';
 
 import '../../landing/cta_section.dart';
+import '../../landing/snack_bar_widget.dart';
 import '../../models/invitation_model.dart';
 import '../../themes/invitation_theme.dart';
 import '../../themes/theme_resolver.dart';
@@ -47,6 +48,11 @@ class BirthdayInvitationPage extends StatelessWidget {
             ),
 
             BirthdayEventInfo(
+              data: data,
+              theme: theme,
+            ),
+
+            if (data.snackBar!.title.isNotEmpty) BirthdaySnackBar(
               data: data,
               theme: theme,
             ),

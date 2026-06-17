@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mv_digital/models/snackBar_model.dart';
 
 class InvitationModel {
 
@@ -10,7 +11,7 @@ class InvitationModel {
   final String heroImage;
   final DateTime eventDate;
   final String eventTime;
-
+  final String infoAditional;
   /// TEXTO / FRASE
   final String quote;
 
@@ -35,6 +36,8 @@ class InvitationModel {
   /// GALERIA
   final List<String> gallery;
 
+  final SnackBarData? snackBar;
+
   InvitationModel({
     required this.id,
     required this.template,
@@ -55,6 +58,8 @@ class InvitationModel {
     required this.receptionMaps,
     required this.dressCode,
     required this.gallery,
+    required this.infoAditional,
+    required this.snackBar
   });
 
   factory InvitationModel.fromMap(String id, Map<String, dynamic> map) {
@@ -85,8 +90,11 @@ class InvitationModel {
       receptionMaps: map['receptionMaps'] ?? "",
 
       dressCode: map['dressCode'] ?? "",
-
+      infoAditional: map['infoAditional'] ?? "",
       gallery: List<String>.from(map['gallery'] ?? []),
+      snackBar: map['snackBar'] != null
+          ? SnackBarData.fromJson(map['snackBar'])
+          : null,
     );
 
   }

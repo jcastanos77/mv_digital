@@ -21,6 +21,10 @@ class _BirthdayBuilderPageState extends State<BirthdayBuilderPage> {
   final phraseCtrl = TextEditingController();
   final placeCtrl = TextEditingController();
   final mapsCtrl = TextEditingController();
+  final snackTitleCtrl = TextEditingController();
+  final snackSubtitleCtrl = TextEditingController();
+  final snackStartCtrl = TextEditingController();
+  final snackEndCtrl = TextEditingController();
 
   String selectedTheme = "cowboy";
 
@@ -203,7 +207,30 @@ class _BirthdayBuilderPageState extends State<BirthdayBuilderPage> {
         location: placeCtrl.text,
         gallery: galleryUrls,
         receptionMaps: mapsCtrl.text,
-        mapsUrl: ""
+        mapsUrl: "",
+        snackBar: {
+          "image":
+          "assets/snacks/mv_snacks.jpg",
+
+          "title":
+          snackTitleCtrl.text.trim(),
+
+          "subtitle":
+          snackSubtitleCtrl.text.trim(),
+
+          "startTime":
+          snackStartCtrl.text.trim(),
+
+          "endTime":
+          snackEndCtrl.text.trim(),
+
+          "items": [
+            "Gomitas",
+            "Frutas",
+            "Verduras",
+            "Sabritas",
+          ],
+        },
       );
 
       if(context.mounted){
@@ -333,6 +360,53 @@ class _BirthdayBuilderPageState extends State<BirthdayBuilderPage> {
 
             const SizedBox(height: 30),
 
+            const SizedBox(height: 30),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Barra de Snacks",
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 20,
+                  color: champagne,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            _input(
+              "Título",
+              snackTitleCtrl,
+            ),
+
+            _input(
+              "Descripción",
+              snackSubtitleCtrl,
+            ),
+
+            Row(
+              children: [
+
+                Expanded(
+                  child: _input(
+                    "Hora inicio",
+                    snackStartCtrl,
+                  ),
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: _input(
+                    "Hora final",
+                    snackEndCtrl,
+                  ),
+                ),
+
+              ],
+            ),
+            const SizedBox(height: 16),
             /// GALERIA
             ElevatedButton(
               onPressed: pickGallery,

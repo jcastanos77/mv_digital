@@ -38,14 +38,16 @@ class _BirthdayCountdownState extends State<BirthdayCountdown> {
   }
 
   void calculateRemaining() {
-
     final now = DateTime.now();
     final event = widget.data.eventDate;
 
-    setState(() {
-      remaining = event.difference(now);
-    });
+    final diff = event.difference(now);
 
+    setState(() {
+      remaining = diff.isNegative
+          ? Duration.zero
+          : diff;
+    });
   }
 
   @override
