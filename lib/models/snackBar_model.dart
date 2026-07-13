@@ -1,29 +1,33 @@
 class SnackBarData {
 
-  final String image;
   final String title;
   final String subtitle;
   final String startTime;
   final String endTime;
-  final List<String> items;
+
+  final bool snackBar;
+  final bool maruchanes;
+  final bool elotes;
 
   const SnackBarData({
-    required this.image,
     required this.title,
     required this.subtitle,
     required this.startTime,
     required this.endTime,
-    required this.items,
+    this.snackBar = false,
+    this.maruchanes = false,
+    this.elotes = false,
   });
 
   factory SnackBarData.fromJson(Map<String, dynamic> json) {
     return SnackBarData(
-      image: json['image'] ?? '',
       title: json['title'] ?? '',
       subtitle: json['subtitle'] ?? '',
       startTime: json['startTime'] ?? '',
       endTime: json['endTime'] ?? '',
-      items: List<String>.from(json['items'] ?? []),
+      snackBar: json['snackBar'] ?? false,
+      maruchanes: json['maruchanes'] ?? false,
+      elotes: json['elotes'] ?? false,
     );
   }
 }

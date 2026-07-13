@@ -22,24 +22,25 @@ class BirthdaySnackBar extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final items = snackBar.items.isNotEmpty
-        ? snackBar.items
-        : [
-      "🥒 Verduras",
-      "🍉 Frutas",
-      "🥔 Sabritas",
-      "🥜 Cacahuates",
-      "🍬 Gomitas",
+    final services = [
+      if (snackBar.snackBar)
+        ("🍿", "Barra de snacks"),
+
+      if (snackBar.maruchanes)
+        ("🍜", "Maruchanes"),
+
+      if (snackBar.elotes)
+        ("🌽", "Elotes preparados"),
     ];
 
     return Container(
       width: double.infinity,
       constraints: const BoxConstraints(
-        minHeight: 350,
+        minHeight: 450,
       ),
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('barra_mv.png'),
+          image: AssetImage('assets/barra_mv.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -52,7 +53,7 @@ class BirthdaySnackBar extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 24,
-              vertical: 80,
+              vertical: 60,
             ),
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -73,11 +74,11 @@ class BirthdaySnackBar extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      'logo_mv_digital.png',
+                      'assets/mv_log.png',
                       height: 220,
                     ),
 
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     Text(
                       snackBar.title,
@@ -105,84 +106,122 @@ class BirthdaySnackBar extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
-                        height: 1.6,
+                        height: 1.5,
                       ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 28,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.10),
-                        borderRadius: BorderRadius.circular(40),
-                        border: Border.all(
-                          color: theme.secondaryColor.withOpacity(.7),
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(
-                        '${snackBar.startTime} - ${snackBar.endTime}',
-                        style: TextStyle(
-                          color: theme.secondaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: items.map((item) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(.12),
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: Colors.white24,
-                            ),
-                          ),
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        );
-                      }).toList(),
                     ),
 
                     const SizedBox(height: 20),
 
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
+                        horizontal: 24,
+                        vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.08),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        'Barra de snacks incluida por MV Snacks Bar',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
+                        color: Colors.white.withOpacity(.10),
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: theme.secondaryColor.withOpacity(.6),
                         ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            color: theme.secondaryColor,
+                            size: 18,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${snackBar.startTime} - ${snackBar.endTime}',
+                            style: TextStyle(
+                              color: theme.secondaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    Text(
+                      'SERVICIOS DE HOY',
+                      style: TextStyle(
+                        fontFamily: theme.fontFamily,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: theme.secondaryColor,
+                        letterSpacing: 2,
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    ...services.map((service) {
+
+                      final emoji = service.$1;
+                      final title = service.$2;
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 16,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(.10),
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: Colors.white24,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+
+                            Container(
+                              width: 48,
+                              height: 48,
+                              decoration: BoxDecoration(
+                                color: theme.secondaryColor.withOpacity(.15),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  emoji,
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(width: 14),
+
+                            Expanded(
+                              child: Text(
+                                title,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+
+                    const SizedBox(height: 16),
+
+                    Text(
+                      'Preparado especialmente para todos los invitados ✨',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(.85),
+                        fontSize: 15,
                       ),
                     ),
                   ],

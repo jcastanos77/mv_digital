@@ -158,5 +158,93 @@ class InvitationService {
     await docRef.set(data);
   }
 
+  Future createInvitationBaptism({
+    required String slug,
+    required String template,
+    required String theme,
+
+    /// HERO
+    required String title,
+    required String heroImage,
+    required String quote,
+    required DateTime eventDate,
+
+    /// CEREMONIA
+    required String ceremonyPlace,
+    required String ceremonyTime,
+    required String ceremonyMaps,
+
+    /// RECEPCIÓN
+    required String receptionPlace,
+    required String receptionTime,
+    required String receptionMaps,
+
+    /// BAUTIZO
+    required String father,
+    required String mother,
+
+    required String godFather,
+    required String godMother,
+
+    required String bibleVerse,
+
+    /// GALERÍA
+    required List<String> gallery,
+
+    /// SNACK BAR
+    Map<String, dynamic>? snackBar,
+  }) async {
+
+    final docRef =
+    _firestore.collection("invitations").doc(slug);
+
+    await docRef.set({
+
+      /// BASICO
+      "slug": slug,
+      "template": template,
+      "theme": theme,
+
+      /// HERO
+      "title": title,
+      "heroImage": heroImage,
+      "quote": quote,
+
+      /// FECHA
+      "eventDate": Timestamp.fromDate(eventDate),
+      "eventTime": "",
+
+      /// CEREMONIA
+      "ceremonyPlace": ceremonyPlace,
+      "ceremonyTime": ceremonyTime,
+      "ceremonyImage": "",
+      "ceremonyMaps": ceremonyMaps,
+
+      /// RECEPCIÓN
+      "receptionPlace": receptionPlace,
+      "receptionTime": receptionTime,
+      "receptionImage": "",
+      "receptionMaps": receptionMaps,
+
+      /// BAUTIZO
+      "father": father,
+      "mother": mother,
+
+      "godFather": godFather,
+      "godMother": godMother,
+
+      "bibleVerse": bibleVerse,
+
+      /// GALERÍA
+      "gallery": gallery,
+
+      /// SNACK BAR
+      "snackBar": snackBar,
+
+      /// META
+      "createdAt": FieldValue.serverTimestamp(),
+    });
+  }
+
 
 }

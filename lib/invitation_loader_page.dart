@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mv_digital/core/templates/baptism_invitation_page.dart';
 import 'package:mv_digital/core/templates/birthday_invitation_page.dart';
 import 'package:mv_digital/core/templates/toy_story_page.dart';
 import 'package:mv_digital/core/templates/wedding_glam.dart';
@@ -41,6 +42,10 @@ class InvitationLoaderPage extends StatelessWidget {
         ),
         fromPrincipalPage: false,
       );
+    }
+
+    if (slug == "demo-bautizo") {
+      return BaptismGlamPage(data: _demoBaptism, fromPrincipalPage: false,);
     }
 
     /// INVITACION REAL
@@ -94,6 +99,13 @@ class InvitationLoaderPage extends StatelessWidget {
               data: invitation,
               fromPrincipalPage: false,
             );
+
+          case "baptism_glam":
+            return BaptismGlamPage(
+              data: invitation,
+              fromPrincipalPage: false,
+            );
+
           default:
             return const LandingPage();
         }
@@ -127,18 +139,68 @@ final _demoXV = InvitationModel(
   gallery: [],
   infoAditional: "",
   snackBar: SnackBarData(
-    image: 'assets/snacks/bg.jpg',
     title: 'Zona de Snacks',
     subtitle:
     'Nuestra tripulación tendrá snacks listos para la misión submarina',
     startTime: '4:00 PM',
     endTime: '8:00 PM',
-    items: [
-      'Palomitas',
-      'Dulces',
-      'Bebidas',
-      'Snacks',
-    ],
+
+  ),
+);
+
+
+final _demoBaptism = InvitationModel(
+  id: "demo_baptism",
+  template: "baptism_glam",
+  theme: "",
+
+  /// HERO
+  title: "Romina Alejandra",
+  heroImage:
+  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+  eventDate: DateTime(2026, 9, 19, 12, 0),
+  eventTime: "12:00 PM",
+  infoAditional: "",
+
+  /// FRASE
+  quote:
+  "Hoy recibo con alegría el sacramento del Bautismo. Gracias por acompañarme en este día tan especial.",
+
+  /// UBICACIÓN GENERAL
+  location: "Ciudad Obregón, Sonora",
+
+  /// CEREMONIA
+  ceremonyPlace: "Parroquia San Juan Bosco",
+  ceremonyTime: "12:00 PM",
+  ceremonyImage: "",
+  ceremonyMaps: "https://maps.google.com",
+
+  /// RECEPCIÓN
+  receptionPlace: "Quinta Los Álamos",
+  receptionTime: "2:00 PM",
+  receptionImage: "",
+  receptionMaps: "https://maps.google.com",
+
+  /// No aplica para bautizo
+  dressCode: "Formal",
+
+  /// GALERÍA
+  gallery: [],
+
+  /// BAUTIZO
+  father: "Jorge Castaños",
+  mother: "Daniela López",
+  godFather: "Carlos Ramírez",
+  godMother: "María Fernanda Soto",
+  bibleVerse:
+  "Dejad que los niños vengan a mí y no se lo impidáis, porque de los que son como ellos es el reino de Dios. — Marcos 10:14",
+
+  snackBar: SnackBarData(
+    title: "MV Snacks Bar",
+    subtitle:
+    "Disfruta de nuestra barra de snacks preparada especialmente para celebrar este gran día.",
+    startTime: "2:00 PM",
+    endTime: "6:00 PM",
   ),
 );
 
@@ -166,18 +228,11 @@ final _demoWedding = InvitationModel(
   gallery: [],
     infoAditional: "",
   snackBar: SnackBarData(
-    image: 'assets/snacks/bg.jpg',
     title: 'Zona de Snacks',
     subtitle:
     'Nuestra tripulación tendrá snacks listos para la misión submarina',
     startTime: '4:00 PM',
     endTime: '8:00 PM',
-    items: [
-      'Palomitas',
-      'Dulces',
-      'Bebidas',
-      'Snacks',
-    ],
   ),
 );
 
@@ -208,17 +263,10 @@ final _demoBirthday = InvitationModel(
   ],
     infoAditional: "",
   snackBar: SnackBarData(
-    image: 'assets/snacks/bg.jpg',
     title: 'Zona de Snacks',
     subtitle:
     'Nuestra tripulación tendrá snacks listos para la misión submarina',
     startTime: '4:00 PM',
     endTime: '8:00 PM',
-    items: [
-      'Palomitas',
-      'Dulces',
-      'Bebidas',
-      'Snacks',
-    ],
   ),
 );

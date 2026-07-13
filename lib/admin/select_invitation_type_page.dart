@@ -21,6 +21,7 @@ class SelectInvitationTypePage extends StatelessWidget {
               const Text(
                 "¿Qué quieres crear?",
                 style: TextStyle(
+                  color: Colors.black,
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
                 ),
@@ -43,6 +44,16 @@ class SelectInvitationTypePage extends StatelessWidget {
                 title: "Cumpleaños",
                 onTap: () {
                   context.go("/admin/create-birthday");
+                },
+              ),
+
+              const SizedBox(height: 20),
+
+              /// Bautizo
+              _card(
+                title: "Bautizo",
+                onTap: () {
+                  context.go("/admin/create-baptism");
                 },
               ),
             ],
@@ -72,6 +83,7 @@ class SelectInvitationTypePage extends StatelessWidget {
           child: Text(
             title,
             style: const TextStyle(
+              color: Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),

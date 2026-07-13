@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mv_digital/rsvpsPage.dart';
 import 'admin/admin_dashboard.dart';
+import 'admin/baptism_builder_page.dart';
 import 'admin/create_invitation_birthday.dart';
 import 'admin/create_invitation_page.dart';
 import 'admin/select_invitation_type_page.dart';
@@ -58,6 +59,12 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
+      path: '/demo/bautizo',
+      builder: (context, state) =>
+          InvitationLoaderPage(slug: "demo-bautizo"),
+    ),
+
+    GoRoute(
       path: '/invitation/:slug/rsvps',
       builder: (context, state) {
         final slug = state.pathParameters['slug']!;
@@ -86,6 +93,11 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: "/admin/create-birthday",
       builder: (_, __) => const BirthdayBuilderPage(),
+    ),
+
+    GoRoute(
+      path: "/admin/create-baptism",
+      builder: (_, __) => const BaptismBuilderPage(),
     ),
 
   ],

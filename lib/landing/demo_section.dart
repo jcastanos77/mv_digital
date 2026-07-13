@@ -56,18 +56,11 @@ class DemoSection extends StatelessWidget {
      ],
      infoAditional: "",
      snackBar: SnackBarData(
-       image: 'assets/snacks/bg.jpg',
        title: 'Zona de Snacks',
        subtitle:
        'Nuestra tripulación tendrá snacks listos para la misión submarina',
        startTime: '4:00 PM',
        endTime: '8:00 PM',
-       items: [
-         'Palomitas',
-         'Dulces',
-         'Bebidas',
-         'Snacks',
-       ],
      ),
    );
 
@@ -108,18 +101,11 @@ class DemoSection extends StatelessWidget {
      dressCode: "Formal Elegante",
      infoAditional: "",
      snackBar: SnackBarData(
-       image: 'assets/snacks/bg.jpg',
        title: 'Zona de Snacks',
        subtitle:
        'Nuestra tripulación tendrá snacks listos para la misión submarina',
        startTime: '4:00 PM',
        endTime: '8:00 PM',
-       items: [
-         'Palomitas',
-         'Dulces',
-         'Bebidas',
-         'Snacks',
-       ],
      ),
      /// GALERIA
      gallery: [
@@ -156,18 +142,11 @@ class DemoSection extends StatelessWidget {
      ],
      infoAditional: "",
      snackBar: SnackBarData(
-       image: 'assets/snacks/bg.jpg',
        title: 'Zona de Snacks',
        subtitle:
        'Nuestra tripulación tendrá snacks listos para la misión submarina',
        startTime: '4:00 PM',
        endTime: '8:00 PM',
-       items: [
-         'Palomitas',
-         'Dulces',
-         'Bebidas',
-         'Snacks',
-       ],
      ),
    );
 

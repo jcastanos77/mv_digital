@@ -52,7 +52,7 @@ class BirthdayInvitationPage extends StatelessWidget {
               theme: theme,
             ),
 
-            if (data.snackBar!.title.isNotEmpty) BirthdaySnackBar(
+            BirthdaySnackBar(
               data: data,
               theme: theme,
             ),

@@ -33,6 +33,13 @@ class InvitationModel {
   /// DRESS CODE
   final String dressCode;
 
+  /// BAUTIZO
+  final String? father;
+  final String? mother;
+  final String? godFather;
+  final String? godMother;
+  final String? bibleVerse;
+
   /// GALERIA
   final List<String> gallery;
 
@@ -59,7 +66,12 @@ class InvitationModel {
     required this.dressCode,
     required this.gallery,
     required this.infoAditional,
-    required this.snackBar
+    required this.snackBar,
+    this.father,
+    this.mother,
+    this.godFather,
+    this.godMother,
+    this.bibleVerse,
   });
 
   factory InvitationModel.fromMap(String id, Map<String, dynamic> map) {
@@ -95,6 +107,11 @@ class InvitationModel {
       snackBar: map['snackBar'] != null
           ? SnackBarData.fromJson(map['snackBar'])
           : null,
+      father: map['father'],
+      mother: map['mother'],
+      godFather: map['godFather'],
+      godMother: map['godMother'],
+      bibleVerse: map['bibleVerse'],
     );
 
   }
