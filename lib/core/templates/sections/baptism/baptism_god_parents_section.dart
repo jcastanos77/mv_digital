@@ -1,68 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BaptismGodParentsSection extends StatelessWidget {
   const BaptismGodParentsSection({
     super.key,
-    required this.godFather,
-    required this.godMother,
+    required this.godParents,
   });
 
-  final String godFather;
-  final String godMother;
+  final List<String> godParents;
 
   @override
   Widget build(BuildContext context) {
+    if (godParents.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    const gold = Color(0xFFB08D57);
+    const text = Color(0xFF444444);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
           const Icon(
-            Icons.volunteer_activism_outlined,
-            color: Color(0xFFD4AF37),
+            Icons.favorite_border_rounded,
+            color: gold,
             size: 34,
           ),
 
-          const SizedBox(height: 18),
+          const SizedBox(height: 20),
 
-          const Text(
-            "CON CARIÑO",
-            style: TextStyle(
-              fontSize: 15,
-              letterSpacing: 3,
-              fontWeight: FontWeight.w600,
+          Text(
+            "CON AMOR",
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
+              letterSpacing: 4,
+              fontWeight: FontWeight.w500,
               color: Colors.black54,
             ),
           ),
 
-          const SizedBox(height: 25),
+          const SizedBox(height: 22),
 
-          const Text(
+          Text(
             "Mis Padrinos",
-            style: TextStyle(
-              fontSize: 26,
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 44,
               fontWeight: FontWeight.w600,
+              color: gold,
             ),
           ),
 
           const SizedBox(height: 30),
 
-          Text(
-            godFather,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-            ),
-          ),
-
-          const SizedBox(height: 12),
-
-          Text(
-            godMother,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-            ),
-          ),
+          ...List.generate(godParents.length, (index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 18),
+              child: Text(
+                godParents[index],
+                textAlign: TextAlign.center,
+                style: GoogleFonts.cormorantGaramond(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
+                  color: text,
+                ),
+              ),
+            );
+          }),
         ],
       ),
     );

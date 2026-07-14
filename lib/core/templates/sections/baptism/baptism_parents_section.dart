@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BaptismParentsSection extends StatelessWidget {
   const BaptismParentsSection({
@@ -37,11 +38,12 @@ class BaptismParentsSection extends StatelessWidget {
 
           const SizedBox(height: 25),
 
-          const Text(
+          Text(
             "Mis Papás",
-            style: TextStyle(
-              fontSize: 26,
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 42,
               fontWeight: FontWeight.w600,
+              color: const Color(0xffB08D57),
             ),
           ),
 
@@ -49,19 +51,47 @@ class BaptismParentsSection extends StatelessWidget {
 
           Text(
             father,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 28,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF3E3E3E),
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 4),
+
+          Container(
+            width: 35,
+            height: 1,
+            color: const Color(0xFFB08D57),
+          ),
+
+          const SizedBox(height: 8),
+
+          Text(
+            "&",
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 22,
+              color: const Color(0xFFB08D57),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          Container(
+            width: 35,
+            height: 1,
+            color: const Color(0xFFB08D57),
+          ),
+
+          const SizedBox(height: 4),
 
           Text(
             mother,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 28,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF3E3E3E),
             ),
           ),
         ],

@@ -36,8 +36,7 @@ class InvitationModel {
   /// BAUTIZO
   final String? father;
   final String? mother;
-  final String? godFather;
-  final String? godMother;
+  List<String>? godParents;
   final String? bibleVerse;
 
   /// GALERIA
@@ -69,8 +68,7 @@ class InvitationModel {
     required this.snackBar,
     this.father,
     this.mother,
-    this.godFather,
-    this.godMother,
+    this.godParents,
     this.bibleVerse,
   });
 
@@ -109,8 +107,9 @@ class InvitationModel {
           : null,
       father: map['father'],
       mother: map['mother'],
-      godFather: map['godFather'],
-      godMother: map['godMother'],
+      godParents: List<String>.from(
+        map["godParents"] ?? [],
+      ),
       bibleVerse: map['bibleVerse'],
     );
 

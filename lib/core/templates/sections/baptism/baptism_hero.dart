@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class BaptismHero extends StatelessWidget {
@@ -56,29 +57,77 @@ class BaptismHero extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
 
-                    Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 42,
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(.08),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFB08D57).withOpacity(.45),
+                            blurRadius: 18,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                        child: Image.asset(
+                          "assets/cross_gold.png",
+                          width: 72,
+                          height: 72,
+                        ),
+                      ),
                     ),
 
-                    SizedBox(height: 18),
+                    const SizedBox(height: 12),
 
                     Text(
                       "Mi Bautizo",
+                      style: GoogleFonts.cormorantGaramond(
+                        color: Colors.white70,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 2,
+                      ),
                     ),
 
-                    SizedBox(height: 12),
+                    const SizedBox(height: 10),
 
                     Text(
                       title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.greatVibes(
+                        color: Colors.white,
+                        fontSize: 58,
+                      ),
                     ),
 
-                    SizedBox(height: 18),
+                    const SizedBox(height: 18),
+
+                    Container(
+                      width: 60,
+                      height: 1,
+                      color: Colors.white70,
+                    ),
+
+                    const SizedBox(height: 18),
 
                     Text(
-                      DateFormat("dd 'de' MMMM yyyy", "es")
-                          .format(eventDate),
+                      DateFormat(
+                        "dd/MM/yyyy",
+                      )
+                          .format(eventDate)
+                          .toUpperCase(),
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 3,
+                      ),
                     ),
                   ],
                 ),
@@ -87,7 +136,7 @@ class BaptismHero extends StatelessWidget {
           ),Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 70,
+              height: 45,
               decoration: const BoxDecoration(
                 color: Color(0xFFF8F5F1),
                 borderRadius: BorderRadius.only(

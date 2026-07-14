@@ -37,6 +37,7 @@ class DressCodeSection extends StatelessWidget {
 
           Text(
             "Código de vestimenta",
+            textAlign: TextAlign.center,
             style: GoogleFonts.playfairDisplay(
               fontSize: 28,
               color: const Color(0xFF3A2726),
@@ -46,10 +47,10 @@ class DressCodeSection extends StatelessWidget {
           const SizedBox(height: 20),
 
           Text(
-            "Formal elegante\nTonos pastel sugeridos",
+            dressCode,
             textAlign: TextAlign.center,
             style: GoogleFonts.montserrat(
-              fontSize: 14,
+              fontSize: 20,
               height: 1.6,
               color: const Color(0xFF6E5B55),
             ),

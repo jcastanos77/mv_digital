@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mv_digital/core/templates/sections/baptism/baptism_god_parents_section.dart';
 import 'package:mv_digital/core/templates/sections/baptism/baptism_parents_section.dart';
+import 'package:mv_digital/core/templates/sections/baptism/baptism_verse_section.dart';
+import 'package:mv_digital/core/templates/sections/xv/dress_code_section.dart';
 import 'package:mv_digital/core/templates/sections/xv/gallery_section.dart';
 
 import '../../landing/cta_section.dart';
+import '../../landing/snack_bar_widget.dart';
 import '../../models/invitation_model.dart';
 import '../widgets/countdown_widget.dart';
 import 'sections/baptism/baptism_hero.dart';
@@ -42,14 +45,19 @@ class _BaptismGlamPageState extends State<BaptismGlamPage> {
                 eventDate: data.eventDate,
               ),
 
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
 
               CountdownWidget(
                 key: _countdownKey,
                 eventDate: data.eventDate,
               ),
+              const SizedBox(height: 40),
 
-              const SizedBox(height: 60),
+              BaptismVerseSection(
+                verse: data.bibleVerse ?? "",
+              ),
+
+              const SizedBox(height: 40),
 
               BaptismEventDetailsSection(
                 ceremonyPlace: data.ceremonyPlace,
@@ -60,34 +68,30 @@ class _BaptismGlamPageState extends State<BaptismGlamPage> {
                 receptionMaps: data.receptionMaps,
               ),
 
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
 
               BaptismParentsSection(
                 father: data.father ?? '',
                 mother: data.mother ?? '',
               ),
 
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
 
               BaptismGodParentsSection(
-                godFather: data.godFather ?? '',
-                godMother: data.godMother ?? '',
+               godParents: data.godParents ?? [],
               ),
 
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
+
+              DressCodeSection(dressCode: data.dressCode),
+
+              const SizedBox(height: 40),
 
               GallerySection(
                 images: data.gallery,
               ),
 
-              const SizedBox(height: 60),
-
-              /*BirthdaySnackBar(
-                data: data,
-                theme: theme,
-              ),*/
-
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
 
               const FooterSection(),
             ],

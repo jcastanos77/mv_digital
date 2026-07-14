@@ -190,8 +190,7 @@ final _demoBaptism = InvitationModel(
   /// BAUTIZO
   father: "Jorge Castaños",
   mother: "Daniela López",
-  godFather: "Carlos Ramírez",
-  godMother: "María Fernanda Soto",
+  godParents: ["Daniela López", "Daniela López"],
   bibleVerse:
   "Dejad que los niños vengan a mí y no se lo impidáis, porque de los que son como ellos es el reino de Dios. — Marcos 10:14",
 
