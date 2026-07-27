@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mv_digital/core/templates/sections/baptism/baptism_gift_section.dart';
 import 'package:mv_digital/core/templates/sections/baptism/baptism_god_parents_section.dart';
 import 'package:mv_digital/core/templates/sections/baptism/baptism_parents_section.dart';
 import 'package:mv_digital/core/templates/sections/baptism/baptism_verse_section.dart';
@@ -45,8 +46,6 @@ class _BaptismGlamPageState extends State<BaptismGlamPage> {
                 eventDate: data.eventDate,
               ),
 
-              const SizedBox(height: 40),
-
               CountdownWidget(
                 key: _countdownKey,
                 eventDate: data.eventDate,
@@ -80,12 +79,18 @@ class _BaptismGlamPageState extends State<BaptismGlamPage> {
               BaptismGodParentsSection(
                godParents: data.godParents ?? [],
               ),
+              const SizedBox(height: 40),
+
+              BaptismGiftSection(
+                descriptionGift: data.descriptionGift ?? '',
+                titleGift: data.titleGift ?? '',
+              ),
 
               const SizedBox(height: 40),
 
               DressCodeSection(dressCode: data.dressCode),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
 
               GallerySection(
                 images: data.gallery,

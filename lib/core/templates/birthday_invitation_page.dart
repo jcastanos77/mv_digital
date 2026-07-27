@@ -3,6 +3,7 @@ import 'package:mv_digital/core/templates/sections/birthday/birthday_countdown.d
 import 'package:mv_digital/core/templates/sections/birthday/birthday_dress_code.dart';
 import 'package:mv_digital/core/templates/sections/birthday/birthday_event_info.dart';
 import 'package:mv_digital/core/templates/sections/birthday/birthday_gallery.dart';
+import 'package:mv_digital/core/templates/sections/birthday/birthday_gift.dart';
 import 'package:mv_digital/core/templates/sections/birthday/cowbow/birthday_hero.dart';
 
 import '../../landing/cta_section.dart';
@@ -52,7 +53,7 @@ class BirthdayInvitationPage extends StatelessWidget {
               theme: theme,
             ),
 
-            BirthdaySnackBar(
+            BirthdayGift(
               data: data,
               theme: theme,
             ),
@@ -63,6 +64,11 @@ class BirthdayInvitationPage extends StatelessWidget {
             ),
 
             BirthdayGallery(
+              data: data,
+              theme: theme,
+            ),
+
+            BirthdaySnackBar(
               data: data,
               theme: theme,
             ),

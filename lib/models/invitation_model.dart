@@ -14,6 +14,9 @@ class InvitationModel {
   final String infoAditional;
   /// TEXTO / FRASE
   final String quote;
+  final String? giftTitle;
+  final String? giftDescription;
+  final bool? showGift;
 
   /// UBICACION GENERAL
   final String location;
@@ -38,6 +41,8 @@ class InvitationModel {
   final String? mother;
   List<String>? godParents;
   final String? bibleVerse;
+  final String? titleGift;
+  final String? descriptionGift;
 
   /// GALERIA
   final List<String> gallery;
@@ -70,6 +75,11 @@ class InvitationModel {
     this.mother,
     this.godParents,
     this.bibleVerse,
+    this.descriptionGift,
+    this.titleGift,
+    this.giftDescription,
+    this.giftTitle,
+    this.showGift
   });
 
   factory InvitationModel.fromMap(String id, Map<String, dynamic> map) {
@@ -111,6 +121,11 @@ class InvitationModel {
         map["godParents"] ?? [],
       ),
       bibleVerse: map['bibleVerse'],
+      descriptionGift: map['descriptionGift'],
+      titleGift: map['titleGift'],
+      giftDescription: map['giftDescription'],
+      giftTitle: map['giftTitle'],
+        showGift: map['showGift'] ?? false
     );
 
   }

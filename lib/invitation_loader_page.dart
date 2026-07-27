@@ -8,6 +8,7 @@ import 'package:mv_digital/models/invitation_model.dart';
 import 'package:mv_digital/services/invitation_service.dart';
 import 'package:mv_digital/themes/invitation_theme.dart';
 import 'package:mv_digital/themes/theme_resolver.dart';
+import 'core/templates/spiderman_page.dart';
 import 'landing/landing_mv_page.dart';
 import 'models/snackBar_model.dart';
 
@@ -102,6 +103,12 @@ class InvitationLoaderPage extends StatelessWidget {
 
           case "baptism_glam":
             return BaptismGlamPage(
+              data: invitation,
+              fromPrincipalPage: false,
+            );
+
+          case "spiderman":
+            return SpidermanPage(
               data: invitation,
               fromPrincipalPage: false,
             );

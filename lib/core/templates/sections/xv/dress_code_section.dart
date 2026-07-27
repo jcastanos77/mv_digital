@@ -38,9 +38,10 @@ class DressCodeSection extends StatelessWidget {
           Text(
             "Código de vestimenta",
             textAlign: TextAlign.center,
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 28,
-              color: const Color(0xFF3A2726),
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 38,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFFB08D57),
             ),
           ),
 

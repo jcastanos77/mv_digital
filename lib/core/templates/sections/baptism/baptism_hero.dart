@@ -133,10 +133,12 @@ class BaptismHero extends StatelessWidget {
                 ),
               ),
             ),
-          ),Align(
-            alignment: Alignment.bottomCenter,
+          ),Positioned(
+            left: 0,
+            right: 0,
+            bottom: -1,
             child: Container(
-              height: 45,
+              height: 46,
               decoration: const BoxDecoration(
                 color: Color(0xFFF8F5F1),
                 borderRadius: BorderRadius.only(

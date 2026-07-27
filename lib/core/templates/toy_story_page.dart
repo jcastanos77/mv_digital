@@ -3,6 +3,7 @@ import 'package:mv_digital/core/templates/sections/birthday/birthday_countdown.d
 import 'package:mv_digital/core/templates/sections/birthday/birthday_dress_code.dart';
 import 'package:mv_digital/core/templates/sections/birthday/birthday_event_info.dart';
 import 'package:mv_digital/core/templates/sections/birthday/birthday_gallery.dart';
+import 'package:mv_digital/core/templates/sections/birthday/birthday_gift.dart';
 import 'package:mv_digital/core/templates/sections/birthday/cowbow/birthday_hero.dart';
 import 'package:mv_digital/core/templates/sections/toystory/toy_story_hero.dart';
 
@@ -49,6 +50,11 @@ class ToyStoryPage extends StatelessWidget {
                 ),
 
                 BirthdayEventInfo(
+                  data: data,
+                  theme: theme,
+                ),
+
+                BirthdayGift(
                   data: data,
                   theme: theme,
                 ),

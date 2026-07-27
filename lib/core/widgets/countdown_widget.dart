@@ -51,7 +51,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
           Text(
             "FALTAN",
             style: GoogleFonts.montserrat(
-              fontSize: 12,
+              fontSize: 16,
               letterSpacing: 4,
               color: const Color(0xFF8C7B75),
             ),
