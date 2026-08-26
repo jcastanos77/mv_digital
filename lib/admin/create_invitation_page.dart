@@ -1,23 +1,24 @@
 import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:mv_digital/services/invitation_service.dart';
 
 class CreateInvitationPage extends StatefulWidget {
   const CreateInvitationPage({super.key});
 
   @override
-  State<CreateInvitationPage> createState() => _CreateInvitationPageState();
+  State<CreateInvitationPage> createState() =>
+      _CreateInvitationPageState();
 }
 
 class _CreateInvitationPageState extends State<CreateInvitationPage> {
-
   final _formKey = GlobalKey<FormState>();
 
-  final slug = TextEditingController();
   final title = TextEditingController();
   final quote = TextEditingController();
 
@@ -36,6 +37,8 @@ class _CreateInvitationPageState extends State<CreateInvitationPage> {
   String template = "wedding_glam";
   String theme = "cowboy";
 
+  String generatedSlug = "";
+
   final picker = ImagePicker();
 
   Uint8List? heroImage;
@@ -47,158 +50,241 @@ class _CreateInvitationPageState extends State<CreateInvitationPage> {
   String ceremonyImageUrl = "";
   String receptionImageUrl = "";
 
-  List<Uint8List> galleryImages = [];
-  List<String> galleryUrls = [];
+  final List<Uint8List> galleryImages = [];
+  final List<String> galleryUrls = [];
 
   bool loading = false;
 
-  /// HERO
-  Future pickHero() async {
-    final XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    if(file == null) return;
+  // ========================================
+  // HELPERS
+  // ========================================
+
+  bool get isBirthday => template == "birthday";
+
+  bool get isQuinceWithoutImages =>
+      template == "quince_sin_imagen";
+
+  bool get requiresImages =>
+      !isQuinceWithoutImages;
+
+  String generateSlug(String name) {
+    final normalized = name
+        .toLowerCase()
+        .trim()
+        .replaceAll(RegExp(r'[áàäâ]'), 'a')
+        .replaceAll(RegExp(r'[éèëê]'), 'e')
+        .replaceAll(RegExp(r'[íìïî]'), 'i')
+        .replaceAll(RegExp(r'[óòöô]'), 'o')
+        .replaceAll(RegExp(r'[úùüû]'), 'u')
+        .replaceAll('ñ', 'n')
+        .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
+        .replaceAll(RegExp(r'^-|-$'), '');
+
+    final timestamp =
+    DateTime.now().millisecondsSinceEpoch.toString();
+
+    return "$normalized-$timestamp";
+  }
+
+  // ========================================
+  // PICK IMAGES
+  // ========================================
+
+  Future<void> pickHero() async {
+    final XFile? file = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (file == null) return;
+
     heroImage = await file.readAsBytes();
+
     setState(() {});
   }
 
-  /// GALLERY
-  Future pickGallery() async {
-
+  Future<void> pickGallery() async {
     final files = await picker.pickMultiImage();
-    if(files.isEmpty) return;
 
-    for(final f in files){
-      galleryImages.add(await f.readAsBytes());
+    if (files.isEmpty) return;
+
+    galleryImages.clear();
+
+    for (final file in files) {
+      galleryImages.add(await file.readAsBytes());
     }
 
     setState(() {});
   }
 
-  Future pickCeremonyImage() async {
-    final file = await picker.pickImage(source: ImageSource.gallery);
-    if(file == null) return;
+  Future<void> pickCeremonyImage() async {
+    final file = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (file == null) return;
+
     ceremonyImageBytes = await file.readAsBytes();
+
     setState(() {});
   }
 
-  Future pickReceptionImage() async {
-    final file = await picker.pickImage(source: ImageSource.gallery);
-    if(file == null) return;
+  Future<void> pickReceptionImage() async {
+    final file = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (file == null) return;
+
     receptionImageBytes = await file.readAsBytes();
+
     setState(() {});
   }
 
-  Future uploadCeremonyImage() async {
+  // ========================================
+  // IMAGE UPLOAD
+  // ========================================
 
-    if(ceremonyImageBytes == null) return;
+  Future<void> uploadCeremonyImage() async {
+    if (ceremonyImageBytes == null) return;
+
+    final resized =
+    await resizeImage(ceremonyImageBytes!, 1200);
 
     final ref = FirebaseStorage.instance
         .ref()
-        .child("ceremony/${slug.text}.jpg");
+        .child("ceremony/$generatedSlug.jpg");
 
-    await ref.putData(ceremonyImageBytes!);
+    await ref.putData(resized);
+
     ceremonyImageUrl = await ref.getDownloadURL();
   }
 
-  Future uploadReceptionImage() async {
+  Future<void> uploadReceptionImage() async {
+    if (receptionImageBytes == null) return;
 
-    if(receptionImageBytes == null) return;
+    final resized =
+    await resizeImage(receptionImageBytes!, 1200);
 
     final ref = FirebaseStorage.instance
         .ref()
-        .child("reception/${slug.text}.jpg");
+        .child("reception/$generatedSlug.jpg");
 
-    await ref.putData(receptionImageBytes!);
+    await ref.putData(resized);
+
     receptionImageUrl = await ref.getDownloadURL();
   }
 
-  Future uploadHero() async {
+  Future<void> uploadHero() async {
+    if (heroImage == null) return;
 
-    if(heroImage == null) return;
-
-    final resized = await resizeImage(heroImage!,1600);
+    final resized = await resizeImage(
+      heroImage!,
+      1600,
+    );
 
     final ref = FirebaseStorage.instance
         .ref()
-        .child("heroes/${slug.text}.jpg");
+        .child("heroes/$generatedSlug.jpg");
 
     await ref.putData(resized);
+
     heroUrl = await ref.getDownloadURL();
   }
 
-  Future uploadGallery() async {
-
+  Future<void> uploadGallery() async {
     galleryUrls.clear();
 
-    for(int i=0;i<galleryImages.length;i++){
-
-      final resized = await resizeImage(galleryImages[i],1400);
+    for (int i = 0; i < galleryImages.length; i++) {
+      final resized = await resizeImage(
+        galleryImages[i],
+        1400,
+      );
 
       final ref = FirebaseStorage.instance
           .ref()
-          .child("gallery/${slug.text}/$i.jpg");
+          .child("gallery/$generatedSlug/$i.jpg");
 
       await ref.putData(resized);
 
       final url = await ref.getDownloadURL();
+
       galleryUrls.add(url);
     }
   }
 
-  Future create() async {
+  // ========================================
+  // CREATE INVITATION
+  // ========================================
 
-    if(!_formKey.currentState!.validate()) return;
+  Future<void> create() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    generatedSlug = generateSlug(title.text);
 
     setState(() {
       loading = true;
     });
 
-    try{
-
-      await uploadHero();
-      await uploadCeremonyImage();
-      await uploadReceptionImage();
-      await uploadGallery();
-
-      await InvitationService().createInvitation(
-        slug: slug.text.trim(),
-        template: template,
-        theme: theme,
-        title: title.text,
-        heroImage: heroUrl,
-        quote: quote.text,
-        eventDate: eventDate,
-        location: location.text,
-        ceremonyPlace: ceremonyPlace.text,
-        ceremonyTime: ceremonyTime.text,
-        ceremonyImage: ceremonyImageUrl,
-        ceremonyMaps: ceremonyMaps.text,
-        receptionPlace: receptionPlace.text,
-        receptionTime: receptionTime.text,
-        receptionImage: receptionImageUrl,
-        receptionMaps: receptionMaps.text,
-        dressCode: dressCode.text,
-        gallery: galleryUrls,
-      );
-
-      if(context.mounted){
-        context.go("/admin");
+    try {
+      if (requiresImages) {
+        await Future.wait([
+          uploadHero(),
+          uploadCeremonyImage(),
+          uploadReceptionImage(),
+          uploadGallery(),
+        ]);
       }
 
-    }catch(e){
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
+      await InvitationService().createInvitation(
+        slug: generatedSlug,
+        template: template,
+        theme: theme,
+        title: title.text.trim(),
+        heroImage: requiresImages ? heroUrl : "",
+        quote: quote.text.trim(),
+        eventDate: eventDate,
+        location: location.text.trim(),
+        ceremonyPlace: ceremonyPlace.text.trim(),
+        ceremonyTime: ceremonyTime.text.trim(),
+        ceremonyImage:
+        requiresImages ? ceremonyImageUrl : "",
+        ceremonyMaps: ceremonyMaps.text.trim(),
+        receptionPlace: receptionPlace.text.trim(),
+        receptionTime: receptionTime.text.trim(),
+        receptionImage:
+        requiresImages ? receptionImageUrl : "",
+        receptionMaps: receptionMaps.text.trim(),
+        dressCode: dressCode.text.trim(),
+        gallery: requiresImages ? galleryUrls : [],
       );
 
+      if (context.mounted) {
+        context.go("/admin");
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Error al crear la invitación: $e",
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          loading = false;
+        });
+      }
     }
-
-    setState(() {
-      loading = false;
-    });
   }
 
-  Future pickDate() async {
+  // ========================================
+  // DATE
+  // ========================================
 
+  Future<void> pickDate() async {
     final picked = await showDatePicker(
       context: context,
       initialDate: eventDate,
@@ -206,30 +292,59 @@ class _CreateInvitationPageState extends State<CreateInvitationPage> {
       lastDate: DateTime(2030),
     );
 
-    if(picked != null){
+    if (picked != null) {
       eventDate = picked;
+
       setState(() {});
     }
   }
 
-  Future<Uint8List> resizeImage(Uint8List bytes,int width) async {
+  // ========================================
+  // RESIZE IMAGE
+  // ========================================
 
-    final decoded = img.decodeImage(bytes)!;
+  Future<Uint8List> resizeImage(
+      Uint8List bytes,
+      int width,
+      ) async {
+    final decoded = img.decodeImage(bytes);
 
-    final resized = img.copyResize(decoded,width: width);
+    if (decoded == null) {
+      throw Exception("No se pudo procesar la imagen");
+    }
 
-    final jpg = img.encodeJpg(resized,quality: 80);
+    final resized = img.copyResize(
+      decoded,
+      width: width,
+    );
+
+    final jpg = img.encodeJpg(
+      resized,
+      quality: 80,
+    );
 
     return Uint8List.fromList(jpg);
   }
 
-  Widget input(String label, TextEditingController controller) {
+  // ========================================
+  // INPUT
+  // ========================================
 
+  Widget input(
+      String label,
+      TextEditingController controller,
+      ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom:20),
+      padding: const EdgeInsets.only(bottom: 20),
       child: TextFormField(
         controller: controller,
-        validator: (v)=>v!.isEmpty?"Campo requerido":null,
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return "Campo requerido";
+          }
+
+          return null;
+        },
         decoration: InputDecoration(
           labelText: label,
           filled: true,
@@ -238,6 +353,13 @@ class _CreateInvitationPageState extends State<CreateInvitationPage> {
             borderRadius: BorderRadius.circular(14),
             borderSide: const BorderSide(
               color: Color(0xFFE5E5EA),
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(
+              color: Color(0xFFB76E79),
+              width: 2,
             ),
           ),
           border: OutlineInputBorder(
@@ -249,10 +371,16 @@ class _CreateInvitationPageState extends State<CreateInvitationPage> {
     );
   }
 
-  Widget section(String title,List<Widget> children){
+  // ========================================
+  // SECTION
+  // ========================================
 
+  Widget section(
+      String title,
+      List<Widget> children,
+      ) {
     return Container(
-      margin: const EdgeInsets.only(bottom:40),
+      margin: const EdgeInsets.only(bottom: 40),
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -264,34 +392,59 @@ class _CreateInvitationPageState extends State<CreateInvitationPage> {
           BoxShadow(
             color: Colors.black.withOpacity(.04),
             blurRadius: 10,
-            offset: const Offset(0,4),
-          )
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.black87,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
 
-          Text(title,
-              style: const TextStyle(
-                fontSize:20,
-                color: Colors.black87,
-                fontWeight: FontWeight.w600,
-              )),
+          const SizedBox(height: 20),
 
-          const SizedBox(height:20),
-
-          ...children
+          ...children,
         ],
       ),
     );
   }
 
+  // ========================================
+  // DISPOSE
+  // ========================================
+
+  @override
+  void dispose() {
+    title.dispose();
+    quote.dispose();
+
+    ceremonyPlace.dispose();
+    ceremonyTime.dispose();
+    receptionPlace.dispose();
+    receptionTime.dispose();
+    dressCode.dispose();
+    location.dispose();
+
+    ceremonyMaps.dispose();
+    receptionMaps.dispose();
+
+    super.dispose();
+  }
+
+  // ========================================
+  // BUILD
+  // ========================================
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       backgroundColor: const Color(0xffF2F2F7),
 
       appBar: AppBar(
@@ -306,216 +459,374 @@ class _CreateInvitationPageState extends State<CreateInvitationPage> {
           ),
         ),
       ),
+
       body: Center(
         child: ConstrainedBox(
-
-          constraints: const BoxConstraints(maxWidth:900),
-
+          constraints: const BoxConstraints(
+            maxWidth: 900,
+          ),
           child: Padding(
             padding: const EdgeInsets.all(40),
 
             child: Form(
-
               key: _formKey,
 
               child: ListView(
-
                 children: [
 
-                  /// BASICO
-                  section("Información básica",[
+                  // ========================================
+                  // INFORMACIÓN BÁSICA
+                  // ========================================
 
-                    input("Slug",slug),
+                  section(
+                    "Información básica",
+                    [
+                      input(
+                        "Título / Nombre",
+                        title,
+                      ),
 
-                    input("Título",title),
+                      input(
+                        "Frase o mensaje",
+                        quote,
+                      ),
 
-                    input("Quote",quote),
-
-                    ElevatedButton(
-                      onPressed: pickHero,
-                      child: const Text("Seleccionar Hero"),
-                    ),
-
-                    if(heroImage!=null)
-                      Image.memory(heroImage!,height:200,fit:BoxFit.cover),
-
-                  ]),
-
-                  /// EVENTO
-                  section("Evento",[
-
-                    ListTile(
-                      title: const Text("Fecha"),
-                      subtitle: Text(eventDate.toString()),
-                      trailing: const Icon(Icons.calendar_month),
-                      onTap: pickDate,
-                    ),
-
-                    const SizedBox(height:20),
-
-                    DropdownButtonFormField(
-
-                      value: template,
-
-                      items: const [
-
-                        DropdownMenuItem(
-                          value: "wedding_glam",
-                          child: Text("Wedding Glam"),
+                      if (requiresImages) ...[
+                        ElevatedButton.icon(
+                          onPressed: pickHero,
+                          icon: const Icon(
+                            Icons.image_outlined,
+                          ),
+                          label: const Text(
+                            "Seleccionar imagen principal",
+                          ),
                         ),
 
-                        DropdownMenuItem(
-                          value: "quince_glam",
-                          child: Text("XV Glam"),
-                        ),
+                        if (heroImage != null) ...[
+                          const SizedBox(height: 20),
 
-                        DropdownMenuItem(
-                          value: "birthday",
-                          child: Text("Cumpleaños"),
-                        ),
+                          ClipRRect(
+                            borderRadius:
+                            BorderRadius.circular(14),
+                            child: Image.memory(
+                              heroImage!,
+                              height: 200,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ],
+                  ),
 
+                  // ========================================
+                  // EVENTO
+                  // ========================================
+
+                  section(
+                    "Evento",
+                    [
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text("Fecha"),
+                        subtitle: Text(
+                          "${eventDate.day}/${eventDate.month}/${eventDate.year}",
+                        ),
+                        trailing: const Icon(
+                          Icons.calendar_month,
+                        ),
+                        onTap: pickDate,
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      DropdownButtonFormField<String>(
+                        value: template,
+                        items: const [
+                          DropdownMenuItem(
+                            value: "wedding_glam",
+                            child: Text("Wedding Glam"),
+                          ),
+
+                          DropdownMenuItem(
+                            value: "quince_glam",
+                            child: Text("XV Glam"),
+                          ),
+
+                          DropdownMenuItem(
+                            value: "quince_sin_imagen",
+                            child: Text("XV Princesa 🦋"),
+                          ),
+
+                          DropdownMenuItem(
+                            value: "birthday",
+                            child: Text("Cumpleaños"),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          if (value == null) return;
+
+                          setState(() {
+                            template = value;
+
+                            // Limpiamos imágenes
+                            // si selecciona XV sin imágenes
+                            if (isQuinceWithoutImages) {
+                              heroImage = null;
+                              ceremonyImageBytes = null;
+                              receptionImageBytes = null;
+                              galleryImages.clear();
+                            }
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          labelText: "Template",
+                        ),
+                      ),
+
+                      if (isBirthday) ...[
+                        const SizedBox(height: 20),
+
+                        DropdownButtonFormField<String>(
+                          value: theme,
+                          items: const [
+                            DropdownMenuItem(
+                              value: "cowboy",
+                              child: Text("Cowboy"),
+                            ),
+
+                            DropdownMenuItem(
+                              value: "pool",
+                              child: Text("Albercada"),
+                            ),
+
+                            DropdownMenuItem(
+                              value: "neon",
+                              child: Text("Neón"),
+                            ),
+
+                            DropdownMenuItem(
+                              value: "elegant",
+                              child: Text("Elegante"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            if (value == null) return;
+
+                            setState(() {
+                              theme = value;
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Tema cumpleaños",
+                          ),
+                        ),
                       ],
 
-                      onChanged: (v){
-                        template = v!;
-                        setState(() {});
-                      },
+                      const SizedBox(height: 20),
 
-                      decoration: const InputDecoration(
-                        labelText: "Template",
+                      input(
+                        "Ubicación general",
+                        location,
                       ),
-                    ),
+                    ],
+                  ),
 
-                    if(template=="birthday")...[
-                      const SizedBox(height:20),
+                  // ========================================
+                  // CEREMONIA
+                  // ========================================
 
-                      DropdownButtonFormField(
+                  if (!isBirthday)
+                    section(
+                      "Ceremonia",
+                      [
+                        input(
+                          "Lugar ceremonia",
+                          ceremonyPlace,
+                        ),
 
-                        value: theme,
+                        input(
+                          "Hora ceremonia",
+                          ceremonyTime,
+                        ),
 
-                        items: const [
-
-                          DropdownMenuItem(
-                            value: "cowboy",
-                            child: Text("Cowboy"),
+                        if (requiresImages) ...[
+                          ElevatedButton.icon(
+                            onPressed: pickCeremonyImage,
+                            icon: const Icon(
+                              Icons.add_photo_alternate_outlined,
+                            ),
+                            label: const Text(
+                              "Imagen ceremonia",
+                            ),
                           ),
 
-                          DropdownMenuItem(
-                            value: "pool",
-                            child: Text("Albercada"),
-                          ),
+                          if (ceremonyImageBytes != null) ...[
+                            const SizedBox(height: 15),
 
-                          DropdownMenuItem(
-                            value: "neon",
-                            child: Text("Neón"),
-                          ),
+                            ClipRRect(
+                              borderRadius:
+                              BorderRadius.circular(14),
+                              child: Image.memory(
+                                ceremonyImageBytes!,
+                                height: 200,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
 
-                          DropdownMenuItem(
-                            value: "elegant",
-                            child: Text("Elegante"),
-                          ),
-
+                          const SizedBox(height: 20),
                         ],
 
-                        onChanged: (v){
-                          theme=v!;
-                          setState(() {});
-                        },
-
-                        decoration: const InputDecoration(
-                          labelText: "Tema cumpleaños",
+                        input(
+                          "Google Maps ceremonia",
+                          ceremonyMaps,
                         ),
-                      )
-                    ],
+                      ],
+                    ),
 
-                    const SizedBox(height:20),
+                  // ========================================
+                  // RECEPCIÓN
+                  // ========================================
 
-                    input("Ubicación general",location),
-
-                  ]),
-
-                  if(template!="birthday")
-                    section("Ceremonia",[
-
-                      input("Lugar ceremonia",ceremonyPlace),
-                      input("Hora ceremonia",ceremonyTime),
-
-                      ElevatedButton(
-                        onPressed: pickCeremonyImage,
-                        child: const Text("Imagen ceremonia"),
+                  section(
+                    "Recepción",
+                    [
+                      input(
+                        "Lugar recepción",
+                        receptionPlace,
                       ),
 
-                      if(ceremonyImageBytes!=null)
-                        Image.memory(ceremonyImageBytes!,height:200),
+                      input(
+                        "Hora recepción",
+                        receptionTime,
+                      ),
 
-                      input("Google Maps ceremonia",ceremonyMaps),
+                      if (requiresImages) ...[
+                        ElevatedButton.icon(
+                          onPressed: pickReceptionImage,
+                          icon: const Icon(
+                            Icons.add_photo_alternate_outlined,
+                          ),
+                          label: const Text(
+                            "Imagen recepción",
+                          ),
+                        ),
 
-                    ]),
+                        if (receptionImageBytes != null) ...[
+                          const SizedBox(height: 15),
 
-                  /// RECEPCION
-                  section("Recepción",[
+                          ClipRRect(
+                            borderRadius:
+                            BorderRadius.circular(14),
+                            child: Image.memory(
+                              receptionImageBytes!,
+                              height: 200,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
 
-                    input("Lugar recepción",receptionPlace),
-                    input("Hora recepción",receptionTime),
+                        const SizedBox(height: 20),
+                      ],
 
-                    ElevatedButton(
-                      onPressed: pickReceptionImage,
-                      child: const Text("Imagen recepción"),
+                      input(
+                        "Google Maps recepción",
+                        receptionMaps,
+                      ),
+                    ],
+                  ),
+
+                  // ========================================
+                  // DRESS CODE
+                  // ========================================
+
+                  if (!isBirthday)
+                    section(
+                      "Código de vestimenta",
+                      [
+                        input(
+                          "Código de vestimenta",
+                          dressCode,
+                        ),
+                      ],
                     ),
 
-                    if(receptionImageBytes!=null)
-                      Image.memory(receptionImageBytes!,height:200),
+                  // ========================================
+                  // GALERÍA
+                  // ========================================
 
-                    input("Google Maps recepción",receptionMaps),
+                  if (requiresImages)
+                    section(
+                      "Galería",
+                      [
+                        ElevatedButton.icon(
+                          onPressed: pickGallery,
+                          icon: const Icon(
+                            Icons.photo_library_outlined,
+                          ),
+                          label: const Text(
+                            "Seleccionar fotos",
+                          ),
+                        ),
 
-                  ]),
+                        if (galleryImages.isNotEmpty) ...[
+                          const SizedBox(height: 20),
 
-                  /// DRESS CODE
-                  section("Dress Code",[
-
-                    input("Código de vestimenta",dressCode),
-
-                  ]),
-
-                  /// GALERIA
-                  section("Galería",[
-
-                    ElevatedButton(
-                      onPressed: pickGallery,
-                      child: const Text("Seleccionar fotos"),
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children:
+                            galleryImages.map((image) {
+                              return ClipRRect(
+                                borderRadius:
+                                BorderRadius.circular(10),
+                                child: Image.memory(
+                                  image,
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ],
                     ),
 
-                    const SizedBox(height:20),
-
-                    Wrap(
-                      spacing:10,
-                      runSpacing:10,
-                      children: galleryImages.map((img){
-
-                        return Image.memory(
-                          img,
-                          width:120,
-                          height:120,
-                          fit: BoxFit.cover,
-                        );
-
-                      }).toList(),
-                    )
-
-                  ]),
-
-                  const SizedBox(height:20),
+                  const SizedBox(height: 20),
 
                   SizedBox(
-                    height:60,
+                    height: 60,
                     child: ElevatedButton(
-                      onPressed: loading?null:create,
-                      child: loading
-                          ? const CircularProgressIndicator()
-                          : const Text("Crear invitación"),
-                    ),
-                  )
+                      onPressed: loading ? null : create,
 
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                        const Color(0xFFB76E79),
+                        foregroundColor: Colors.white,
+                      ),
+
+                      child: loading
+                          ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child:
+                        CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                          : const Text(
+                        "Crear invitación",
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
                 ],
               ),
             ),

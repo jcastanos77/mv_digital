@@ -170,7 +170,7 @@ class _InvitationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final url = "https://mvdigital-1befe.web.app/invitation/$id";
+    final url = "https://mvdigital.cc/invitation/$id";
 
     return Container(
 

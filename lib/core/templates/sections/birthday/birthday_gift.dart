@@ -101,12 +101,12 @@ class BirthdayGift extends StatelessWidget {
                   _giftItem(
                     icon: Icons.toys_rounded,
                     title: "Juguetes",
-                    subtitle: "Adecuados para su edad. \n(NO peluches)",
+                    subtitle: "Adecuados para su edad.",
                   ),
                   _giftItem(
                     icon: Icons.checkroom_rounded,
                     title: "Ropa",
-                    subtitle: "Talla 2 años o superior.",
+                    subtitle: "Talla 6 años o superior.",
                   ),
                   _giftItem(
                     icon: Icons.payments_rounded,

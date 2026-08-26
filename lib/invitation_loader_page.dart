@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mv_digital/core/templates/baptism_invitation_page.dart';
 import 'package:mv_digital/core/templates/birthday_invitation_page.dart';
+import 'package:mv_digital/core/templates/quince_princess_page.dart';
 import 'package:mv_digital/core/templates/toy_story_page.dart';
 import 'package:mv_digital/core/templates/wedding_glam.dart';
 import 'package:mv_digital/core/templates/quince_glam.dart';
@@ -83,6 +84,9 @@ class InvitationLoaderPage extends StatelessWidget {
 
           case "quince_glam":
             return QuinceGlamPage(data: invitation, fromPrincipalPage: false,);
+
+          case "quince_sin_imagen":
+            return QuincePrincessPage(data: invitation, fromPrincipalPage: false);
 
           case "wedding_glam":
             return WeddingGlamTemplate(data: invitation, fromPrincipalPage: false,);

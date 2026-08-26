@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mv_digital/core/templates/sections/birthday/birthday_gift.dart';
 import 'package:mv_digital/core/templates/sections/spiderman/spiderman_countdown.dart';
 import 'package:mv_digital/core/templates/sections/spiderman/spiderman_event_section.dart';
 import 'package:mv_digital/core/templates/sections/spiderman/spiderman_gallery_section.dart';
@@ -7,6 +8,7 @@ import 'package:mv_digital/core/templates/sections/spiderman/spiderman_snack_bar
 
 import '../../landing/cta_section.dart';
 import '../../models/invitation_model.dart';
+import '../../themes/invitation_theme.dart';
 
 class SpidermanPage extends StatefulWidget {
   final InvitationModel data;
@@ -56,6 +58,16 @@ class _SpidermanPageState extends State<SpidermanPage> {
                 eventTime: data.eventTime,
                 location: data.location,
                 mapsUrl: data.receptionMaps,
+              ),
+
+              BirthdayGift(
+                data: data,
+                theme: InvitationTheme(
+                  primaryColor: Color(0xFFE62429),
+                  secondaryColor: Color(0xFF102A4C),
+                  heroBackground: "",
+                  fontFamily: "Bangers",
+                ),
               ),
 
               /// GALERÍA

@@ -11,6 +11,7 @@ import 'admin/select_invitation_type_page.dart';
 import 'firebase_options.dart';
 import 'invitation_loader_page.dart';
 import 'landing/landing_mv_page.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
 
@@ -19,6 +20,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await initializeDateFormatting('es');
 
   usePathUrlStrategy();
 

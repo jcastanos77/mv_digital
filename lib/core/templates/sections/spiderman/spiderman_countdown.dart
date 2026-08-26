@@ -137,7 +137,7 @@ class _SpidermanCountdownState extends State<SpidermanCountdown> {
             ),
             padding: const EdgeInsets.symmetric(
               vertical: 16,
-              horizontal: 5,
+              horizontal: 10,
             ),
             decoration: BoxDecoration(
               color: const Color(0xFF102A4C),
