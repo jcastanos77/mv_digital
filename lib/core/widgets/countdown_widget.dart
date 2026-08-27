@@ -18,8 +18,10 @@ class CountdownWidget extends StatefulWidget {
 }
 
 class _CountdownWidgetState extends State<CountdownWidget> {
-  late Timer _timer;
-  Duration _remaining = Duration.zero;
+  Timer? _timer;
+
+  final ValueNotifier<Duration> _remaining =
+  ValueNotifier(Duration.zero);
 
   @override
   void initState() {
@@ -34,57 +36,36 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   }
 
   void _calculateRemaining() {
-    final now = DateTime.now();
-    final difference = widget.eventDate.difference(now);
+    final difference =
+    widget.eventDate.difference(DateTime.now());
 
-    if (!mounted) return;
+    final newRemaining =
+    difference.isNegative ? Duration.zero : difference;
 
-    setState(() {
-      _remaining = difference.isNegative ? Duration.zero : difference;
-    });
+    if (_remaining.value != newRemaining) {
+      _remaining.value = newRemaining;
+    }
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
+    _remaining.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final days = _remaining.inDays;
-    final hours = _remaining.inHours % 24;
-    final minutes = _remaining.inMinutes % 60;
-    final seconds = _remaining.inSeconds % 60;
-
     return widget.princessTheme
-        ? _buildPrincessCountdown(
-      context,
-      days,
-      hours,
-      minutes,
-      seconds,
-    )
-        : _buildDefaultCountdown(
-      context,
-      days,
-      hours,
-      minutes,
-      seconds,
-    );
+        ? _buildPrincessCountdown()
+        : _buildDefaultCountdown();
   }
 
   // ============================
   // DISEÑO ORIGINAL
   // ============================
 
-  Widget _buildDefaultCountdown(
-      BuildContext context,
-      int days,
-      int hours,
-      int minutes,
-      int seconds,
-      ) {
+  Widget _buildDefaultCountdown() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40),
       child: Column(
@@ -100,21 +81,38 @@ class _CountdownWidgetState extends State<CountdownWidget> {
 
           const SizedBox(height: 30),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _defaultTimeBox(days, "DÍAS"),
-              _defaultTimeBox(hours, "HORAS"),
-              _defaultTimeBox(minutes, "MIN"),
-              _defaultTimeBox(seconds, "SEG"),
-            ],
+          ValueListenableBuilder<Duration>(
+            valueListenable: _remaining,
+            builder: (context, remaining, child) {
+              final days = remaining.inDays;
+              final hours =
+              remaining.inHours.remainder(24);
+              final minutes =
+              remaining.inMinutes.remainder(60);
+              final seconds =
+              remaining.inSeconds.remainder(60);
+
+              return Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceEvenly,
+                children: [
+                  _defaultTimeBox(days, "DÍAS"),
+                  _defaultTimeBox(hours, "HORAS"),
+                  _defaultTimeBox(minutes, "MIN"),
+                  _defaultTimeBox(seconds, "SEG"),
+                ],
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _defaultTimeBox(int value, String label) {
+  Widget _defaultTimeBox(
+      int value,
+      String label,
+      ) {
     return Container(
       width: 70,
       padding: const EdgeInsets.symmetric(vertical: 18),
@@ -159,15 +157,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   // TEMA PRINCESA
   // ============================
 
-  Widget _buildPrincessCountdown(
-      BuildContext context,
-      int days,
-      int hours,
-      int minutes,
-      int seconds,
-      ) {
-    final width = MediaQuery.of(context).size.width;
-
+  Widget _buildPrincessCountdown() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
@@ -209,23 +199,45 @@ class _CountdownWidgetState extends State<CountdownWidget> {
 
           const SizedBox(height: 30),
 
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: width < 400 ? 8 : 12,
-            runSpacing: 12,
-            children: [
-              _princessTimeBox(days, 'DÍAS'),
-              _princessTimeBox(hours, 'HORAS'),
-              _princessTimeBox(minutes, 'MIN'),
-              _princessTimeBox(seconds, 'SEG'),
-            ],
+          ValueListenableBuilder<Duration>(
+            valueListenable: _remaining,
+            builder: (context, remaining, child) {
+              final days = remaining.inDays;
+              final hours =
+              remaining.inHours.remainder(24);
+              final minutes =
+              remaining.inMinutes.remainder(60);
+              final seconds =
+              remaining.inSeconds.remainder(60);
+
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  final width = constraints.maxWidth;
+
+                  return Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: width < 400 ? 8 : 12,
+                    runSpacing: 12,
+                    children: [
+                      _princessTimeBox(days, 'DÍAS'),
+                      _princessTimeBox(hours, 'HORAS'),
+                      _princessTimeBox(minutes, 'MIN'),
+                      _princessTimeBox(seconds, 'SEG'),
+                    ],
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _princessTimeBox(int value, String label) {
+  Widget _princessTimeBox(
+      int value,
+      String label,
+      ) {
     return Container(
       width: 76,
       padding: const EdgeInsets.symmetric(
@@ -240,7 +252,8 @@ class _CountdownWidgetState extends State<CountdownWidget> {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF9D5865).withOpacity(.08),
+            color: const Color(0xFF9D5865)
+                .withOpacity(.08),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
@@ -262,7 +275,8 @@ class _CountdownWidgetState extends State<CountdownWidget> {
           Container(
             width: 28,
             height: 1,
-            color: const Color(0xFFC69A4A).withOpacity(.6),
+            color: const Color(0xFFC69A4A)
+                .withOpacity(.6),
           ),
 
           const SizedBox(height: 7),
@@ -273,7 +287,8 @@ class _CountdownWidgetState extends State<CountdownWidget> {
               fontSize: 9,
               fontWeight: FontWeight.w500,
               letterSpacing: 1.5,
-              color: const Color(0xFF9D5865).withOpacity(.75),
+              color: const Color(0xFF9D5865)
+                  .withOpacity(.75),
             ),
           ),
         ],

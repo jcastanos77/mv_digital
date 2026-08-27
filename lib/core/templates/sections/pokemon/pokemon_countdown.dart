@@ -3,20 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SpidermanCountdown extends StatefulWidget {
+class PokemonCountdown extends StatefulWidget {
   final DateTime eventDate;
 
-  const SpidermanCountdown({
+  const PokemonCountdown({
     super.key,
     required this.eventDate,
   });
 
   @override
-  State<SpidermanCountdown> createState() =>
-      _SpidermanCountdownState();
+  State<PokemonCountdown> createState() => _PokemonCountdownState();
 }
 
-class _SpidermanCountdownState extends State<SpidermanCountdown> {
+class _PokemonCountdownState extends State<PokemonCountdown> {
   Timer? _timer;
 
   final ValueNotifier<Duration> _remaining =
@@ -35,8 +34,7 @@ class _SpidermanCountdownState extends State<SpidermanCountdown> {
   }
 
   void _calculateRemaining() {
-    final difference =
-    widget.eventDate.difference(DateTime.now());
+    final difference = widget.eventDate.difference(DateTime.now());
 
     final newRemaining = difference.isNegative
         ? Duration.zero
@@ -59,48 +57,54 @@ class _SpidermanCountdownState extends State<SpidermanCountdown> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
-        horizontal: 20,
+        horizontal: 16,
         vertical: 45,
       ),
-      color: const Color(0xFF071426),
+      color: const Color(0xFF0A1B3D),
       child: Column(
         children: [
+          /// POKÉBOLA SUPERIOR
+          const _MiniPokeBall(),
+
+          const SizedBox(height: 14),
+
+          /// TÍTULO
           Text(
-            "¡LA MISIÓN COMIENZA EN!",
+            "¡LA AVENTURA COMIENZA EN!",
             textAlign: TextAlign.center,
-            style: GoogleFonts.bangers(
+            style: GoogleFonts.fredoka(
               color: Colors.white,
-              fontSize: 26,
-              letterSpacing: 3,
+              fontSize: 25,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.5,
             ),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
 
+          /// DIVISOR
           Container(
-            width: 55,
-            height: 4,
+            width: 70,
+            height: 5,
             decoration: BoxDecoration(
-              color: const Color(0xFFE62429),
+              color: const Color(0xFFFFCB05),
               borderRadius: BorderRadius.circular(20),
             ),
           ),
 
           const SizedBox(height: 32),
 
+          /// CONTADOR
           ValueListenableBuilder<Duration>(
             valueListenable: _remaining,
-            builder: (context, remaining, _) {
+            builder: (context, remaining, child) {
               final days = remaining.inDays;
               final hours = remaining.inHours.remainder(24);
-              final minutes =
-              remaining.inMinutes.remainder(60);
-              final seconds =
-              remaining.inSeconds.remainder(60);
+              final minutes = remaining.inMinutes.remainder(60);
+              final seconds = remaining.inSeconds.remainder(60);
 
               return Row(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _timeBox(
                     value: days,
@@ -149,13 +153,13 @@ class _SpidermanCountdownState extends State<SpidermanCountdown> {
             ),
             padding: const EdgeInsets.symmetric(
               vertical: 16,
-              horizontal: 10,
+              horizontal: 8,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xFF102A4C),
-              borderRadius: BorderRadius.circular(12),
+              color: const Color(0xFF1B356E),
+              borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: const Color(0xFFE62429),
+                color: const Color(0xFFFFCB05),
                 width: 2,
               ),
               boxShadow: const [
@@ -169,10 +173,10 @@ class _SpidermanCountdownState extends State<SpidermanCountdown> {
             child: Text(
               value.toString().padLeft(2, "0"),
               textAlign: TextAlign.center,
-              style: GoogleFonts.bangers(
+              style: GoogleFonts.fredoka(
                 color: Colors.white,
-                fontSize: 32,
-                letterSpacing: 1,
+                fontSize: 30,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
@@ -181,11 +185,11 @@ class _SpidermanCountdownState extends State<SpidermanCountdown> {
 
           Text(
             label,
-            style: GoogleFonts.montserrat(
-              color: Colors.white60,
+            style: GoogleFonts.fredoka(
+              color: const Color(0xFFFFCB05),
               fontSize: 10,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.5,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.2,
             ),
           ),
         ],
@@ -194,19 +198,80 @@ class _SpidermanCountdownState extends State<SpidermanCountdown> {
   }
 
   Widget _separator() {
-    return const Padding(
-      padding: EdgeInsets.only(
-        left: 3,
-        right: 3,
-        bottom: 27,
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 2,
+        right: 2,
+        bottom: 28,
       ),
       child: Text(
         ":",
-        style: TextStyle(
-          color: Color(0xFFE62429),
+        style: GoogleFonts.fredoka(
+          color: const Color(0xFFFFCB05),
           fontSize: 28,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w800,
         ),
+      ),
+    );
+  }
+}
+
+/// MINI POKÉBOLA
+class _MiniPokeBall extends StatelessWidget {
+  const _MiniPokeBall();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 42,
+      height: 42,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.white,
+          width: 3,
+        ),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          /// PARTE ROJA
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 19,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFE53935),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(40),
+                ),
+              ),
+            ),
+          ),
+
+          /// LÍNEA CENTRAL
+          Container(
+            width: double.infinity,
+            height: 4,
+            color: Colors.white,
+          ),
+
+          /// BOTÓN CENTRAL
+          Container(
+            width: 14,
+            height: 14,
+            decoration: BoxDecoration(
+              color: const Color(0xFF0A1B3D),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white,
+                width: 3,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

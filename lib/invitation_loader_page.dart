@@ -1,39 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:mv_digital/core/templates/baptism_invitation_page.dart';
 import 'package:mv_digital/core/templates/birthday_invitation_page.dart';
+import 'package:mv_digital/core/templates/pokemon_page.dart';
+import 'package:mv_digital/core/templates/quince_glam.dart';
 import 'package:mv_digital/core/templates/quince_princess_page.dart';
+import 'package:mv_digital/core/templates/spiderman_page.dart';
 import 'package:mv_digital/core/templates/toy_story_page.dart';
 import 'package:mv_digital/core/templates/wedding_glam.dart';
-import 'package:mv_digital/core/templates/quince_glam.dart';
+import 'package:mv_digital/landing/landing_mv_page.dart';
 import 'package:mv_digital/models/invitation_model.dart';
+import 'package:mv_digital/models/snackBar_model.dart';
 import 'package:mv_digital/services/invitation_service.dart';
 import 'package:mv_digital/themes/invitation_theme.dart';
 import 'package:mv_digital/themes/theme_resolver.dart';
-import 'core/templates/spiderman_page.dart';
-import 'landing/landing_mv_page.dart';
-import 'models/snackBar_model.dart';
 
-class InvitationLoaderPage extends StatelessWidget {
-
+class InvitationLoaderPage extends StatefulWidget {
   final String? slug;
 
-  const InvitationLoaderPage({super.key, this.slug});
+  const InvitationLoaderPage({
+    super.key,
+    this.slug,
+  });
+
+  @override
+  State<InvitationLoaderPage> createState() =>
+      _InvitationLoaderPageState();
+}
+
+class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
+  late Future<InvitationModel?>? _invitationFuture;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final slug = widget.slug;
+
+    /// Solo consultamos Firebase para invitaciones reales.
+    /// Los demos no necesitan Firebase.
+    if (slug != null &&
+        slug.isNotEmpty &&
+        !slug.startsWith('demo-')) {
+      _invitationFuture = InvitationService().getInvitation(slug);
+    } else {
+      _invitationFuture = null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final slug = widget.slug;
 
+    /// =========================
     /// LANDING
-    if (slug == null || slug!.isEmpty) {
+    /// =========================
+    if (slug == null || slug.isEmpty) {
       return const LandingPage();
     }
 
+    /// =========================
     /// DEMOS
+    /// =========================
+
     if (slug == "demo-boda") {
-      return WeddingGlamTemplate(data: _demoWedding, fromPrincipalPage: false,);
+      return WeddingGlamTemplate(
+        data: _demoWedding,
+        fromPrincipalPage: false,
+      );
     }
 
     if (slug == "demo-xv") {
-      return QuinceGlamPage(data: _demoXV, fromPrincipalPage: false,);
+      return QuinceGlamPage(
+        data: _demoXV,
+        fromPrincipalPage: false,
+      );
     }
 
     if (slug == "demo-birthday") {
@@ -47,18 +87,25 @@ class InvitationLoaderPage extends StatelessWidget {
     }
 
     if (slug == "demo-bautizo") {
-      return BaptismGlamPage(data: _demoBaptism, fromPrincipalPage: false,);
+      return BaptismGlamPage(
+        data: _demoBaptism,
+        fromPrincipalPage: false,
+      );
     }
 
-    /// INVITACION REAL
-    return FutureBuilder<InvitationModel?>(
-      future: InvitationService().getInvitation(slug!),
-      builder: (context, snapshot) {
+    /// =========================
+    /// INVITACIÓN REAL
+    /// =========================
 
+    return FutureBuilder<InvitationModel?>(
+      future: _invitationFuture,
+      builder: (context, snapshot) {
         /// LOADING
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
 
@@ -66,7 +113,10 @@ class InvitationLoaderPage extends StatelessWidget {
         if (snapshot.hasError) {
           return Scaffold(
             body: Center(
-              child: Text("Error cargando invitación\n${snapshot.error}"),
+              child: Text(
+                "Error cargando invitación\n${snapshot.error}",
+                textAlign: TextAlign.center,
+              ),
             ),
           );
         }
@@ -77,19 +127,33 @@ class InvitationLoaderPage extends StatelessWidget {
         }
 
         final invitation = snapshot.data!;
-        final uri = Uri.base;
-        InvitationTheme birthdayTheme = resolveBirthdayTheme(invitation.theme);
+
+        /// TEMA
+        final InvitationTheme birthdayTheme =
+        resolveBirthdayTheme(invitation.theme);
+
+        /// =========================
+        /// TEMPLATE
+        /// =========================
 
         switch (invitation.template) {
-
           case "quince_glam":
-            return QuinceGlamPage(data: invitation, fromPrincipalPage: false,);
+            return QuinceGlamPage(
+              data: invitation,
+              fromPrincipalPage: false,
+            );
 
           case "quince_sin_imagen":
-            return QuincePrincessPage(data: invitation, fromPrincipalPage: false);
+            return QuincePrincessPage(
+              data: invitation,
+              fromPrincipalPage: false,
+            );
 
           case "wedding_glam":
-            return WeddingGlamTemplate(data: invitation, fromPrincipalPage: false,);
+            return WeddingGlamTemplate(
+              data: invitation,
+              fromPrincipalPage: false,
+            );
 
           case "birthday":
             return BirthdayInvitationPage(
@@ -117,14 +181,23 @@ class InvitationLoaderPage extends StatelessWidget {
               fromPrincipalPage: false,
             );
 
+          case "pokemon":
+            return PokemonPage(
+              data: invitation,
+              fromPrincipalPage: false,
+            );
+
           default:
             return const LandingPage();
         }
-
       },
     );
   }
 }
+
+/// =================================================
+/// DEMOS
+/// =================================================
 
 /// DEMO XV
 final _demoXV = InvitationModel(
@@ -155,56 +228,41 @@ final _demoXV = InvitationModel(
     'Nuestra tripulación tendrá snacks listos para la misión submarina',
     startTime: '4:00 PM',
     endTime: '8:00 PM',
-
   ),
 );
 
-
+/// DEMO BAUTIZO
 final _demoBaptism = InvitationModel(
   id: "demo_baptism",
   template: "baptism_glam",
   theme: "",
-
-  /// HERO
   title: "Romina Alejandra",
   heroImage:
   "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
   eventDate: DateTime(2026, 9, 19, 12, 0),
   eventTime: "12:00 PM",
   infoAditional: "",
-
-  /// FRASE
   quote:
   "Hoy recibo con alegría el sacramento del Bautismo. Gracias por acompañarme en este día tan especial.",
-
-  /// UBICACIÓN GENERAL
   location: "Ciudad Obregón, Sonora",
-
-  /// CEREMONIA
   ceremonyPlace: "Parroquia San Juan Bosco",
   ceremonyTime: "12:00 PM",
   ceremonyImage: "",
   ceremonyMaps: "https://maps.google.com",
-
-  /// RECEPCIÓN
   receptionPlace: "Quinta Los Álamos",
   receptionTime: "2:00 PM",
   receptionImage: "",
   receptionMaps: "https://maps.google.com",
-
-  /// No aplica para bautizo
   dressCode: "Formal",
-
-  /// GALERÍA
   gallery: [],
-
-  /// BAUTIZO
   father: "Jorge Castaños",
   mother: "Daniela López",
-  godParents: ["Daniela López", "Daniela López"],
+  godParents: [
+    "Daniela López",
+    "Daniela López",
+  ],
   bibleVerse:
   "Dejad que los niños vengan a mí y no se lo impidáis, porque de los que son como ellos es el reino de Dios. — Marcos 10:14",
-
   snackBar: SnackBarData(
     title: "MV Snacks Bar",
     subtitle:
@@ -236,7 +294,7 @@ final _demoWedding = InvitationModel(
   receptionMaps: "https://maps.google.com",
   dressCode: "Formal elegante",
   gallery: [],
-    infoAditional: "",
+  infoAditional: "",
   snackBar: SnackBarData(
     title: 'Zona de Snacks',
     subtitle:
@@ -246,6 +304,7 @@ final _demoWedding = InvitationModel(
   ),
 );
 
+/// DEMO CUMPLEAÑOS
 final _demoBirthday = InvitationModel(
   id: "demo_birthday",
   template: "birthday",
@@ -253,7 +312,8 @@ final _demoBirthday = InvitationModel(
   theme: 'cowboy',
   quote: "Acompáñame a celebrar mis 30 años",
   location: "Rancho Los Compadres",
-  heroImage: "https://plus.unsplash.com/premium_photo-1737392497549-774709c38e79?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  heroImage:
+  "https://plus.unsplash.com/premium_photo-1737392497549-774709c38e79?q=80&w=1480&auto=format&fit=crop",
   eventDate: DateTime(2026, 7, 10, 19, 0),
   eventTime: "7:00 PM",
   ceremonyPlace: "",
@@ -271,7 +331,7 @@ final _demoBirthday = InvitationModel(
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
     "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
   ],
-    infoAditional: "",
+  infoAditional: "",
   snackBar: SnackBarData(
     title: 'Zona de Snacks',
     subtitle:

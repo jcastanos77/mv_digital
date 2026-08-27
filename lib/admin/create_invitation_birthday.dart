@@ -564,6 +564,15 @@ class _BirthdayBuilderPageState
                       color:
                       const Color(0xFFE62429),
                     ),
+
+                    const SizedBox(width: 12),
+
+                    _templateCard(
+                      title: "Pokemon",
+                      value: "pokemon",
+                      color:
+                      const Color(0xFFE62429),
+                    ),
                   ],
                 ),
 
