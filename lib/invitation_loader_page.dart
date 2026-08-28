@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mv_digital/core/templates/baptism_invitation_page.dart';
 import 'package:mv_digital/core/templates/birthday_invitation_page.dart';
-import 'package:mv_digital/core/templates/pokemon_page.dart';
-import 'package:mv_digital/core/templates/quince_glam.dart';
 import 'package:mv_digital/core/templates/quince_princess_page.dart';
-import 'package:mv_digital/core/templates/spiderman_page.dart';
-import 'package:mv_digital/core/templates/toy_story_page.dart';
-import 'package:mv_digital/core/templates/wedding_glam.dart';
+import 'core/templates/spiderman_page.dart' deferred as spiderman;
+import 'core/templates/pokemon_page.dart' deferred as pokemon;
+import 'core/templates/toy_story_page.dart' deferred as toyStory;
+import 'core/templates/wedding_glam.dart' deferred as wedding;
+import 'core/templates/quince_glam.dart' deferred as quince;
 import 'package:mv_digital/landing/landing_mv_page.dart';
 import 'package:mv_digital/models/invitation_model.dart';
 import 'package:mv_digital/models/snackBar_model.dart';
@@ -63,16 +63,22 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
     /// =========================
 
     if (slug == "demo-boda") {
-      return WeddingGlamTemplate(
-        data: _demoWedding,
-        fromPrincipalPage: false,
+      return DeferredTemplateLoader(
+        loadLibrary: wedding.loadLibrary,
+        builder: () => wedding.WeddingGlamTemplate(
+          data: _demoWedding,
+          fromPrincipalPage: false,
+        ),
       );
     }
 
     if (slug == "demo-xv") {
-      return QuinceGlamPage(
-        data: _demoXV,
-        fromPrincipalPage: false,
+      return DeferredTemplateLoader(
+        loadLibrary: quince.loadLibrary,
+        builder: () => quince.QuinceGlamPage(
+          data: _demoXV,
+          fromPrincipalPage: false,
+        ),
       );
     }
 
@@ -138,9 +144,12 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
 
         switch (invitation.template) {
           case "quince_glam":
-            return QuinceGlamPage(
-              data: invitation,
-              fromPrincipalPage: false,
+            return DeferredTemplateLoader(
+              loadLibrary: quince.loadLibrary,
+              builder: () => quince.QuinceGlamPage(
+                data: invitation,
+                fromPrincipalPage: false,
+              ),
             );
 
           case "quince_sin_imagen":
@@ -150,9 +159,12 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
             );
 
           case "wedding_glam":
-            return WeddingGlamTemplate(
-              data: invitation,
-              fromPrincipalPage: false,
+            return DeferredTemplateLoader(
+              loadLibrary: wedding.loadLibrary,
+              builder: () => wedding.WeddingGlamTemplate(
+                data: invitation,
+                fromPrincipalPage: false,
+              ),
             );
 
           case "birthday":
@@ -163,10 +175,13 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
             );
 
           case "toy_story":
-            return ToyStoryPage(
-              theme: birthdayTheme,
-              data: invitation,
-              fromPrincipalPage: false,
+            return DeferredTemplateLoader(
+              loadLibrary: toyStory.loadLibrary,
+              builder: () => toyStory.ToyStoryPage(
+                theme: birthdayTheme,
+                data: invitation,
+                fromPrincipalPage: false,
+              ),
             );
 
           case "baptism_glam":
@@ -176,20 +191,90 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
             );
 
           case "spiderman":
-            return SpidermanPage(
-              data: invitation,
-              fromPrincipalPage: false,
+            return DeferredTemplateLoader(
+              loadLibrary: spiderman.loadLibrary,
+              builder: () => spiderman.SpidermanPage(
+                data: invitation,
+                fromPrincipalPage: false,
+              ),
             );
-
           case "pokemon":
-            return PokemonPage(
-              data: invitation,
-              fromPrincipalPage: false,
+            return DeferredTemplateLoader(
+              loadLibrary: pokemon.loadLibrary,
+              builder: () => pokemon.PokemonPage(
+                data: invitation,
+                fromPrincipalPage: false,
+              ),
             );
 
           default:
             return const LandingPage();
         }
+      },
+    );
+  }
+}
+
+class DeferredTemplateLoader extends StatefulWidget {
+  final Future<void> Function() loadLibrary;
+  final Widget Function() builder;
+
+  const DeferredTemplateLoader({
+    super.key,
+    required this.loadLibrary,
+    required this.builder,
+  });
+
+  @override
+  State<DeferredTemplateLoader> createState() =>
+      _DeferredTemplateLoaderState();
+}
+
+class _TemplateLoadingPage extends StatelessWidget {
+  const _TemplateLoadingPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+}
+
+class _DeferredTemplateLoaderState
+    extends State<DeferredTemplateLoader> {
+
+  late Future<void> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = widget.loadLibrary();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<void>(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const _TemplateLoadingPage();
+        }
+
+        if (snapshot.hasError) {
+          return Scaffold(
+            body: Center(
+              child: Text(
+                'Error cargando plantilla\n${snapshot.error}',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+
+        return widget.builder();
       },
     );
   }
