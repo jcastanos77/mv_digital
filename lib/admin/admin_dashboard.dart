@@ -9,7 +9,6 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
-
   int index = 0;
 
   final pages = const [
@@ -18,21 +17,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 700;
 
     return Scaffold(
-
       appBar: AppBar(
         title: const Text("MV Digital Admin"),
       ),
 
-      body: Row(
+      body: isMobile
+          ? pages[index]
+          : Row(
         children: [
-
           /// SIDEBAR
           NavigationRail(
-
             selectedIndex: index,
-
             groupAlignment: -1,
 
             onDestinationSelected: (i) {
@@ -44,14 +43,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
             labelType: NavigationRailLabelType.all,
 
             destinations: const [
-
               NavigationRailDestination(
                 icon: Icon(Icons.card_giftcard),
                 label: Text("Invitaciones"),
               ),
-
             ],
-
           ),
 
           const VerticalDivider(width: 1),
@@ -59,12 +55,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
           /// CONTENT
           Expanded(
             child: pages[index],
-          )
-
+          ),
         ],
       ),
-
     );
-
   }
 }

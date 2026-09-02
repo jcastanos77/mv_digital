@@ -6,7 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'firebase_options.dart';
 import 'invitation_loader_page.dart' deferred as invitationLoader;
-
+import 'rsvpsPage.dart' deferred as rsvps;
 import 'landing/landing_mv_page.dart';
 
 import 'admin/admin_dashboard.dart' deferred as adminDashboard;
@@ -51,6 +51,16 @@ final GoRouter router = GoRouter(
           ),
         );
       },
+    ),
+
+    GoRoute(
+      path: '/invitation/:slug/rsvps',
+      builder: (context, state) => DeferredPageLoader(
+        loadLibrary: rsvps.loadLibrary,
+        builder: () => rsvps.RsvpsPage(
+          slug: state.pathParameters['slug']!,
+        ),
+      ),
     ),
 
     /// DEMOS

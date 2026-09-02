@@ -5,114 +5,103 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
-exports.invitationPreview = functions
+exports.registerInvitationVisit = functions
   .region("us-central1")
   .runWith({
-    memory: "512MB",
-    timeoutSeconds: 60,
+    memory: "256MB",
+    timeoutSeconds: 30,
   })
   .https.onRequest(async (req, res) => {
+    // CORS
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type"
+    );
+
+    // Preflight
+    if (req.method === "OPTIONS") {
+      return res.status(204).send("");
+    }
+
+    if (req.method !== "POST") {
+      return res.status(405).json({
+        error: "Método no permitido",
+      });
+    }
+
     try {
-      const slug = req.query.slug;
+      const invitationId = req.body?.invitationId;
+      const visitorId = req.body?.visitorId;
 
-      if (!slug) {
-        return res.status(400).send("Falta el slug de la invitación");
+      if (!invitationId || !visitorId) {
+        return res.status(400).json({
+          error: "Faltan invitationId o visitorId",
+        });
       }
 
-      const doc = await db
+      const invitationRef = db
         .collection("invitations")
-        .doc(slug)
-        .get();
+        .doc(invitationId);
 
-      if (!doc.exists) {
-        return res.status(404).send("Invitación no encontrada");
-      }
+      const visitorRef = invitationRef
+        .collection("visitors")
+        .doc(visitorId);
 
-      const data = doc.data();
+      let isNewVisitor = false;
 
-      const name = data.title || "Invitación";
-      const heroImage = data.heroImage || "";
-      const template = data.template || "";
+      await db.runTransaction(async (transaction) => {
+        const invitationDoc =
+            await transaction.get(invitationRef);
 
-      let pageTitle = `Invitación de ${name}`;
-      let description =
-        "Te invitamos a compartir este día tan especial.";
+        if (!invitationDoc.exists) {
+          throw new Error("INVITATION_NOT_FOUND");
+        }
 
-      if (template === "birthday") {
-        pageTitle = `Cumpleaños de ${name} 🎉`;
-        description = `¡Estás invitado a celebrar el cumpleaños de ${name}!`;
-      }
+        const visitorDoc =
+            await transaction.get(visitorRef);
 
-      if (template === "spiderman") {
-        pageTitle = `Cumpleaños de ${name} 🕷️`;
-        description = `¡Acompaña a ${name} en esta increíble aventura!`;
-      }
+        // Cada entrada cuenta como una vista
+        transaction.update(invitationRef, {
+          views: admin.firestore.FieldValue.increment(1),
+        });
 
-      if (template === "baptism") {
-        pageTitle = `Bautizo de ${name}`;
-        description = `Acompáñanos a celebrar el bautizo de ${name}.`;
-      }
+        // Solo aumenta personas únicas si nunca había entrado
+        if (!visitorDoc.exists) {
+          isNewVisitor = true;
 
-      if (template === "quince_glam") {
-        pageTitle = `XV años de ${name}`;
-        description = `Acompáñanos a celebrar los XV años de ${name}.`;
-      }
+          transaction.set(visitorRef, {
+            firstVisit:
+                admin.firestore.FieldValue.serverTimestamp(),
+          });
 
-      if (template === "wedding_glam") {
-        pageTitle = name;
-        description =
-          "Nos encantará compartir contigo este día tan especial.";
-      }
+          transaction.update(invitationRef, {
+            uniqueViews:
+                admin.firestore.FieldValue.increment(1),
+          });
+        }
+      });
 
-      const invitationUrl =
-        `https://mvdigital-1befe.web.app/invitation/${slug}`;
-
-      const html = `
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-
-  <title>${escapeHtml(pageTitle)}</title>
-
-  <meta property="og:title" content="${escapeHtml(pageTitle)}">
-  <meta property="og:description" content="${escapeHtml(description)}">
-  <meta property="og:image" content="${escapeHtml(heroImage)}">
-  <meta property="og:url" content="${escapeHtml(invitationUrl)}">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="MV Digital">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${escapeHtml(pageTitle)}">
-  <meta name="twitter:description" content="${escapeHtml(description)}">
-  <meta name="twitter:image" content="${escapeHtml(heroImage)}">
-</head>
-
-<body>
-  <h1>${escapeHtml(pageTitle)}</h1>
-</body>
-</html>
-`;
-
-      return res
-        .status(200)
-        .set("Content-Type", "text/html; charset=utf-8")
-        .send(html);
+      return res.status(200).json({
+        success: true,
+        isNewVisitor,
+      });
 
     } catch (error) {
-      console.error("Error generando preview:", error);
+      console.error(
+        "Error registrando visita:",
+        error
+      );
 
-      return res
-        .status(500)
-        .send("Error generando preview");
+      if (error.message === "INVITATION_NOT_FOUND") {
+        return res.status(404).json({
+          error: "Invitación no encontrada",
+        });
+      }
+
+      return res.status(500).json({
+        error: "Error registrando visita",
+      });
     }
   });
-
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}

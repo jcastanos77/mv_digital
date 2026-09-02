@@ -573,6 +573,15 @@ class _BirthdayBuilderPageState
                       color:
                       const Color(0xFFE62429),
                     ),
+
+                    const SizedBox(width: 12),
+
+                    _templateCard(
+                      title: "Mario Bros",
+                      value: "mario_bros",
+                      color:
+                      const Color(0xFF6D0B0D),
+                    ),
                   ],
                 ),
 

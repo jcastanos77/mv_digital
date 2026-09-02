@@ -46,11 +46,19 @@ app.get("/invitation/:slug", async (req, res) => {
     let description =
       "Te invitamos a compartir este día tan especial.";
 
+    // ─────────────────────────────────────────────
+    // CUMPLEAÑOS
+    // ─────────────────────────────────────────────
+
     if (template === "birthday") {
       pageTitle = `Cumpleaños de ${name} 🎉`;
       description =
         `¡Estás invitado a celebrar el cumpleaños de ${name}!`;
     }
+
+    // ─────────────────────────────────────────────
+    // SPIDERMAN
+    // ─────────────────────────────────────────────
 
     if (template === "spiderman") {
       pageTitle = `Cumpleaños de ${name} 🕷️`;
@@ -58,11 +66,29 @@ app.get("/invitation/:slug", async (req, res) => {
         `¡Acompáñanos a celebrar el cumpleaños de ${name}!`;
     }
 
+    // ─────────────────────────────────────────────
+    // MARIO BROS
+    // ─────────────────────────────────────────────
+
+    if (template === "mario_bros") {
+      pageTitle = `Cumpleaños de ${name} 🎮`;
+      description =
+        `¡Prepárate para una gran aventura! Acompáñanos a celebrar el cumpleaños de ${name}.`;
+    }
+
+    // ─────────────────────────────────────────────
+    // BAUTIZO
+    // ─────────────────────────────────────────────
+
     if (template === "baptism") {
       pageTitle = `Bautizo de ${name}`;
       description =
         `Acompáñanos a celebrar el bautizo de ${name}.`;
     }
+
+    // ─────────────────────────────────────────────
+    // XV AÑOS
+    // ─────────────────────────────────────────────
 
     if (
       template === "quince_glam" ||
@@ -73,20 +99,33 @@ app.get("/invitation/:slug", async (req, res) => {
         `Acompáñanos a celebrar los XV años de ${name}.`;
     }
 
+    // ─────────────────────────────────────────────
+    // BODA
+    // ─────────────────────────────────────────────
+
     if (template === "wedding_glam") {
       pageTitle = name;
       description =
         "Nos encantará compartir contigo este día tan especial.";
     }
 
-    // URL pública que se comparte por WhatsApp
+    // ─────────────────────────────────────────────
+    // URL PÚBLICA
+    // ─────────────────────────────────────────────
+
     const previewUrl =
       `https://mvdigital.cc/invitation/${slug}`;
 
-    // URL donde realmente carga la aplicación Flutter
-    // NO poner mvdigital.cc aquí porque causaría un loop
+    // ─────────────────────────────────────────────
+    // URL DE LA APP FLUTTER
+    // ─────────────────────────────────────────────
+
     const appUrl =
       `https://mvdigital.cc/invitation/${slug}`;
+
+    // ─────────────────────────────────────────────
+    // HTML
+    // ─────────────────────────────────────────────
 
     const html = `
 <!DOCTYPE html>
@@ -94,17 +133,55 @@ app.get("/invitation/:slug", async (req, res) => {
 <head>
   <meta charset="UTF-8">
 
-  <meta property="og:title" content="${escapeHtml(pageTitle)}">
-  <meta property="og:description" content="${escapeHtml(description)}">
-  <meta property="og:image" content="${escapeHtml(heroImage)}">
-  <meta property="og:url" content="${escapeHtml(previewUrl)}">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="MV Digital">
+  <meta
+    property="og:title"
+    content="${escapeHtml(pageTitle)}"
+  >
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${escapeHtml(pageTitle)}">
-  <meta name="twitter:description" content="${escapeHtml(description)}">
-  <meta name="twitter:image" content="${escapeHtml(heroImage)}">
+  <meta
+    property="og:description"
+    content="${escapeHtml(description)}"
+  >
+
+  <meta
+    property="og:image"
+    content="${escapeHtml(heroImage)}"
+  >
+
+  <meta
+    property="og:url"
+    content="${escapeHtml(previewUrl)}"
+  >
+
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <meta
+    property="og:site_name"
+    content="MV Digital"
+  >
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  >
+
+  <meta
+    name="twitter:title"
+    content="${escapeHtml(pageTitle)}"
+  >
+
+  <meta
+    name="twitter:description"
+    content="${escapeHtml(description)}"
+  >
+
+  <meta
+    name="twitter:image"
+    content="${escapeHtml(heroImage)}"
+  >
 
   <title>${escapeHtml(pageTitle)}</title>
 
@@ -134,11 +211,19 @@ app.get("/invitation/:slug", async (req, res) => {
   }
 });
 
+// ─────────────────────────────────────────────
+// SERVER
+// ─────────────────────────────────────────────
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
   console.log(`Preview server running on port ${port}`);
 });
+
+// ─────────────────────────────────────────────
+// ESCAPE HTML
+// ─────────────────────────────────────────────
 
 function escapeHtml(value) {
   return String(value)

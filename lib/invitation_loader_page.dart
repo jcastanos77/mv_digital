@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mv_digital/core/templates/baptism_invitation_page.dart';
 import 'package:mv_digital/core/templates/birthday_invitation_page.dart';
+import 'package:mv_digital/core/templates/quince_floral_page.dart';
 import 'package:mv_digital/core/templates/quince_princess_page.dart';
+import 'package:mv_digital/services/invitation_views_service.dart';
 import 'core/templates/spiderman_page.dart' deferred as spiderman;
 import 'core/templates/pokemon_page.dart' deferred as pokemon;
 import 'core/templates/toy_story_page.dart' deferred as toyStory;
 import 'core/templates/wedding_glam.dart' deferred as wedding;
 import 'core/templates/quince_glam.dart' deferred as quince;
+import 'core/templates/mario_bros_page.dart' deferred as mario;
+import 'core/templates/baptism_invitation_page.dart' deferred as bautizo;
 import 'package:mv_digital/landing/landing_mv_page.dart';
 import 'package:mv_digital/models/invitation_model.dart';
 import 'package:mv_digital/models/snackBar_model.dart';
@@ -42,9 +46,17 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
         slug.isNotEmpty &&
         !slug.startsWith('demo-')) {
       _invitationFuture = InvitationService().getInvitation(slug);
+
     } else {
       _invitationFuture = null;
     }
+    _registerVisit(slug!);
+  }
+
+  Future<void> _registerVisit(String slug) async {
+    await InvitationViewsService.registerVisit(
+     slug,
+    );
   }
 
   @override
@@ -152,6 +164,12 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
               ),
             );
 
+          case "quince_floral":
+            return QuinceFloralPage(
+              data: invitation,
+              fromPrincipalPage: false,
+            );
+
           case "quince_sin_imagen":
             return QuincePrincessPage(
               data: invitation,
@@ -185,6 +203,13 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
             );
 
           case "baptism_glam":
+            return DeferredTemplateLoader(
+              loadLibrary: bautizo.loadLibrary,
+              builder: () => bautizo.BaptismGlamPage(
+                data: invitation,
+                fromPrincipalPage: false,
+              ),
+            );
             return BaptismGlamPage(
               data: invitation,
               fromPrincipalPage: false,
@@ -202,6 +227,15 @@ class _InvitationLoaderPageState extends State<InvitationLoaderPage> {
             return DeferredTemplateLoader(
               loadLibrary: pokemon.loadLibrary,
               builder: () => pokemon.PokemonPage(
+                data: invitation,
+                fromPrincipalPage: false,
+              ),
+            );
+
+          case "mario_bros":
+            return DeferredTemplateLoader(
+              loadLibrary: mario.loadLibrary,
+              builder: () => mario.MarioBrosPage(
                 data: invitation,
                 fromPrincipalPage: false,
               ),
